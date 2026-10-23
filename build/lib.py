@@ -96,6 +96,7 @@ def page(fname, body, desc, scripts=""):
         + f'\n<main id="main" tabindex="-1">\n{body}\n</main>\n'
         + pager(fname)
         + FOOT
+        + STEPPER
         + REVEAL_JS
         + scripts
         + "\n</body>\n</html>\n"
@@ -157,6 +158,23 @@ def jsdata(name, obj):
     return f"<script>window.{name}={json.dumps(obj, ensure_ascii=False)};</script>"
 
 
+STEPPER = """<nav class="stepper" aria-label="Move between sections">
+<button type="button" class="st-up" aria-label="Previous section"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+<span class="st-n" aria-live="polite"></span>
+<button type="button" class="st-down" aria-label="Next section"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button></nav>
+<script>(function(){var S=[].slice.call(document.querySelectorAll('main>section,.pager')),up=document.querySelector('.st-up'),dn=document.querySelector('.st-down'),n=document.querySelector('.st-n');
+function off(){var h=document.querySelector('.sitenav');return h?h.getBoundingClientRect().height:0}
+function tops(){return S.map(function(e){return Math.round(e.getBoundingClientRect().top+scrollY-off())})}
+function cur(){var t=tops(),y=scrollY+2,i=0;for(var k=0;k<t.length;k++){if(t[k]<=y)i=k}return i}
+function go(d){var t=tops(),y=scrollY,i,page=innerHeight-off(),to;if(d>0){for(i=0;i<t.length;i++){if(t[i]>y+4)break}
+to=i<t.length?t[i]:document.documentElement.scrollHeight;if(to-y>page+4)to=y+page}else{for(i=t.length-1;i>=0;i--){if(t[i]<y-4)break}
+to=i>=0?t[i]:0;if(y-to>page+4)to=y-page}
+var rm=matchMedia('(prefers-reduced-motion: reduce)').matches;scrollTo({top:Math.max(0,Math.round(to)),behavior:rm?'auto':'smooth'})}
+up.addEventListener('click',function(){go(-1)});dn.addEventListener('click',function(){go(1)});
+function upd(){var i=cur(),t=tops(),atEnd=scrollY+innerHeight>=document.documentElement.scrollHeight-4;up.disabled=scrollY<4;dn.disabled=atEnd||i>=S.length-1&&scrollY>=t[t.length-1]-4;n.textContent=(i+1)+' / '+S.length}
+addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd);upd();
+addEventListener('keydown',function(e){if(e.target.closest&&e.target.closest('input,textarea,select,[contenteditable]'))return;if(e.key==='PageDown'||(e.key===' '&&!e.shiftKey&&e.target===document.body)){e.preventDefault();go(1)}else if(e.key==='PageUp'||(e.key===' '&&e.shiftKey&&e.target===document.body)){e.preventDefault();go(-1)}})})();</script>"""
+
 REVEAL_JS = """<script>(function(){var t=new Date();t.setHours(0,0,0,0);document.querySelectorAll('[data-days]').forEach(function(e){var d=new Date(e.dataset.days+'T00:00:00');e.textContent=Math.max(0,Math.round((d-t)/864e5))})})();document.querySelectorAll('[data-scroll-end]').forEach(function(s){var p=s.parentElement;while(p&&!(p.scrollWidth>p.clientWidth))p=p.parentElement;if(p)p.scrollLeft=p.scrollWidth});(function(){var rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
 function count(el){var to=parseFloat(el.dataset.to),dec=(el.dataset.to.split('.')[1]||'').length,pre=el.dataset.pre||'',suf=el.dataset.suf||'';
 if(rm){el.textContent=pre+to.toFixed(dec)+suf;return}var t0=null;function f(t){if(!t0)t0=t;var k=Math.min(1,(t-t0)/1400),e=1-Math.pow(1-k,3);el.textContent=pre+(to*e).toFixed(dec)+suf;if(k<1)requestAnimationFrame(f)}requestAnimationFrame(f)}
@@ -183,8 +201,31 @@ def head_block(kicker, title, sub="", size="h-xl", grad=True):
     return f'<div class="rv">{k}<h2 class="{size}">{E(title)}</h2>{s}</div>'
 
 
+HERO_IMG = {
+    "Wipro · Director, Digital Experience": ("overview", "An executive reviewing glowing customer journey diagrams on a wall display at dusk"),
+    "Role Anatomy": ("role", "Two people sketching a customer journey on a wall of wireframes"),
+    "Operating Matrix": ("matrix", "A city grid at night joined by streams of light"),
+    "Market and Competitors": ("market", "A hand holding a phone with a shopping interface in a store"),
+    "Buying Triggers": ("triggers", "A watch movement lit in violet and blue"),
+    "Account Map": ("accounts", "A corridor of doors with one open and lit"),
+    "Pursuit Model": ("pursuit", "A stone staircase rising toward a skylight"),
+    "Portfolio Maths": ("portfolio", "People moving through a bright office atrium"),
+    "First 180 Days": ("plan", "A straight desert road toward the horizon at sunrise"),
+    "Fit and Evidence": ("fit", "Two machined aluminium pieces fitting together"),
+}
+
+
 def hero(kicker, title, sub, art="", cta="", dark=False):
     c = f'<div class="cta">{cta}</div>' if cta else ""
+    img = HERO_IMG.get(kicker)
+    have = img and os.path.exists(os.path.join(ROOT, "assets", "hero", img[0] + ".webp"))
+    if have:
+        top = (f'<section class="hero-photo"><img class="hp-img" src="assets/hero/{img[0]}.webp" alt="{E(img[1])}" width="2048" height="1152" fetchpriority="high">'
+               f'<div class="hp-shade" aria-hidden="true"></div><div class="sec-in hp-copy"><p class="kicker grad">{E(kicker)}</p>'
+               f'<h1 class="xl">{E(title)}</h1><p class="sub">{sub}</p>{c}</div></section>')
+        if not art:
+            return top
+        return top + f'<section class="sec hero-art{" dark" if dark else ""}"><div class="sec-in"><div class="art rv" style="margin-top:0">{art}</div></div></section>'
     a = f'<div class="art rv">{art}</div>' if art else ""
     return (f'<section class="hero-x{" dark sec" if dark else ""}"><div class="sec-in"><p class="kicker grad">{E(kicker)}</p>'
             f'<h1 class="xl">{E(title)}</h1><p class="sub">{sub}</p>{c}</div>{a}</section>')
