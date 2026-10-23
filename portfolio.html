@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portfolio Maths | Arpan Bakshi</title>
+<meta name="description" content="Pipeline, coverage and activity maths for a $20m to $25m DX bookings target.">
+<meta name="robots" content="noindex">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%234a1fb8%27/%3E%3C/svg%3E">
+<script>try{if(sessionStorage.getItem("pw")!=="ok"){document.documentElement.style.visibility="hidden";location.replace("index.html?next="+encodeURIComponent(location.pathname.split("/").pop()||"overview.html"))}}catch(e){location.replace("index.html")}</script>
+<script>try{var s=localStorage.getItem("theme");if(s==="light"||s==="dark")document.documentElement.setAttribute("data-theme",s)}catch(e){}</script>
+<link rel="stylesheet" href="assets/site.css">
+
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="sitenav"><div class="in"><a class="brand" href="overview.html">Arpan Bakshi<span>Wipro Digital Experience</span></a><button class="theme" type="button" aria-label="Switch to dark mode">Dark</button><button class="menu" type="button" aria-expanded="false" aria-controls="sitelinks">Menu</button><nav class="links" id="sitelinks" aria-label="Site pages"><a href="overview.html">Overview</a><a href="role.html">Role</a><a href="operating-model.html">Matrix</a><a href="market.html">Market</a><a href="triggers.html">Triggers</a><a href="accounts.html">Accounts</a><a href="pursuit.html">Pursuit</a><a href="portfolio.html" aria-current="page">Portfolio</a><a href="plan.html">Plan</a><a href="fit.html">Fit</a><a href="cv.html">CV</a></nav></div></header><script>(function(){var r=document.documentElement,t=document.querySelector('.sitenav .theme');function cur(){return r.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')}function show(){var d=cur()==='dark';t.textContent=d?'Light':'Dark';t.setAttribute('aria-label','Switch to '+(d?'light':'dark')+' mode')}if(t){t.addEventListener('click',function(){var n=cur()==='dark'?'light':'dark';r.setAttribute('data-theme',n);try{localStorage.setItem('theme',n)}catch(e){}show();document.dispatchEvent(new Event('themechange'))});show()}var b=document.querySelector('.sitenav .menu'),l=document.getElementById('sitelinks');if(!b)return;b.addEventListener('click',function(){var o=l.classList.toggle('open');b.setAttribute('aria-expanded',o?'true':'false');b.textContent=o?'Close':'Menu'});l.addEventListener('click',function(e){if(e.target.tagName==='A'){l.classList.remove('open');b.textContent='Menu';b.setAttribute('aria-expanded','false')}})})();</script>
+<main id="main" tabindex="-1">
+<header class="phead wrap"><p class="eyebrow">Portfolio</p><h1 style="margin-top:14px">Portfolio Maths</h1><p class="lede">A $25m bookings target breaks down into a number of meetings, opportunities and wins. The calculator below works it out from assumptions you can change, so the conversation can be about the inputs.</p></header><section class="block wrap"><p class="eyebrow">Calculator</p><h2>From target to weekly activity</h2><p class="intro">The defaults assume 60% of bookings come from accounts where Wipro already sells, at twice the win rate of new logos. Move any input to test a different book.</p><div class="calc">
+<div class="inputs"><div class="field"><label for="tgt">Annual order bookings target (TCV) <output id="tgto"></output></label><input type="range" id="tgt" min="5" max="60" step="1" value="25" data-f="m"><p class="hint">The posting names a $20m to $25m portfolio. I use the top of that range.</p></div><div class="field"><label for="exp">Share of bookings from accounts where Wipro already sells <output id="expo"></output></label><input type="range" id="exp" min="0" max="100" step="5" value="60" data-f="%"><p class="hint">Expansion inside SMU accounts, with a client partner already in place.</p></div><div class="field"><label for="dsx">Average expansion deal (TCV) <output id="dsxo"></output></label><input type="range" id="dsx" min="0.5" max="15" step="0.5" value="3" data-f="m"><p class="hint">Add-on DX scope in an existing account.</p></div><div class="field"><label for="dsn">Average new-logo deal (TCV) <output id="dsno"></output></label><input type="range" id="dsn" min="1" max="40" step="1" value="10" data-f="m"><p class="hint">First DX deal with a new client, usually a design phase plus build.</p></div><div class="field"><label for="wrx">Win rate on qualified expansion opportunities <output id="wrxo"></output></label><input type="range" id="wrx" min="10" max="80" step="5" value="40" data-f="%"></div><div class="field"><label for="wrn">Win rate on qualified new-logo opportunities <output id="wrno"></output></label><input type="range" id="wrn" min="5" max="60" step="5" value="20" data-f="%"></div><div class="field"><label for="q2m">First meetings needed per qualified opportunity <output id="q2mo"></output></label><input type="range" id="q2m" min="1" max="10" step="1" value="4" data-f=""><p class="hint">Conversations with a buyer before one becomes a qualified opportunity.</p></div><div class="field"><label for="cyc">Average sales cycle in months <output id="cyco"></output></label><input type="range" id="cyc" min="2" max="18" step="1" value="7" data-f=""><p class="hint">From qualification to signature.</p></div><div class="field"><label for="yrs">Average contract length in years <output id="yrso"></output></label><input type="range" id="yrs" min="1" max="5" step="0.5" value="3" data-f=""><p class="hint">Used to convert TCV into ACV and first-year revenue.</p></div></div>
+<div class="out">
+<div class="kpis">
+<div class="kpi"><b id="o_pipe">0</b><span>Qualified pipeline needed in the year (TCV)</span></div>
+<div class="kpi"><b id="o_cov">0</b><span>Pipeline coverage over target</span></div>
+<div class="kpi"><b id="o_wins">0</b><span>Deals to win (expansion and new logo)</span></div>
+<div class="kpi"><b id="o_opps">0</b><span>Qualified opportunities to create</span></div>
+<div class="kpi"><b id="o_mtg">0</b><span>First buyer meetings per month</span></div>
+<div class="kpi"><b id="o_rev">0</b><span>Revenue billed in year one from those bookings</span></div>
+</div>
+<div class="verdict" id="o_v" aria-live="polite"></div>
+<figure style="margin-top:16px"><svg id="fun" viewBox="0 0 520 230" role="img" aria-label="Funnel from meetings to wins"></svg>
+<div class="legend"><span><i style="background:var(--c0)"></i>Expansion in existing accounts</span><span><i style="background:var(--c2)"></i>New logos</span></div></figure>
+</div></div></section><section class="block wrap"><p class="eyebrow">Book</p><h2>Three parts of the book</h2><p class="intro">I would sort every account in the portfolio into one of three groups in the first month, because each group needs a different kind of selling and a different pipeline coverage.</p><div class="grid3">
+<div class="panel"><p class="k">Protect</p><h3>Live DX work in the book</h3><p>Renewals and phase extensions on work Wipro already delivers. The aim is zero leakage: every live engagement has a named next phase and a date for proposing it.</p></div>
+<div class="panel"><p class="k">Expand</p><h3>SMU accounts with no DX yet</h3><p>Accounts where Wipro runs infrastructure, applications or operations but the marketing and digital teams buy from an agency. Wipro's existing access to the CIO shortens the route to the CDO.</p></div>
+<div class="panel"><p class="k">New logo</p><h3>Clients with a dated trigger</h3><p>A short list of companies with a forced event, such as a platform end-of-support date, a spin-off or a new CMO. These take longer and need a sharper point of view.</p></div>
+</div></section><section class="block wrap"><p class="eyebrow">Rhythm</p><h2>Operating rhythm</h2><p class="intro">Matrix selling depends on regular meetings with people who do not report to me. This is the cadence I would set up in the first 30 days.</p><div class="tbl-wrap" tabindex="0" role="region" aria-label="Operating rhythm"><table class="t"><caption class="sr">Operating rhythm</caption><thead><tr><th scope="col">Cadence</th><th scope="col">What happens</th><th scope="col">Who</th></tr></thead><tbody><tr><th scope="row">Weekly</th><td>Pipeline review of every opportunity above $1m: next step, date, owner, risk.</td><td>Me, practice lead</td></tr><tr><th scope="row">Fortnightly</th><td>Account sessions with each priority SMU client partner on triggers and joint plays.</td><td>Me, client partners</td></tr><tr><th scope="row">Monthly</th><td>Alliance pipeline review with Adobe, Salesforce, SAP and Pega partner managers, matched against their registered opportunities.</td><td>Me, alliance managers</td></tr><tr><th scope="row">Quarterly</th><td>Book review: bookings against target, coverage for the next two quarters, and qualify-out decisions.</td><td>Me, DX leadership</td></tr><tr><th scope="row">Each large pursuit</th><td>Deal reviews at qualification, solution and price, with the leadership sponsor briefed before client meetings.</td><td>Pursuit team, deal desk</td></tr></tbody></table></div></section><section class="wrap notes"><h3>Assumptions</h3><p>Win rates, deal sizes and meeting ratios are working assumptions drawn from my own pipeline experience in consulting. They are not Wipro data. First-year revenue assumes bookings arrive evenly through the year and bill evenly over the contract.</p></section>
+</main>
+<nav class="pager" aria-label="Previous and next page"><a class="prev" href="pursuit.html"><small>Previous</small><b>Pursuit Model</b></a><a class="next" href="plan.html"><small>Next</small><b>First 180 Days</b></a></nav><footer class="site-foot"><span>Prepared by Arpan Bakshi for the Wipro Director, Digital Experience (DX) role. Drafted October 2026 from public sources cited on each page.</span><span>Wipro is a trademark of Wipro Limited. This site is independent and not produced or endorsed by Wipro.</span></footer><script>
+(function(){
+var ids=['tgt','exp','dsx','dsn','wrx','wrn','q2m','cyc','yrs'];
+function g(i){return +document.getElementById(i).value}
+function f(n){return n>=1e6?'$'+(n/1e6).toFixed(1)+'m':'$'+Math.round(n/1e3)+'k'}
+function run(){ids.forEach(function(i){var el=document.getElementById(i),fm=el.dataset.f,v=+el.value;document.getElementById(i+'o').textContent=fm=='m'?'$'+v+'m':fm=='%'?v+'%':v});
+var T=g('tgt')*1e6,X=T*g('exp')/100,N=T-X,wx=g('wrx')/100,wn=g('wrn')/100,dx=g('dsx')*1e6,dn=g('dsn')*1e6;
+var px=X/wx,pn=N/wn,P=px+pn,winsx=X/dx,winsn=N/dn,ox=winsx/wx,on=winsn/wn,O=ox+on,M=O*g('q2m'),yrs=g('yrs');
+var rev=(T/yrs)*0.5;
+document.getElementById('o_pipe').textContent=f(P);document.getElementById('o_cov').textContent=(P/T).toFixed(1)+'x';
+document.getElementById('o_wins').textContent=Math.ceil(winsx)+' + '+Math.ceil(winsn);
+document.getElementById('o_opps').textContent=Math.ceil(O);document.getElementById('o_mtg').textContent=(M/12).toFixed(1);
+document.getElementById('o_rev').textContent=f(rev);
+var cyc=g('cyc'),v=document.getElementById('o_v');
+var lead=Math.max(0,12-cyc);
+if(cyc>=10){v.className='verdict bad';v.textContent='With a '+cyc+' month cycle, almost everything that closes this year must already be qualified in the first two months. The plan depends on inheriting live pipeline.'}
+else if(P/T>4){v.className='verdict warn';v.textContent='Coverage of '+(P/T).toFixed(1)+'x is heavy. Raise win rates through earlier shaping and proactive proposals, or move more of the target into existing accounts.'}
+else{v.className='verdict ok';v.textContent='Workable. Opportunities qualified in the first '+lead+' months can still close this year. Year-one revenue is about '+f(rev)+' because bookings bill over '+yrs+' years and arrive through the year.'}
+var svg=document.getElementById('fun'),rows=[['First meetings',M*ox/O,M*on/O],['Qualified opportunities',ox,on],['Wins',winsx,winsn]],mx=M,out='';
+rows.forEach(function(r,i){var y=20+i*68,wx=400*r[1]/mx,wn=400*r[2]/mx,x0=60+(400-wx-wn)/2;
+out+='<text x="0" y="'+(y-6)+'" font-size="12" class="svg-muted">'+r[0]+'</text>';
+out+='<rect x="'+x0+'" y="'+y+'" width="'+Math.max(1,wx)+'" height="34" fill="var(--c0)" rx="2"/><rect x="'+(x0+wx)+'" y="'+y+'" width="'+Math.max(1,wn)+'" height="34" fill="var(--c2)" rx="2"/>';
+out+='<text x="'+(x0+wx+wn+8)+'" y="'+(y+22)+'" font-size="12.5" class="svg-ink">'+Math.ceil(r[1]+r[2])+'</text>'});
+svg.innerHTML=out}
+ids.forEach(function(i){document.getElementById(i).addEventListener('input',run)});run();
+})();
+</script>
+</body>
+</html>

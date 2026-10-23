@@ -1,0 +1,444 @@
+[
+ {
+  "company": "Roche / Genentech",
+  "industry": "Life Sciences",
+  "hq": "Basel CH / South San Francisco CA",
+  "revenue_usd_bn": null,
+  "relationship": "existing candidate relationship",
+  "trigger": "New Roche CDTO based at Genentech; Genentech marketing transformation; Adobe Experience Cloud omnichannel build-out and 'Elevate' customer engagement modernization; DTC exploration",
+  "trigger_date": "2025-02-10",
+  "buyer": "Genentech CMO / Digital Marketing Office; Roche CDTO; RDT Commercial engineering",
+  "wipro_status": "Some engagement (cyber podcast); no public DX contract [UNVERIFIED]",
+  "fit_score_1to5": 5,
+  "rationale": "Focus industry, new digital leader, explicit Adobe/omnichannel and AI content-supply-chain programme; candidate relationship opens door",
+  "sources": [
+   "https://www.roche.com/media/releases/med-cor-2025-01-29",
+   "https://www.veeva.com/customer-stories/genentech-turning-content-into-memorable-customer-experiences/",
+   "https://builtin.com/job/senior-product-engineering-manager-omnichannel-paid-media/8709076",
+   "https://hiretik.com/jobs/2d29772c-ccde-43f6-8382-8bd032e0e9d4"
+  ]
+ },
+ {
+  "company": "JPMorgan Chase",
+  "industry": "Banking",
+  "hq": "New York NY",
+  "revenue_usd_bn": null,
+  "relationship": "existing candidate relationship",
+  "trigger": "Tech budget $18bn (2025) to $19.8bn (2026); consumer AI travel agent pilot by end-2026; Smart Cash pilot; Chase Germany digital bank launch",
+  "trigger_date": "2026-06-10",
+  "buyer": "CMO (firmwide), CMO Consumer Bank, CMO Connected Commerce, CCB product heads",
+  "wipro_status": "No public contract found [UNVERIFIED]",
+  "fit_score_1to5": 3,
+  "rationale": "Huge budget but heavily insourced; target scoped DX (Chase Travel, international digital bank, AI-agent UX)",
+  "sources": [
+   "https://www.constellationr.com/insights/news/jpmorgan-chases-it-ai-bets-where-returns-are",
+   "https://www.bankingdive.com/news/jpmorgan-chase-lake-agentic-ai-commerce-adoption/822426/",
+   "https://www.cnbc.com/2026/10/13/jpmorgan-ai-agents-account-access.html",
+   "https://media.chase.com/news/chase-launches-in-germany-with-top-rate-savings-account"
+  ]
+ },
+ {
+  "company": "Citigroup",
+  "industry": "Banking",
+  "hq": "New York NY",
+  "revenue_usd_bn": null,
+  "relationship": "Wipro client",
+  "trigger": "Transformation spend ~$3.3bn 2025; marketing reorg under CMCO for 'distinct Citi-branded client experience'; Wealth CX (Palantir); Agent Assist GenAI",
+  "trigger_date": "2025-06-02",
+  "buyer": "Chief Marketing & Content Officer; Head of Wealth Marketing; Head of Marketing Innovation",
+  "wipro_status": "Existing supplier (~$100m+/yr est.); Citi insourcing contractors 50%->20%",
+  "fit_score_1to5": 3,
+  "rationale": "Expand play from run-the-bank into Wealth/brand CX; insourcing headwind",
+  "sources": [
+   "https://www.sec.gov/Archives/edgar/data/831001/000083100126000011/c-20251231.htm",
+   "https://www.bankingdive.com/news/citi-marketing-cmo-craddock-ai-banking-wealth/749519/",
+   "https://timesofindia.indiatimes.com/business/india-business/citis-strategic-shift-more-insourcing-may-impact-indian-it-cos/articleshow/119291521.cms"
+  ]
+ },
+ {
+  "company": "Hyundai Motor America",
+  "industry": "Automotive",
+  "hq": "Fountain Valley CA",
+  "revenue_usd_bn": null,
+  "relationship": "existing candidate relationship",
+  "trigger": "National Amazon Autos 'Add to Cart' launch; marketing owns CRM, consumer website and digital retail",
+  "trigger_date": "2025-01-07",
+  "buyer": "CMO (marketing performance: CRM, website, digital retail)",
+  "wipro_status": "None found [UNVERIFIED]",
+  "fit_score_1to5": 4,
+  "rationale": "Marketing-owned digital retail stack and ongoing Amazon/dealer integrations; candidate has Hyundai relationship",
+  "sources": [
+   "https://www.prnewswire.com/news-releases/hyundai-vehicles-available-to-add-to-cart-on-amazon-autos-302344183.html",
+   "https://www.hyundainews.com/view/releases/4207"
+  ]
+ },
+ {
+  "company": "ESPN (The Walt Disney Company)",
+  "industry": "Media & Entertainment",
+  "hq": "Bristol CT / Burbank CA",
+  "revenue_usd_bn": null,
+  "relationship": "existing candidate relationship",
+  "trigger": "ESPN DTC service and enhanced app launch with AI personalization and Fanatics commerce",
+  "trigger_date": "2025-08-21",
+  "buyer": "ESPN product/digital leadership [names UNVERIFIED]",
+  "wipro_status": "None found [UNVERIFIED]",
+  "fit_score_1to5": 3,
+  "rationale": "Strong DX/commerce workload but outside focus industries and largely in-house",
+  "sources": [
+   "https://espnpressroom.com/press-release/espn-launches-new-direct-to-consumer-service-enhanced-espn-app/",
+   "https://www.sportsbusinessjournal.com/Articles/2025/08/20/espns-dtc-service-enhanced-app-promise-more-interactivity-personalization/"
+  ]
+ },
+ {
+  "company": "Oracle",
+  "industry": "Technology",
+  "hq": "Austin TX",
+  "revenue_usd_bn": null,
+  "relationship": "existing candidate relationship",
+  "trigger": "Strategic partner (25+ yrs, 500+ joint clients, 2024 Global Partner Award)",
+  "trigger_date": "2025-10-07",
+  "buyer": "Alliance / CX partner leadership",
+  "wipro_status": "Strategic partner (not a DX client)",
+  "fit_score_1to5": 1,
+  "rationale": "Co-sell lever for Oracle CX/Commerce/Retail, not a DX target",
+  "sources": [
+   "https://www.oracle.com/partner/wipro/",
+   "https://www.oracle.com/in/news/announcement/wipro-selects-oracle-cloud-infrastructure-to-accelerate-hr-modernization-2025-10-07/"
+  ]
+ },
+ {
+  "company": "Apple",
+  "industry": "Technology",
+  "hq": "Cupertino CA",
+  "revenue_usd_bn": null,
+  "relationship": "existing candidate relationship",
+  "trigger": "Wipro LiVE Workspace for Apple partnership; Wipro Enterprises supplier talks",
+  "trigger_date": "2025-03-19",
+  "buyer": "Apple enterprise partnerships",
+  "wipro_status": "Partner (device mgmt); not a DX client",
+  "fit_score_1to5": 1,
+  "rationale": "Builds DX in-house; use as ecosystem lever for LS/MedTech field apps",
+  "sources": [
+   "https://www.wipro.com/partners/apple/",
+   "https://economictimes.indiatimes.com/tech/technology/apple-in-talks-with-wipro-enterprises-lmw-to-onboard-as-suppliers/articleshow/119174474.cms"
+  ]
+ },
+ {
+  "company": "Kenvue (to be acquired by Kimberly-Clark)",
+  "industry": "Retail & Consumer (consumer health)",
+  "hq": "Summit NJ",
+  "revenue_usd_bn": 15.5,
+  "relationship": "new logo",
+  "trigger": "$48.7bn acquisition by Kimberly-Clark; shareholder approval and HSR clearance; close expected H2 2026",
+  "trigger_date": "2026-02-04",
+  "buyer": "Combined-company CDO/CMO; integration management office",
+  "wipro_status": "None found",
+  "fit_score_1to5": 5,
+  "rationale": "Large brand-portfolio digital estate consolidation (sites, DTC, MarTech) in focus industry",
+  "sources": [
+   "https://www.sec.gov/Archives/edgar/data/0000055785/000162828026052348/kmb-20260630.htm",
+   "https://njbiz.com/kimberly-clark-acquires-kenvue-48-billion-merger"
+  ]
+ },
+ {
+  "company": "Kellanova (Mars)",
+  "industry": "Retail & Consumer (CPG)",
+  "hq": "Chicago IL",
+  "revenue_usd_bn": 12.7,
+  "relationship": "new logo",
+  "trigger": "Mars completed $35.9bn acquisition",
+  "trigger_date": "2025-12-11",
+  "buyer": "Mars Snacking CDO/CMO",
+  "wipro_status": "None found",
+  "fit_score_1to5": 4,
+  "rationale": "Post-close brand/MarTech/commerce integration into Mars; revenue approx.",
+  "sources": [
+   "https://www.stblaw.com/about-us/news/view/2025/12/12/mars-completes-acquisition-of-kellanova",
+   "https://www.foodbusinessnews.net/articles/29495-mars-completes-acquisition-of-kellanova"
+  ]
+ },
+ {
+  "company": "Kraft Heinz (Global Taste Elevation Co. / North American Grocery Co.)",
+  "industry": "Retail & Consumer (CPG)",
+  "hq": "Pittsburgh PA / Chicago IL",
+  "revenue_usd_bn": 25.8,
+  "relationship": "new logo",
+  "trigger": "Spin-off into two public companies, close expected H2 2026; up to $300m dis-synergies",
+  "trigger_date": "2025-09-02",
+  "buyer": "NewCo CDO/CIO; separation management office",
+  "wipro_status": "None found",
+  "fit_score_1to5": 4,
+  "rationale": "Two new digital estates to stand up; status Oct 2026 [UNVERIFIED]; announcement date approx.",
+  "sources": [
+   "https://www.nasdaq.com/articles/kraft-heinz-split-two-companies-what-investors-should-know",
+   "https://www.bakeryandsnacks.com/Article/2026/01/15/kraft-heinz-demerger-will-the-287bn-break-up-pay-off"
+  ]
+ },
+ {
+  "company": "Walgreens",
+  "industry": "Retail & Consumer (pharmacy retail)",
+  "hq": "Deerfield IL",
+  "revenue_usd_bn": 147,
+  "relationship": "new logo",
+  "trigger": "Sycamore take-private closed; new CEO; units split into standalone companies",
+  "trigger_date": "2025-08-28",
+  "buyer": "CEO; Chief Digital/Customer Officer [UNVERIFIED]",
+  "wipro_status": "None found",
+  "fit_score_1to5": 4,
+  "rationale": "Carve-outs need separate digital estates; PE cost focus may favour managed DX; revenue approx. WBA FY2024",
+  "sources": [
+   "https://chainstoreage.com/walgreens-names-new-ceo-company-goes-private",
+   "https://www.digitalcommerce360.com/2025/09/03/walgreens-private-ceo-sycamore-pessina/"
+  ]
+ },
+ {
+  "company": "DICK'S Sporting Goods (incl. Foot Locker)",
+  "industry": "Retail & Consumer",
+  "hq": "Coraopolis PA",
+  "revenue_usd_bn": 13.4,
+  "relationship": "new logo",
+  "trigger": "Completed Foot Locker acquisition; global platform with robust digital experiences",
+  "trigger_date": "2025-09-08",
+  "buyer": "CTO/CDO; Foot Locker digital lead",
+  "wipro_status": "None found",
+  "fit_score_1to5": 4,
+  "rationale": "Multi-banner commerce integration across 20 countries; no replatform announced [UNVERIFIED]; revenue approx.",
+  "sources": [
+   "https://s27.q4cdn.com/812551136/files/doc_news/DICKS-Sporting-Goods-Completes-Acquisition-of-Foot-Locker-2025.pdf",
+   "https://www.sec.gov/Archives/edgar/data/1089063/000108906326000007/dks-20260131.htm"
+  ]
+ },
+ {
+  "company": "Target",
+  "industry": "Retail & Consumer",
+  "hq": "Minneapolis MN",
+  "revenue_usd_bn": 106,
+  "relationship": "new logo",
+  "trigger": "New CEO Michael Fiddelke; Enterprise Acceleration Office to reshape operations and expand tech use",
+  "trigger_date": "2026-02-01",
+  "buyer": "Chief Information & Product Officer; Chief Digital/Stores Officer [UNVERIFIED]",
+  "wipro_status": "None found",
+  "fit_score_1to5": 3,
+  "rationale": "Turnaround with tech mandate, but large in-house engineering; revenue approx.",
+  "sources": [
+   "https://corporate.target.com/getmedia/c873330d-48d9-49d7-a9a1-ca6c39f0c4e7/Target-Appoints-Michael-Fiddelke-As-Chief-Executive-Officer.pdf",
+   "https://www.sec.gov/Archives/edgar/data/27419/000002741926000004/tgt-20260131.htm"
+  ]
+ },
+ {
+  "company": "Medline",
+  "industry": "MedTech",
+  "hq": "Northfield IL",
+  "revenue_usd_bn": 28.4,
+  "relationship": "new logo",
+  "trigger": "Largest healthcare IPO; Nasdaq MDLN",
+  "trigger_date": "2025-12-18",
+  "buyer": "CDO/CIO; Head of B2B e-commerce",
+  "wipro_status": "None found",
+  "fit_score_1to5": 4,
+  "rationale": "Newly public, B2B commerce and customer-portal heavy, focus industry",
+  "sources": [
+   "https://www.stblaw.com/about-us/news/view/2025/12/18/medline-completes-largest-healthcare-ipo-in-history",
+   "https://www.barchart.com/story/news/412133/medline-reports-fourth-quarter-and-full-year-2025-results"
+  ]
+ },
+ {
+  "company": "DePuy Synthes (J&J Orthopaedics separation)",
+  "industry": "MedTech",
+  "hq": "Raynham MA",
+  "revenue_usd_bn": 9,
+  "relationship": "new logo",
+  "trigger": "J&J intent to separate Orthopaedics as standalone DePuy Synthes; 18-24 month timeline",
+  "trigger_date": "2025-10-14",
+  "buyer": "Worldwide President; separation CIO/CDO; CMO",
+  "wipro_status": "None found (J&J broader relationship not checked)",
+  "fit_score_1to5": 5,
+  "rationale": "Full new digital estate (web, HCP portals, commerce, MarTech) needed for completion ~2027; revenue approx.",
+  "sources": [
+   "https://www.jnj.com/media-center/press-releases/johnson-johnson-announces-intent-to-separate-its-orthopaedics-business",
+   "https://www.businesswire.com/news/home/20251014819650/en/Johnson-Johnson-Announces-Intent-to-Separate-Its-Orthopaedics-Business"
+  ]
+ },
+ {
+  "company": "MiniMed (Medtronic Diabetes)",
+  "industry": "MedTech",
+  "hq": "Northridge CA",
+  "revenue_usd_bn": 2.715,
+  "relationship": "new logo",
+  "trigger": "IPO (Nasdaq MMED); split-off planned; TSA up to 24 months",
+  "trigger_date": "2026-03-06",
+  "buyer": "CDO/CIO; Chief Commercial/Consumer Officer",
+  "wipro_status": "None found",
+  "fit_score_1to5": 4,
+  "rationale": "Patient-facing app, e-commerce and support estate must exit Medtronic TSA; smaller deal size",
+  "sources": [
+   "https://www.mddionline.com/diabetes/medtronic-s-minimed-group-ipo-falls-short-of-expectations-pricing-shares-at-20-each",
+   "https://www.sec.gov/Archives/edgar/data/2062583/000162828025058231/minimedgroupincs-1.htm"
+  ]
+ },
+ {
+  "company": "BD (Becton, Dickinson)",
+  "industry": "MedTech",
+  "hq": "Franklin Lakes NJ",
+  "revenue_usd_bn": null,
+  "relationship": "new logo",
+  "trigger": "Biosciences & Diagnostics combined with Waters (RMT, $18.8bn); BD now pure-play MedTech",
+  "trigger_date": "2026-02-09",
+  "buyer": "BD CDO/CIO, CMO (also Waters CDO for integration)",
+  "wipro_status": "None found",
+  "fit_score_1to5": 4,
+  "rationale": "Rebrand/re-scope of digital estate on both sides; post-separation revenue [UNVERIFIED]",
+  "sources": [
+   "https://news.bd.com/2026-02-09-BD-Completes-Combination-of-Biosciences-Diagnostic-Solutions-Business-with-Waters-Corporation"
+  ]
+ },
+ {
+  "company": "Solventum",
+  "industry": "MedTech",
+  "hq": "St. Paul MN",
+  "revenue_usd_bn": 8.3,
+  "relationship": "new logo",
+  "trigger": "Final phases of SAP ERP cutover and 3M TSA exit",
+  "trigger_date": "2026-08-01",
+  "buyer": "CIO/CDO; CMO",
+  "wipro_status": "None found",
+  "fit_score_1to5": 3,
+  "rationale": "Post-ERP commercial/DX layer next; trigger_date approx. (Q2 2026 call); revenue approx.",
+  "sources": [
+   "https://www.barchart.com/story/news/3737946/solv-q2-deep-dive-portfolio-restructuring-and-erp-transition-shape-outlook",
+   "https://statementdog.com/analysis/SOLV/earnings_calls/317290"
+  ]
+ },
+ {
+  "company": "Eli Lilly (LillyDirect)",
+  "industry": "Life Sciences",
+  "hq": "Indianapolis IN",
+  "revenue_usd_bn": 45,
+  "relationship": "new logo",
+  "trigger": "DTC platform scale-up; TrumpRx routes to manufacturer DTC; Senate probe (Jul 2025)",
+  "trigger_date": "2025-08-01",
+  "buyer": "Chief Digital/Customer Officer; DTC GM",
+  "wipro_status": "None found",
+  "fit_score_1to5": 3,
+  "rationale": "DTC experience demand is real, but Lilly partners heavily with Amazon/telehealth; revenue approx. 2024",
+  "sources": [
+   "https://www.iqvia.com/tr-tr/locations/united-states/blogs/2025/08/why-pharma-is-going-direct-to-consumers",
+   "https://intuitionlabs.ai/articles/direct-to-patient-pharma-platforms-dtc-disruption"
+  ]
+ },
+ {
+  "company": "Pfizer (PfizerForAll)",
+  "industry": "Life Sciences",
+  "hq": "New York NY",
+  "revenue_usd_bn": 63,
+  "relationship": "new logo",
+  "trigger": "PfizerForAll DTC platform and industry DTC wave (~94% of pharma running/exploring DTP)",
+  "trigger_date": "2026-04-01",
+  "buyer": "CDO; Chief Customer/Marketing Officer",
+  "wipro_status": "None found",
+  "fit_score_1to5": 3,
+  "rationale": "DTC/omnichannel investment; revenue approx. 2024; trigger_date = L.E.K. report date",
+  "sources": [
+   "https://www.lek.com/sites/default/files/2026-04/emergence-dtc-pharma-platforms.pdf",
+   "https://intuitionlabs.ai/articles/direct-to-patient-pharma-platforms-dtc-disruption"
+  ]
+ },
+ {
+  "company": "Fifth Third Bancorp (incl. Comerica)",
+  "industry": "Banking",
+  "hq": "Cincinnati OH",
+  "revenue_usd_bn": null,
+  "relationship": "new logo",
+  "trigger": "Closed $10.9bn Comerica merger; systems/brand conversion Labor Day 2026",
+  "trigger_date": "2026-02-02",
+  "buyer": "Chief Digital Officer; CMO",
+  "wipro_status": "None found",
+  "fit_score_1to5": 3,
+  "rationale": "Post-conversion CX optimization in new markets; $294bn assets; revenue not captured",
+  "sources": [
+   "https://www.nasdaq.com/press-release/fifth-third-completes-merger-comerica-become-9th-largest-us-bank-2026-02-02",
+   "https://inbusinessphx.com/?p=192897"
+  ]
+ },
+ {
+  "company": "Capital One (incl. Discover)",
+  "industry": "Banking",
+  "hq": "McLean VA",
+  "revenue_usd_bn": null,
+  "relationship": "new logo",
+  "trigger": "Discover account migration into Capital One digital began in waves; network migration",
+  "trigger_date": "2026-07-27",
+  "buyer": "CIO; Head of Digital / Card",
+  "wipro_status": "None found [UNVERIFIED]",
+  "fit_score_1to5": 2,
+  "rationale": "Large migration but Capital One is a strongly in-house engineering bank",
+  "sources": [
+   "https://www.paymentsjournal.com/after-moving-debit-cards-to-discover-capital-one-turns-to-credit-card-migration/",
+   "https://awardwallet.com/news/credit-cards/capital-one-discover-merger/?pubDate=2026-07-30"
+  ]
+ },
+ {
+  "company": "Stellantis North America",
+  "industry": "Automotive",
+  "hq": "Auburn Hills MI",
+  "revenue_usd_bn": null,
+  "relationship": "new logo",
+  "trigger": "New Ram and Jeep brand CEOs (ex-Shift Digital, ex-AutoNation) under head of NA marketing and retail strategy",
+  "trigger_date": "2026-07-20",
+  "buyer": "Head of American Brands / NA Marketing & Retail; brand CEOs",
+  "wipro_status": "None found",
+  "fit_score_1to5": 3,
+  "rationale": "New digital-marketing-savvy leaders; digital retail likely priority [UNVERIFIED]",
+  "sources": [
+   "https://www.barchart.com/story/news/3364396/stellantis-announces-appointments-of-veteran-industry-executives-to-lead-ram-and-jeep-brands"
+  ]
+ },
+ {
+  "company": "Levi Strauss & Co.",
+  "industry": "Retail & Consumer",
+  "hq": "San Francisco CA",
+  "revenue_usd_bn": null,
+  "relationship": "Wipro client",
+  "trigger": "Existing digital commerce / B2B commerce / consumer digital support relationship",
+  "trigger_date": "2021-06-15",
+  "buyer": "CDO/CTO; DTC leadership",
+  "wipro_status": "Existing client (expand)",
+  "fit_score_1to5": 4,
+  "rationale": "Expand DX scope (experience design, AI personalization) on existing commerce estate; no 2025-26 trigger checked",
+  "sources": [
+   "https://www.businesswire.com/news/home/20210615005743/en/Wipro-Expands-Partnership-with-Levi-Strauss-Co.-to-Support-Digital-Commerce"
+  ]
+ },
+ {
+  "company": "HanesBrands",
+  "industry": "Retail & Consumer",
+  "hq": "Winston-Salem NC",
+  "revenue_usd_bn": null,
+  "relationship": "Wipro client",
+  "trigger": "AI-led IT 2.0 managed services agreement",
+  "trigger_date": "2025-10-29",
+  "buyer": "CIO; DTC/e-commerce lead",
+  "wipro_status": "Existing client (expand into DX)",
+  "fit_score_1to5": 3,
+  "rationale": "Infra/apps footprint; DX expansion opportunity",
+  "sources": [
+   "https://www.wipro.com/newsroom/press-releases/2025/wipro-to-power-hanesbrands-genai-led-it-20-transformation/"
+  ]
+ },
+ {
+  "company": "TruStage",
+  "industry": "Financial Services",
+  "hq": "Madison WI",
+  "revenue_usd_bn": null,
+  "relationship": "Wipro client",
+  "trigger": "Retirement services transformation incl. Designit digital experiences",
+  "trigger_date": "2026-03-11",
+  "buyer": "Chief Business Officer",
+  "wipro_status": "Existing client (DX reference)",
+  "fit_score_1to5": 2,
+  "rationale": "Reference for Designit-led CX in FS; smaller",
+  "sources": [
+   "https://www.wipro.com/newsroom/press-releases/2026/wipro-enters-into-a-deal-with-trustage-to-transform-its-retirement-services-business/"
+  ]
+ }
+]

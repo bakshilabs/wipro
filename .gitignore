@@ -1,0 +1,4 @@
+build/pwrun/node_modules/
+build/pwrun/*.png
+build/pwrun/package-lock.json
+__pycache__/
