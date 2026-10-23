@@ -148,20 +148,19 @@ document.querySelectorAll('.calc input[type=range]').forEach(function(i){i.addEv
 })();
 </script>"""
 
-    method = """<div class="grid3">
-<div class="panel"><p class="k">Step 1</p><h3>Find the dated event</h3><p>A pursuit starts from something with a date on it. The Buying Triggers page lists the platform support dates and regulation deadlines that create one in 2026 to 2028.</p></div>
-<div class="panel"><p class="k">Step 2</p><h3>Score it before spending on it</h3><p>Score the nine criteria with the client partner. A pursuit team costs real money, so a low score is a decision to nurture, recorded with the reasons.</p></div>
-<div class="panel"><p class="k">Step 3</p><h3>Shape the ladder</h3><p>Design the deal as three phases. The first phase is small enough to buy quickly. The run phase is what makes it a large deal for Wipro and a predictable cost for the client.</p></div>
-</div>"""
-
+    steps = [("calendar", "Find the date", "A support end, a rule, a separation."), ("target", "Score it", "Nine criteria, before spending a dollar."), ("ladder", "Shape the ladder", "Small first phase. Run phase makes it large.")]
+    st = "".join(tile(f'{icon(i)}<p class="t-k" style="margin-top:20px">Step {k+1}</p><h3>{E(h)}</h3><p>{E(p)}</p>', 4, "short") for k, (i, h, p) in enumerate(steps))
+    hero_art = """<svg viewBox="0 0 1000 300" role="img" aria-label="A deal ladder: design under $1m, build $8m, run $13m, total $21m">
+<rect class="growy" x="120" y="250" width="160" height="10" rx="3" fill="var(--c1)"/><text x="200" y="236" text-anchor="middle" font-size="22" font-weight="700" class="svg-ink">$0.7m</text><text x="200" y="290" text-anchor="middle" font-size="16" class="svg-muted">Design</text>
+<rect class="growy" style="transition-delay:.25s" x="340" y="150" width="160" height="110" rx="3" fill="var(--c0)"/><text x="420" y="136" text-anchor="middle" font-size="22" font-weight="700" class="svg-ink">$7.9m</text><text x="420" y="290" text-anchor="middle" font-size="16" class="svg-muted">Build</text>
+<rect class="growy" style="transition-delay:.5s" x="560" y="80" width="160" height="180" rx="3" fill="var(--c3)"/><text x="640" y="66" text-anchor="middle" font-size="22" font-weight="700" class="svg-ink">$12.7m</text><text x="640" y="290" text-anchor="middle" font-size="16" class="svg-muted">Run</text>
+<rect class="growy" style="transition-delay:.75s" x="780" y="20" width="120" height="240" rx="3" fill="var(--ink)"/><text x="840" y="290" text-anchor="middle" font-size="16" font-weight="700" class="svg-ink">$21.3m TCV</text>
+<line x1="80" x2="940" y1="260" y2="260" stroke="var(--line)"/></svg>"""
     body = (
-        phead("Pursuit", "Pursuit Model",
-              "A practitioner with a $20m to $25m book cannot chase everything, and Wipro measures large deals. This page holds the two tools I would use on every opportunity: a weighted qualification scorecard with a decision rule, and a deal ladder that shows how a design engagement grows into a large deal.")
-        + block("Method", "Three steps for every opportunity", method)
-        + block("Qualification", "Pursuit scorecard", score,
-                "Pick an example or score your own opportunity. Each criterion scores 0 to 3. The weights reflect what I have seen decide large consulting pursuits: a dated event, a buyer with budget and an internal sponsor matter most.")
-        + block("Deal shape", "Deal ladder from design to run", ladder,
-                "Move the sliders to see how phase length, team size and onshore share change contract value. The defaults show a typical pattern: a design phase under $1m, a year of build, and three years of managed operations that take the deal past $20m.")
-        + '<section class="wrap notes"><h3>Assumptions</h3><p>The weights, rates and team sizes are my working assumptions for illustration. They are not Wipro figures. A real pursuit would use Wipro’s rate cards, deal desk margin rules and the client\'s own value data.</p></section>'
+        hero("Pursuit Model", "Score and Shape", "Nine criteria decide whether to pursue. Three phases decide how large it gets.", f'<div class="art m">{hero_art}</div>')
+        + sec(head_block("Method", "Three Steps", "The same routine on every opportunity.") + f'<div class="bento">{st}</div>', "grey")
+        + sec(head_block("Scorecard", "Pursue, Shape or Walk Away", "Pick an example or score your own. Watch the dot move.") + f'<div class="rv">{score}</div>')
+        + sec(head_block("Ladder", "From $0.7m to $21m", "Drag the sliders. The run phase is what makes it a large deal.") + f'<div class="rv">{ladder}</div>'
+              + more("Assumptions", '<p class="lead" style="margin-top:0">The weights, rates and team sizes are my working assumptions for illustration, not Wipro figures. A real pursuit would use Wipro rate cards, deal desk margin rules and the client\'s own value data.</p>'), "dark")
     )
     page("pursuit.html", body, "A weighted pursuit scorecard and a deal ladder showing how DX deals reach $20m TCV.", js)

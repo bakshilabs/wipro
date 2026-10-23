@@ -73,56 +73,134 @@ TIME = [
 ]
 
 
+SHORT_DO = [
+    "Treat every client partner as my first customer.",
+    "Agree credit splits before the pursuit starts.",
+    "Shape deals with a run phase: large TCV, steady ACV.",
+    "Land with a small design phase, ladder to build and run.",
+    "Split the book into protect, expand and new logo.",
+    "Lead with revenue, retention and cost to serve.",
+    "Turn each dated trigger into a costed proposal first.",
+    "Bring insight from the client's own data.",
+    "Put delivery in the room at qualification.",
+    "Plan one leadership meeting per large pursuit.",
+    "Lead with AI and agentic experience work.",
+]
+QUOTE = [
+    "Sales Practitioner", "Matrixed and leveraged organization", "Order bookings (ACV / TCV)", "Large deal min. $20m",
+    "Portfolio of $20m to $25m", "Engage CDOs / CXOs", "Proactive proposals", "Thought leadership throughout",
+    "Minimize friction in sales, solution, delivery", "Leverage Wipro leadership", "Metaverse, AR/VR",
+]
+
+
+WEEK = {
+    "Client executives and their teams": "Discovery, workshops, proposal defence and executive meetings. The only time that books revenue directly.",
+    "SMU client partners and account teams": "Fortnightly account sessions, joint plans and credit agreements. Access to the client runs through here.",
+    "Solutioning, pricing and proposals with practice and delivery": "Scope, staffing mix, price and risk with the DX practice and deal desk.",
+    "Alliance partners (Adobe, Salesforce, SAP, Pega)": "Migration lists, registered opportunities and co-sell funding.",
+    "Points of view, events and analyst relations": "Short, data-led points of view tied to dated triggers, and one event a quarter.",
+    "Forecasting, deal reviews and CRM": "Weekly pipeline review and a forecast within the variance Wipro expects.",
+}
+POSTD = [
+    ("16 July 2026", "Director, Digital Experience (DX)", "Americas, any industry, inside the Enterprise Apps portfolio. Large deals of $20m or more, a $20m to $25m portfolio, $200,000 to $280,000. This role."),
+    ("10 August 2026", "DX Practice Director, Energy, Manufacturing and Resources", "Detroit, New Jersey, Dallas or Houston. An Americas 2 sector. Names the Adobe marketing stack, SAP Commerce, Adobe Commerce, Shopify, Pega and Appian."),
+    ("2 September 2026", "DX Practice Director, Retail, Life Sciences, Medical Devices", "Chicago or Seattle. Americas 1 sectors. Originate, shape and close; multi-tower deals; AI-led solutioning."),
+    ("October 2026", "DX Practice Director, Enterprise Experience Lead", "Detroit. A multi-year portfolio in a matrixed Enterprise Apps environment. Seen on an aggregator."),
+]
+
+VENN = {
+    "v0": '<p class="t-k">My evidence</p><h3>Hunter</h3><p>Won more than $2m a year at WSP through cold and warm outreach. Found work for Foster + Partners studios in accounts that partners owned.</p>',
+    "v1": '<p class="t-k">My evidence</p><h3>Shaper</h3><p>Led pitches that won more than £10m a year in fees. Won a multi-year portfolio contract with a global pharmaceutical company. Co-created a new advisory service line.</p>',
+    "v2": '<p class="t-k">My evidence</p><h3>Translator</h3><p>Architect and computational designer who sells. Talks experience design with marketing and tools, data and delivery with technology. Trains executives on AI tools at Atlas Learn.</p>',
+}
+
+
+def overlay_svg():
+    W, H = 1100, 420
+    o = ['<svg viewBox="0 0 1100 420" role="img" aria-labelledby="ot od"><title id="ot">The practitioner overlay</title>'
+         '<desc id="od">Five client accounts, each owned by a client partner. The DX practitioner sells across all of them through a band that crosses every account.</desc>']
+    accts = ["Life sciences", "Medical devices", "Retail", "Consumer goods", "Banking"]
+    for i, a in enumerate(accts):
+        x = 40 + i * 210
+        o.append(f'<rect class="rv d{i%4+1}" x="{x}" y="20" width="180" height="330" rx="6" fill="var(--grey)"/>')
+        o.append(f'<circle cx="{x+90}" cy="70" r="22" fill="var(--c6)" opacity=".5"/><path d="M{x+76} 106c4-10 24-10 28 0" stroke="var(--c6)" stroke-width="6" fill="none" opacity=".5"/>')
+        o.append(f'<text x="{x+90}" y="140" text-anchor="middle" font-size="14" font-weight="600" class="svg-ink">Client partner</text>')
+        o.append(f'<text x="{x+90}" y="160" text-anchor="middle" font-size="13" class="svg-muted">{a}</text>')
+        for k in range(3):
+            o.append(f'<rect x="{x+30}" y="{280+k*16}" width="{120-k*30}" height="8" rx="4" fill="var(--line)"/>')
+    o.append('<rect class="grow" x="20" y="196" width="1060" height="58" rx="6" fill="var(--accent)"/>')
+    o.append('<text x="550" y="232" text-anchor="middle" font-size="19" font-weight="700" fill="var(--on-accent)">DX practitioner: one number, sold through every account</text>')
+    o.append('<text x="550" y="400" text-anchor="middle" font-size="14" class="svg-muted">Client partners own the relationship and the account P&amp;L. The practitioner owns the DX bookings.</text>')
+    o.append("</svg>")
+    return "".join(o)
+
+
+def postings_svg():
+    P = [("16 Jul", "DX Director", "Americas, any industry", "This role"), ("10 Aug", "DX Practice Director", "Energy, manufacturing, resources", "Americas 2"),
+         ("2 Sep", "DX Practice Director", "Retail, life sciences, medical devices", "Americas 1"), ("Oct", "DX Practice Director", "Enterprise experience lead", "Detroit")]
+    o = ['<svg viewBox="0 0 1100 250" role="img" aria-label="Four US DX postings from July to October 2026">',
+         '<line x1="150" x2="948" y1="60" y2="60" stroke="var(--line)" stroke-width="2"/><line class="draw" style="--len:800" x1="150" x2="948" y1="60" y2="60" stroke="var(--accent)" stroke-width="3"/>']
+    for i, (d, t, f, u) in enumerate(P):
+        x = 150 + i * 266
+        o.append(f'<g data-pick="p{i}" aria-label="{E(t)}, {E(f)}"><circle class="pop" style="transition-delay:{.3+i*.3}s" cx="{x}" cy="60" r="{16 if i==0 else 12}" fill="var(--accent)" stroke="transparent" stroke-width="10"/></g>')
+        o.append(f'<text x="{x}" y="24" text-anchor="middle" font-size="16" font-weight="700" class="svg-ink">{d} 2026</text>')
+        o.append(f'<text x="{x}" y="112" text-anchor="middle" font-size="17" font-weight="700" class="svg-ink">{E(t)}</text>')
+        o.append(f'<text x="{x}" y="136" text-anchor="middle" font-size="14" class="svg-muted">{E(f)}</text>')
+        o.append(f'<text x="{x}" y="162" text-anchor="middle" font-size="13" font-weight="600" fill="var(--accent)">{E(u)}</text>')
+    o.append('<text x="550" y="228" text-anchor="middle" font-size="14" class="svg-muted">Same template. Same $200,000 to $280,000 band. One seller per industry cluster.</text></svg>')
+    return "".join(o)
+
+
+def donut_svg():
+    import math
+    R, r, cx, cy = 150, 96, 180, 180
+    o = ['<svg viewBox="0 0 360 360" role="img" aria-label="Estimated share of a working week">']
+    a0 = -math.pi / 2
+    for lab, pct, c in TIME:
+        a1 = a0 + 2 * math.pi * pct / 100
+        large = 1 if pct > 50 else 0
+        p = (f"M{cx+R*math.cos(a0):.1f} {cy+R*math.sin(a0):.1f} A{R} {R} 0 {large} 1 {cx+R*math.cos(a1):.1f} {cy+R*math.sin(a1):.1f} "
+             f"L{cx+r*math.cos(a1):.1f} {cy+r*math.sin(a1):.1f} A{r} {r} 0 {large} 0 {cx+r*math.cos(a0):.1f} {cy+r*math.sin(a0):.1f}Z")
+        o.append(f'<g data-pick="w{TIME.index((lab, pct, c))}" aria-label="{E(lab)}"><path class="pop" d="{p}" fill="var(--{c})" stroke="var(--bg)" stroke-width="3"/></g>')
+        a0 = a1
+    o.append(f'<text x="{cx}" y="{cy-4}" text-anchor="middle" font-size="44" font-weight="700" class="svg-ink">50%</text><text x="{cx}" y="{cy+24}" text-anchor="middle" font-size="14" class="svg-muted">inside Wipro</text>')
+    o.append("</svg>")
+    return "".join(o)
+
+
+def venn_svg():
+    C = [(380, 170, "Hunter in farmed accounts", "c0"), (560, 170, "Shaper of large deals", "c1"), (470, 320, "Credible with CMO and CIO", "c3")]
+    o = ['<svg viewBox="0 0 940 500" role="img" aria-label="Three capabilities that overlap in one hire">']
+    for i, (x, y, t, c) in enumerate(C):
+        o.append(f'<g data-pick="v{i}" aria-label="{E(t)}"><circle class="pop" style="transition-delay:{i*.25}s" cx="{x}" cy="{y}" r="150" fill="var(--{c})" fill-opacity=".22" stroke="var(--{c})" stroke-width="2.5"/></g>')
+    o.append('<text x="250" y="130" text-anchor="middle" font-size="19" font-weight="700" class="svg-ink">Hunter</text><text x="250" y="154" text-anchor="middle" font-size="14" class="svg-muted">finds DX inside other</text><text x="250" y="172" text-anchor="middle" font-size="14" class="svg-muted">people\'s accounts</text>')
+    o.append('<text x="690" y="130" text-anchor="middle" font-size="19" font-weight="700" class="svg-ink">Shaper</text><text x="690" y="154" text-anchor="middle" font-size="14" class="svg-muted">builds $20m deals</text><text x="690" y="172" text-anchor="middle" font-size="14" class="svg-muted">and defends the price</text>')
+    o.append('<text x="470" y="410" text-anchor="middle" font-size="19" font-weight="700" class="svg-ink">Translator</text><text x="470" y="434" text-anchor="middle" font-size="14" class="svg-muted">speaks brand and platforms</text><text x="470" y="452" text-anchor="middle" font-size="14" class="svg-muted">in the same meeting</text>')
+    o.append('<circle cx="470" cy="222" r="44" fill="var(--accent)"/><text x="470" y="228" text-anchor="middle" font-size="16" font-weight="700" fill="var(--on-accent)">The hire</text>')
+    o.append("</svg>")
+    return "".join(o)
+
+
 def build():
-    rows = "".join(
-        f'<tr><th scope="row">{E(q)}</th><td>{m}</td><td>{E(a)}</td></tr>'
-        for q, m, a in DECODE
-    )
-    decode = (
-        '<div class="tbl-wrap" tabindex="0" role="region" aria-label="Posting decoded line by line"><table class="t">'
-        '<thead><tr><th scope="col" style="width:24%">What the posting says</th><th scope="col">What it means at Wipro</th><th scope="col">How I would work it</th></tr></thead>'
-        f"<tbody>{rows}</tbody></table></div>"
-        + src([("Wipro careers, Director - Digital Experience (DX), posted 16 Jul 2026", POST)])
-    )
+    body = hero("Role Anatomy", "Sales Practitioner",
+                "An overlay seller who originates large experience deals inside accounts that other people own.", f'<div class="stage">{overlay_svg()}</div>')
+
+    cards = "".join(
+        f'<div class="tile"><p class="t-k">Line {i+1}</p><h3 style="font-size:28px">“{E(QUOTE[i])}”</h3><p style="margin-top:auto;padding-top:24px;font-size:18px;color:var(--ink)"><b style="color:var(--accent)">I would</b> {E(SHORT_DO[i].rstrip("."))}.</p></div>'
+        for i in range(len(DECODE)))
+    rows = "".join(f'<tr><th scope="row">{E(q)}</th><td>{m}</td><td>{E(a)}</td></tr>' for q, m, a in DECODE)
+    decode = ('<div class="tbl-wrap" tabindex="0" role="region" aria-label="Posting decoded line by line"><table class="t">'
+              '<thead><tr><th scope="col" style="width:24%">What the posting says</th><th scope="col">What it means at Wipro</th><th scope="col">How I would work it</th></tr></thead>'
+              f"<tbody>{rows}</tbody></table></div>" + src([("Wipro careers, Director - Digital Experience (DX), posted 16 Jul 2026", POST)]))
+    body += sec(head_block("Decoded", "Eleven Lines", "Each line of the posting, and what I would do about it.") + f'<div class="rail rv">{cards}</div>' + more("Show what each line means at Wipro", decode), "dark")
 
     comp = table(
-        ['<span class="sr">Attribute</span>', '<a href="' + POST + '">Director, DX</a>', '<a href="' + SIB + '">DX Practice Director, Retail and Life Sciences</a>', '<a href="' + EMR + '">DX Practice Director, EMR</a>', '<a href="' + FRA + '">Business Development Director (Frankfurt)</a>'],
-        [[E(r[0])] + [E(x) for x in r[1:]] for r in COMPARE_ROWS],
-        caption="Four related Wipro postings compared",
-    )
-    const = '<div class="grid2">' + "".join(
-        f'<div class="panel"><p class="k">Constant {i+1}</p><h3>{E(h)}</h3><p>{E(p)}</p></div>' for i, (h, p) in enumerate(CONSTANTS)
-    ) + "</div>"
+        ['<span class="sr">Attribute</span>', '<a href="' + POST + '">Director, DX</a>', '<a href="' + EMR + '">DX Practice Director, EMR</a>', '<a href="' + SIB + '">DX Practice Director, Retail and Life Sciences</a>', '<a href="' + FRA + '">Business Development Director (Frankfurt)</a>'],
+        [[E(r[0])] + [E(x) for x in r[1:]] for r in COMPARE_ROWS], caption="Related Wipro postings compared")
+    consts = "".join(tile(f'{icon(ic)}<h3 style="margin-top:20px;font-size:22px">{E(h)}</h3>', 3, "short") for ic, (h, p) in zip(["spark", "ladder", "people", "grid"], CONSTANTS))
+    body += sec(head_block("Pattern", "Four Postings", "Wipro is hiring one DX seller per industry cluster.") + explorer(postings_svg(), {f"p{i}": f'<p class="t-k">{E(d)}</p><h3>{E(t)}</h3><p>{E(x)}</p>' for i, (d, t, x) in enumerate(POSTD)}, "Select a posting.", first="p0", stack=True)
+                + '<h3 class="h-l rv" style="margin-top:72px">What never changes</h3>' + f'<div class="bento" style="margin-top:28px">{consts}</div>' + more("Compare the postings", comp), "grey")
 
-    # stacked bar of time allocation on a 1000 wide canvas
-    leg = "".join(f'<span><i style="background:var(--{c})"></i>{E(l)} ({p}%)</span>' for l, p, c in TIME)
-    segs = ""
-    x = 0
-    for lab, pct, c in TIME:
-        segs += f'<rect x="{x*10}" y="0" width="{pct*10}" height="44" fill="var(--{c})"><title>{E(lab)}: {pct}%</title></rect>'
-        x += pct
-    timefig = (
-        f'<figure class="fig"><svg viewBox="0 0 1000 44" preserveAspectRatio="none" style="height:44px" role="img" aria-label="Estimated share of a working week: clients 30%, SMU partners 20%, solutioning 20%, alliances 10%, thought leadership 10%, forecasting 10%">{segs}</svg>'
-        f'<div class="legend">{leg}</div>'
-        '<figcaption>My estimate of where a DX practitioner\'s week goes, read from the posting\'s language about SMUs, practices, alliances and thought leadership. About half the week is spent inside Wipro.</figcaption></figure>'
-    )
-
-    persona = """<div class="grid3">
-<div class="panel"><p class="k">Hunter inside farmed accounts</p><p>The practitioner finds new DX work inside accounts that other people already manage, and wins new logos where the SMU has none. The skill is spotting a DX opportunity in an account where Wipro sells infrastructure or applications today.</p></div>
-<div class="panel"><p class="k">Shaper of large deals</p><p>The practitioner turns a client's problem into a priced, phased programme with a run phase that makes it a $20m deal, and can defend the price, the staffing and the outcomes in front of procurement.</p></div>
-<div class="panel"><p class="k">Credible with the CMO and the CIO</p><p>The practitioner can talk about brand, journeys and content operations with marketing, and about platforms, integration and cost with IT, in the same meeting.</p></div>
-</div>"""
-
-    body = (
-        phead("Role", "Role Anatomy",
-              "The Director, Digital Experience (DX) posting describes an overlay seller who originates and shapes large experience transformation deals inside Wipro's account matrix. This page reads the posting line by line, compares it with three related Wipro postings and sets out how I would do the job.",
-              f'Primary source: <a href="{POST}">Wipro careers listing</a>, posted 16 July 2026, $200,000 to $280,000.')
-        + block("Decoded", "The posting line by line", decode,
-                "Each line of the posting has an operating consequence. The middle column is my reading of how Wipro runs this role. The right column is what I would do about it.")
-        + block("Related postings", "Four Wipro sales postings side by side", comp + const,
-                "Between July and October 2026 Wipro posted four US DX practitioner roles on the same template and pay band, which suggests it is building a sector-aligned DX sales bench across both Americas market units. Comparing three of them with a European business development posting shows what changes by territory and what stays constant. The constants are what Wipro screens for.")
-        + block("The week", "Where the time goes", timefig)
-        + block("The person", "The person the posting describes", persona,
-                "Taken together, the posting asks for three capabilities that rarely sit in one person. Most candidates bring one or two of them.")
-    )
-    page("role.html", body, "The Wipro DX Director posting decoded line by line, compared with related postings, with an operating plan.")
+    body += sec(head_block("The week", "Half Inside Wipro", "My estimate of where a practitioner's time goes.") + explorer(f'<div class="art s" style="margin-top:0">{donut_svg()}</div>', {f"w{i}": f'<p class="t-k">{pct}% of the week</p><h3>{E(lab)}</h3><p>{E(WEEK[lab])}</p>' for i, (lab, pct, c) in enumerate(TIME)}, "Select a segment.", first="w0"))
+    body += sec(head_block("The person", "Three in One", "The posting asks for three capabilities that rarely sit in one person.") + explorer(venn_svg(), VENN, "Select a circle to see my evidence for it.", first="v0"), "grey", center=True)
+    page("role.html", body, "The Wipro DX Director posting decoded, compared with related postings, and the person it describes.")

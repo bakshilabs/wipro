@@ -10,7 +10,10 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%234a1fb8%27/%3E%3C/svg%3E">
 <script>try{if(sessionStorage.getItem("pw")!=="ok"){document.documentElement.style.visibility="hidden";location.replace("index.html?next="+encodeURIComponent(location.pathname.split("/").pop()||"overview.html"))}}catch(e){location.replace("index.html")}</script>
 <script>try{var s=localStorage.getItem("theme");if(s==="light"||s==="dark")document.documentElement.setAttribute("data-theme",s)}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/apple.css">
 
 </head>
 <body>
@@ -42,6 +45,17 @@
 </div>
 </div>
 </main>
-<nav class="pager" aria-label="Previous and next page"><a class="prev" href="fit.html"><small>Previous</small><b>Fit and Evidence</b></a></nav><footer class="site-foot"><span>Prepared by Arpan Bakshi for the Wipro Director, Digital Experience (DX) role. Drafted October 2026 from public sources cited on each page.</span><span>Wipro is a trademark of Wipro Limited. This site is independent and not produced or endorsed by Wipro.</span></footer>
+<nav class="pager" aria-label="Previous and next page"><a class="prev" href="fit.html"><small>Previous</small><b>Fit and Evidence</b></a></nav><footer class="site-foot"><span>Prepared by Arpan Bakshi for the Wipro Director, Digital Experience (DX) role. Drafted October 2026 from public sources cited on each page.</span><span>Wipro is a trademark of Wipro Limited. This site is independent and not produced or endorsed by Wipro.</span></footer><script>(function(){var t=new Date();t.setHours(0,0,0,0);document.querySelectorAll('[data-days]').forEach(function(e){var d=new Date(e.dataset.days+'T00:00:00');e.textContent=Math.max(0,Math.round((d-t)/864e5))})})();document.querySelectorAll('[data-scroll-end]').forEach(function(s){var p=s.parentElement;while(p&&!(p.scrollWidth>p.clientWidth))p=p.parentElement;if(p)p.scrollLeft=p.scrollWidth});(function(){var rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function count(el){var to=parseFloat(el.dataset.to),dec=(el.dataset.to.split('.')[1]||'').length,pre=el.dataset.pre||'',suf=el.dataset.suf||'';
+if(rm){el.textContent=pre+to.toFixed(dec)+suf;return}var t0=null;function f(t){if(!t0)t0=t;var k=Math.min(1,(t-t0)/1400),e=1-Math.pow(1-k,3);el.textContent=pre+(to*e).toFixed(dec)+suf;if(k<1)requestAnimationFrame(f)}requestAnimationFrame(f)}
+var els=document.querySelectorAll('.rv,[data-to]');
+if(!('IntersectionObserver' in window)||rm){els.forEach(function(e){e.classList.add('in');if(e.dataset.to)count(e)});return}
+var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');if(x.target.dataset.to)count(x.target);io.unobserve(x.target)}})},{threshold:.18});
+els.forEach(function(e){io.observe(e)})})();
+(function(){document.querySelectorAll('[data-xp]').forEach(function(x){var dEl=x.querySelector('script.xp-data');if(!dEl)return;var D=JSON.parse(dEl.textContent),P=x.querySelector('.xp-panel'),ms=x.querySelectorAll('[data-pick]');
+function show(m){ms.forEach(function(n){n.classList.toggle('on',n===m);n.setAttribute('aria-pressed',String(n===m))});x.classList.add('xp-dim');P.innerHTML=D[m.dataset.pick]||''}
+ms.forEach(function(m){m.setAttribute('tabindex','0');m.setAttribute('role','button');m.addEventListener('click',function(){show(m)});m.addEventListener('mouseenter',function(){show(m)});m.addEventListener('focus',function(){show(m)});
+m.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();show(m)}})});
+var first=x.dataset.first&&x.querySelector('[data-pick="'+x.dataset.first+'"]');if(first)show(first)})})();</script>
 </body>
 </html>

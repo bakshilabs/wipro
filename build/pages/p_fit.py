@@ -44,34 +44,57 @@ MAP = [
 ]
 
 
+SHORTREQ = ["10 to 15 years in services", "5 to 7 years selling DX to C-suite", "Consultative selling", "Large deals, $20m minimum", "$20m to $25m portfolio",
+            "Experience technology trends", "Communication", "Self-starter", "Analytical", "Matrix working", "Travel"]
+
+
+def ring():
+    import math
+    cx, cy, R, r = 300, 300, 260, 170
+    n = len(REQ)
+    o = ['<svg viewBox="0 0 600 600" role="img" aria-labelledby="rt rd"><title id="rt">Requirements rated against evidence</title><desc id="rd">Eleven segments, seven strong and four partial. Select a segment for its evidence.</desc>']
+    gap = .025
+    for k, (req, rt, ev, close) in enumerate(REQ):
+        a0 = -math.pi / 2 + k * 2 * math.pi / n + gap
+        a1 = -math.pi / 2 + (k + 1) * 2 * math.pi / n - gap
+        pth = (f"M{cx+R*math.cos(a0):.1f} {cy+R*math.sin(a0):.1f} A{R} {R} 0 0 1 {cx+R*math.cos(a1):.1f} {cy+R*math.sin(a1):.1f} "
+               f"L{cx+r*math.cos(a1):.1f} {cy+r*math.sin(a1):.1f} A{r} {r} 0 0 0 {cx+r*math.cos(a0):.1f} {cy+r*math.sin(a0):.1f}Z")
+        col = "var(--ok)" if rt == 2 else "var(--warn)"
+        am = (a0 + a1) / 2
+        o.append(f'<g data-pick="r{k}" aria-label="{E(SHORTREQ[k])}"><path class="pop" style="transition-delay:{k*.06:.2f}s" d="{pth}" fill="{col}" stroke="transparent"/>'
+                 f'<text x="{cx+(R+r)/2*math.cos(am):.0f}" y="{cy+(R+r)/2*math.sin(am)+6:.0f}" text-anchor="middle" font-size="20" font-weight="700" fill="#fff">{k+1}</text></g>')
+    st = sum(1 for x in REQ if x[1] == 2)
+    o.append(f'<text x="{cx}" y="{cy-10}" text-anchor="middle" font-size="88" font-weight="700" class="svg-ink">{st}/{n}</text><text x="{cx}" y="{cy+34}" text-anchor="middle" font-size="20" class="svg-muted">strong</text>')
+    o.append("</svg>")
+    return "".join(o)
+
+
 def build():
-    strong = sum(1 for r in REQ if r[1] == 2)
-    part = sum(1 for r in REQ if r[1] == 1)
-    rows = []
+    data = {}
+    for k, (req, rt, ev, close) in enumerate(REQ):
+        lab = "Strong" if rt == 2 else "Partial"
+        cls = "ok" if rt == 2 else "warn"
+        data[f"r{k}"] = (f'<p class="t-k">Requirement {k+1} · <span class="tag {cls}">{lab}</span></p><h3>{E(req)}</h3><p><b>Evidence</b> {E(ev)}</p>'
+                         + (f'<p><b>How I close the gap</b> {E(close)}</p>' if close else ""))
+    st = sum(1 for x in REQ if x[1] == 2)
+    art = explorer(f'<div class="art s" style="margin-top:0">{ring()}</div>', data, "Select a segment to see the evidence.", first="r1")
+    body = hero("Fit and Evidence", f"{st} Strong, {len(REQ)-st} Partial", "Every requirement in the posting, rated as a hiring manager would. The partial ones are where the interview should probe.", art)
+
+    why = (tile(f'<p class="t-k">The gap Gartner names</p>{num(80, suf="%")}<h3>of Wipro DX staff are in APAC</h3><p>And 6% are creative. Wipro has delivery scale and is short of onshore people who lead the design conversation.</p>', 4)
+           + tile(f'<p class="t-k">What I bring</p>{num(18)}<h3>years in design-led consulting</h3><p>Architect and computational designer. Sixteen years selling to executives in New York and London.</p>', 4)
+           + tile(f'<p class="t-k">What I still need</p>{num(2)}<h3>quarters to close it</h3><p>Platform depth on Adobe, Salesforce, SAP Commerce and Pega through enablement and paired pursuits.</p>', 4))
+    body += sec(head_block("Argument", "Why Now", "A design-led seller fixes the weakness analysts name.") + f'<div class="bento">{why}</div>', "grey")
+
+    rows = ""
+    for k, (a, b) in enumerate(MAP):
+        rows += (f'<div class="rv d{k%4+1}" style="display:grid;grid-template-columns:1fr 60px 1fr;gap:16px;align-items:center;margin-top:18px">'
+                 f'<div class="tile" style="min-height:0"><p class="t-k">What I did</p><p style="color:var(--ink);font-size:17px">{E(a)}</p></div>'
+                 f'<svg viewBox="0 0 60 24" aria-hidden="true"><path d="M4 12h44" stroke="var(--accent)" stroke-width="2.5"/><path d="M44 5l10 7-10 7" fill="none" stroke="var(--accent)" stroke-width="2.5"/></svg>'
+                 f'<div class="tile" style="min-height:0"><p class="t-k" style="color:var(--accent)">What it equals here</p><p style="color:var(--ink);font-size:17px">{E(b)}</p></div></div>')
+    rws = []
     for req, r, ev, close in REQ:
         lab, c = RL[r]
-        rows.append([E(req), f'<span class="chip {c}">{lab}</span>', E(ev), E(close) if close else '<span class="muted">No gap to close</span>'])
-    tbl = table(["Requirement in the posting", "Rating", "Evidence", "How I close the gap"], rows, caption="Requirements against evidence")
-
-    bars = "".join(
-        f'<div class="bar"><span class="lab">{E(l)}</span><span class="track"><span class="fill" style="width:{v/len(REQ)*100:.0f}%;background:var(--{c})"></span></span><span class="v">{v} of {len(REQ)}</span></div>'
-        for l, v, c in [("Strong", strong, "ok"), ("Partial", part, "warn"), ("Gap", len(REQ) - strong - part, "bad")])
-
-    mp = table(["What I did", "What it equals in this role"], [[E(a), E(b)] for a, b in MAP], caption="Experience mapped to the role")
-
-    why = """<div class="grid3">
-<div class="panel accent"><p class="k">The gap Gartner names</p><p>Gartner's 2025 DX Services report places Wipro as a Niche Player and cautions that 6% of its DX staff are creative and about 80% are in APAC. Wipro has the delivery scale. It is short of onshore people who lead the design and advisory conversation.</p></div>
-<div class="panel accent"><p class="k">What I bring to it</p><p>I trained as an architect and computational designer and have spent eighteen years in design-led consulting in New York and London, sixteen of them selling to executives. I can open the conversation the way Designit would, then hand to Wipro's delivery model with a credible plan.</p></div>
-<div class="panel accent"><p class="k">What I still need</p><p>Depth on DX platform services: Adobe, Salesforce, SAP Commerce and Pega. Wipro has that depth in its practices, and partner enablement and paired pursuits close it in my first two quarters.</p></div>
-</div>"""
-
-    body = (
-        phead("Fit", "Fit and Evidence",
-              f"This page rates my experience against each requirement in the <a href=\"{POST}\">posting</a>, with the evidence and, where the fit is partial, how I would close it. I have rated it as a hiring manager would. The partial ratings are real and are where an interview should probe.")
-        + block("Summary", "Requirements at a glance", f'<div class="bars">{bars}</div>')
-        + block("Argument", "Why a design-led seller fits Wipro now", why)
-        + block("Detail", "Requirement by requirement", tbl)
-        + block("Translation", "What my experience equals in this role", mp,
-                "Net zero transformation and digital experience transformation are sold to similar buyers in similar ways. The table maps what I have done to the part of the role it prepares me for.")
-    )
+        rws.append([E(req), f'<span class="chip {c}">{lab}</span>', E(ev), E(close) if close else '<span class="muted">No gap to close</span>'])
+    tbl = table(["Requirement", "Rating", "Evidence", "How I close the gap"], rws, caption="Requirements against evidence")
+    body += sec(head_block("Translation", "What It Equals", "Seven things I have done, mapped to the part of the role they prepare me for.") + f'<div style="margin-top:40px">{rows}</div>' + more("Show the full requirements table", tbl), "dark")
     page("fit.html", body, "Requirements in the Wipro DX posting rated against evidence, with gaps and how to close them.")

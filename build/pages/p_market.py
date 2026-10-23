@@ -84,7 +84,7 @@ def budget_fig():
 def position_fig():
     # qualitative judgement: x = scale for multi-year run, y = design and creative depth, both 0..10
     # name, x, y, label side
-    pts = [("Accenture Song", 9.2, 8.6, "l"), ("Deloitte Digital", 8.3, 7.9, "l"), ("Publicis Sapient", 5.4, 8.8, "r"), ("Capgemini and frog", 6.6, 7.2, "l"),
+    pts = [("Accenture Song", 9.2, 8.6, "l"), ("Deloitte Digital", 8.3, 7.9, "l"), ("Publicis Sapient", 5.4, 8.8, "l"), ("Capgemini and frog", 6.4, 7.3, "r"),
            ("IBM iX", 6.4, 5.0, "l"), ("Infosys", 7.4, 5.6, "l"), ("TCS", 9.0, 3.9, "r"), ("HCLTech", 7.0, 3.3, "l"), ("Cognizant", 7.6, 4.5, "l"),
            ("EPAM", 4.2, 3.0, "r"), ("Valtech", 3.0, 7.2, "r"), ("Globant", 3.6, 6.0, "r")]
     W, H, L, B = 640, 440, 60, 390
@@ -96,45 +96,103 @@ def position_fig():
     o.append(f'<text x="18" y="{(B+20)/2}" text-anchor="middle" font-size="12.5" class="svg-muted" transform="rotate(-90 18 {(B+20)/2})">Design and creative depth</text>')
     for n, x, y, side in pts:
         tx, anc = (X(x) + 10, "start") if side == "r" else (X(x) - 10, "end")
-        o.append(f'<circle cx="{X(x):.0f}" cy="{Y(y):.0f}" r="6" fill="var(--c6)"/><text x="{tx:.0f}" y="{Y(y)+4:.0f}" text-anchor="{anc}" font-size="12" class="svg-ink">{n}</text>')
+        o.append(f'<g data-pick="{E(n)}" aria-label="{E(n)}"><circle cx="{X(x):.0f}" cy="{Y(y):.0f}" r="7" fill="var(--c6)" stroke="transparent" stroke-width="10"/><text x="{tx:.0f}" y="{Y(y)+4:.0f}" text-anchor="{anc}" font-size="15.5" class="svg-ink">{n}</text></g>')
     wx, wy, tx, ty = X(8.2), Y(2.6), X(8.2), Y(6.6)
     o.append(f'<defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--accent)"/></marker></defs>')
     o.append(f'<line x1="{wx:.0f}" y1="{wy-10:.0f}" x2="{tx:.0f}" y2="{ty+12:.0f}" stroke="var(--accent)" stroke-width="2.5" stroke-dasharray="5 4" marker-end="url(#ar)"/>')
-    o.append(f'<circle cx="{wx:.0f}" cy="{wy:.0f}" r="9" fill="var(--accent)"/><text x="{wx+14:.0f}" y="{wy+5:.0f}" font-size="13" font-weight="600" class="svg-accent">Wipro today</text>')
-    o.append(f'<circle cx="{tx:.0f}" cy="{ty:.0f}" r="9" fill="none" stroke="var(--accent)" stroke-width="2.5"/><text x="{tx+14:.0f}" y="{ty-4:.0f}" font-size="13" font-weight="600" class="svg-accent">With Designit</text><text x="{tx+14:.0f}" y="{ty+12:.0f}" font-size="13" font-weight="600" class="svg-accent">in front</text>')
+    o.append(f'<circle cx="{wx:.0f}" cy="{wy:.0f}" r="9" fill="var(--accent)"/><text x="{wx+14:.0f}" y="{wy+5:.0f}" font-size="16" font-weight="700" class="svg-accent">Wipro today</text>')
+    o.append(f'<circle cx="{tx:.0f}" cy="{ty:.0f}" r="9" fill="none" stroke="var(--accent)" stroke-width="2.5"/><text x="{tx+14:.0f}" y="{ty-4:.0f}" font-size="16" font-weight="700" class="svg-accent">With Designit</text><text x="{tx+14:.0f}" y="{ty+12:.0f}" font-size="16" font-weight="700" class="svg-accent">in front</text>')
     o.append("</svg>")
     return f'<figure class="fig">{"".join(o)}<figcaption>My qualitative placement, informed by the Gartner 2025 descriptions of creative share and delivery mix. It is a judgement for discussion, not a measured score.</figcaption></figure>'
 
 
+def analyst_svg():
+    cols = ["Gartner DX Services 2025", "Everest Adobe 2025", "Everest Salesforce 2024", "Forrester Commerce Q1 2026"]
+    W, top, rh = 1100, 90, 40
+    H = top + rh * len(RATINGS) + 20
+    o = [f'<svg viewBox="0 0 {W} {H}" role="img" aria-labelledby="ant and"><title id="ant">Analyst ratings by provider</title><desc id="and">Larger, brighter dots are higher ratings. Wipro is a Leader for Salesforce services and trails in the Gartner DX MQ and Adobe services.</desc>']
+    for j, c in enumerate(cols):
+        x = 380 + j * 190
+        o.append(f'<text x="{x}" y="40" text-anchor="middle" font-size="14" font-weight="600" class="svg-ink">{E(c.rsplit(" ",1)[0])}</text><text x="{x}" y="60" text-anchor="middle" font-size="13" class="svg-muted">{c.rsplit(" ",1)[1]}</text>')
+    for i, (n, *v) in enumerate(RATINGS):
+        y = top + i * rh
+        me = n == "Wipro"
+        if me:
+            o.append(f'<rect x="0" y="{y-22}" width="{W}" height="{rh}" rx="4" fill="var(--accent)" opacity=".16"/>')
+        o.append(f'<text x="16" y="{y+5}" font-size="16" font-weight="{700 if me else 500}" class="svg-ink">{E(n)}</text>')
+        for j, r in enumerate(v):
+            x = 380 + j * 190
+            if r is None:
+                o.append(f'<circle cx="{x}" cy="{y}" r="4" fill="var(--line)"/>')
+                continue
+            rad = [5, 7, 10, 12, 15][r]
+            col = ["var(--line)", "var(--c2)", "var(--c6)", "var(--c1)", "var(--accent)"][r]
+            o.append(f'<circle class="pop" style="transition-delay:{(i+j)*.03:.2f}s" cx="{x}" cy="{y}" r="{rad}" fill="{col}"><title>{E(n)}: {LAB[r]}</title></circle>')
+    o.append("</svg>")
+    leg = "".join(f'<span><i style="background:{c};border-radius:50%"></i>{l}</span>' for l, c in [("Leader", "var(--accent)"), ("Challenger or Visionary", "var(--c1)"), ("Major Contender", "var(--c6)"), ("Niche Player", "var(--c2)"), ("Not rated or not found", "var(--line)")])
+    return "".join(o) + f'<div class="legend" style="justify-content:center">{leg}</div>'
+
+
+def slope_svg():
+    # name, 2025, 2026, colour, left label nudge, right label nudge
+    data = [("Labour", 21.9, 24.5, "c3", 8, 0), ("Paid media", 30.6, 31.4, "c6", 0, 0), ("Agencies", 20.7, 19.2, "c2", 4, 14), ("Martech", 22.4, 19.4, "c4", -8, -12)]
+    Y = lambda v: 320 - (v - 17) * 20
+    o = ['<svg viewBox="0 0 900 360" role="img" aria-label="Share of marketing budget, 2025 to 2026: labour up, agencies and martech down">']
+    o.append('<line x1="260" x2="260" y1="20" y2="330" stroke="var(--line)"/><line x1="640" x2="640" y1="20" y2="330" stroke="var(--line)"/>')
+    o.append('<text x="260" y="352" text-anchor="middle" font-size="16" font-weight="700" class="svg-ink">2025</text><text x="640" y="352" text-anchor="middle" font-size="16" font-weight="700" class="svg-ink">2026</text>')
+    for n, a, b, c, la, ra in data:
+        o.append(f'<line class="draw" style="--len:400" x1="260" y1="{Y(a):.0f}" x2="640" y2="{Y(b):.0f}" stroke="var(--{c})" stroke-width="5" stroke-linecap="round"/>')
+        o.append(f'<circle cx="260" cy="{Y(a):.0f}" r="8" fill="var(--{c})"/><circle cx="640" cy="{Y(b):.0f}" r="8" fill="var(--{c})"/>')
+        o.append(f'<text x="240" y="{Y(a)+6+la:.0f}" text-anchor="end" font-size="16" class="svg-muted">{a}%</text>')
+        o.append(f'<text x="662" y="{Y(b)+6+ra:.0f}" font-size="18" font-weight="700" fill="var(--{c})">{n} {b}%</text>')
+    o.append("</svg>")
+    return "".join(o)
+
+
+
+def _pos(n, edge, win):
+    return f'<p class="t-k">Competitor</p><h3>{E(n)}</h3><p><b>Their edge</b> {E(edge)}</p><p><b>How Wipro wins</b> {E(win)}</p>'
+
+
+_C = {c[0]: c for c in COMP}
+POSDATA = {
+    "Accenture Song": _pos("Accenture Song", _C["Accenture Song"][1], _C["Accenture Song"][3]),
+    "Deloitte Digital": _pos("Deloitte Digital", _C["Deloitte Digital"][1], _C["Deloitte Digital"][3]),
+    "Publicis Sapient": _pos("Publicis Sapient", _C["Publicis Sapient and the agency groups"][1], _C["Publicis Sapient and the agency groups"][3]),
+    "Capgemini and frog": _pos("Capgemini and frog", "A Gartner DX Leader with frog's design studios. Gartner notes only 8% of its DX resources are in North America.", "Compete on North American delivery depth and run economics."),
+    "IBM iX": _pos("IBM iX", "Implementation, orchestration and a 20-year Adobe partnership. An Everest Adobe Leader.", "Bring design-led framing through Designit, where IBM's marketing bench is thin."),
+    "Infosys": _pos("Infosys", _C["Infosys, TCS and HCLTech"][1], _C["Infosys, TCS and HCLTech"][3]),
+    "TCS": _pos("TCS", _C["Infosys, TCS and HCLTech"][1], _C["Infosys, TCS and HCLTech"][3]),
+    "HCLTech": _pos("HCLTech", "DX is 15% of revenue and growing 11%, with an experience-level-agreement run model.", "Lead with Salesforce, Pega and ServiceNow strength and Designit's front end."),
+    "Cognizant": _pos("Cognizant", "Outcome-based fees tied to KPIs and a strong North American presence. Also a Gartner Niche Player.", "Match outcome pricing and win on Designit and AI platforms."),
+    "EPAM": _pos("EPAM", _C["EPAM, Globant and Valtech"][1], _C["EPAM, Globant and Valtech"][3]),
+    "Valtech": _pos("Valtech", "A pure-play experience firm with outcome pricing. A Gartner Visionary.", "Use Wipro's scale for global run and multi-tower deals Valtech cannot staff."),
+    "Globant": _pos("Globant", "Design-led engineering with Latin American nearshore delivery and an AI Pods subscription.", "Win the $20m-plus run contracts that need global scale."),
+}
+
 def build():
-    stats = f"""<div class="stats">
-<div class="stat"><b>$90bn</b><span>DX services revenue of the 17 providers in Gartner's 2025 DX Services MQ, for 2024, growing 6%</span><small><a href="{MQ}">Gartner MQ via Spotlight AR</a></small></div>
-<div class="stat"><b>$21bn to $23bn</b><span>Adobe services market in 2024, forecast to grow 17% to 19% a year to 2027</span><small><a href="{EVA}">Everest Group, Oct 2025</a></small></div>
-<div class="stat"><b>12%</b><span>Average share of DX services revenue that is outcome-based across MQ providers</span><small><a href="{MQ}">Gartner MQ via Spotlight AR</a></small></div>
-<div class="stat"><b>40%</b><span>Share of agentic AI projects Gartner expects to be cancelled by the end of 2027</span><small><a href="{AGENT40}">Gartner, 25 Jun 2025</a></small></div>
-</div>"""
+    body = hero("Market and Competitors", "A $90bn Market",
+                "Budgets are moving from agencies to operations and AI. Wipro has the scale. Designit is how it leads with design.",
+                explorer(position_fig().replace('<figure class="fig">', "<figure>"), POSDATA, "Select a competitor to see how Wipro wins against it.", first="Accenture Song"))
 
-    shifts = """<div class="grid3">
-<div class="panel"><p class="k">From agencies to operations</p><p>CMOs are moving money from agencies and martech licences to their own labour and to AI. Services firms that run content operations, platforms and AI agents gain from that shift. Agency-of-record creative work does not.</p></div>
-<div class="panel"><p class="k">From projects to run contracts</p><p>Over a third of DX staff across the MQ providers work on ongoing services. Buyers want reusable accelerators, run commitments and KPIs written into the contract. That is how $20m deals get built.</p></div>
-<div class="panel"><p class="k">From hours to outcomes</p><p>AI is pushing build prices down. Analysts estimate 2% to 5% a year of deflation, and ISG reports Americas managed services contract value down 12% in Q2 2026. The seller who prices on outcomes keeps margin when hours fall.</p></div>
-</div>""" + src([("ISG Index Q2 2026 via MarketBeat, 10 Jul 2026", ISGQ)])
+    b = (tile(f'<p class="t-k">DX services, 17 largest providers</p>{num(90, pre="$", small="bn")}<p>2024 revenue, growing 6% a year.</p>', 3)
+         + tile(f'<p class="t-k">Adobe services growth</p>{num(18, suf="%")}<p>A year to 2027, on a $21bn to $23bn base.</p>', 3)
+         + tile(f'<p class="t-k">Outcome-based</p>{num(12, suf="%")}<p>Of DX revenue on average. Rising.</p>', 3)
+         + tile(f'<p class="t-k">Agentic AI projects</p>{num(40, suf="%")}<p>Expected to be cancelled by 2027.</p>', 3))
+    body += sec(head_block("Size", "Where the Money Is", "Four numbers that shape every pitch.") + f'<div class="bento">{b}</div>'
+                + src([("Gartner MQ via Spotlight AR", MQ), ("Everest Group, Oct 2025", EVA), ("Gartner, 25 Jun 2025", AGENT40)]), "grey")
 
-    comp = table(["Competitor", "Strength", "Weakness", "How Wipro wins against it"], [[E(a), E(b), E(c), E(d)] for a, b, c, d in COMP], caption="Competitor comparison")
-    battle = "".join(
-        f'<div class="panel"><p class="k">Objection</p><h3>{E(a)}</h3><p>{E(b)}</p><p><b>Response.</b> {E(c)}</p></div>' for a, b, c in BATTLE)
+    body += sec(head_block("Budgets", "From Agencies to Operations", "Share of the marketing budget, Gartner CMO Spend Survey.") + f'<div class="art m rv">{slope_svg()}</div>'
+                + src([("Gartner, 12 May 2025", CMO25), ("Gartner, 11 May 2026", CMO26), ("Marketing Dive, 7 Jul 2026", MD)]))
 
-    body = (
-        phead("Market", "Market and Competitors",
-              "Digital experience services is a market of about $90bn among the largest providers, growing at about 6% a year. Budgets are moving from agencies and licences towards operations and AI. This page sets out the size and direction of the market, where analysts place Wipro and how I would sell against each type of competitor.")
-        + block("Size", "Market size and direction", stats)
-        + block("Budgets", "Where marketing budgets are moving", budget_fig() + shifts)
-        + block("Analysts", "Analyst ratings in digital experience", heat_tbl() + src([("Gartner MQ text via Spotlight AR", MQ), ("ISG Salesforce Ecosystem US, 27 Apr 2026", ISGS)]),
-                "Wipro is rated a Leader for Salesforce services by Everest, and ISG rated it a Leader in all three US Salesforce quadrants in April 2026. In Adobe services and the Gartner DX MQ it trails. Most of the Gartner placements come from one secondary reproduction of the report, so they need checking against the Gartner document.")
-        + block("Positioning", "Where Wipro can win", position_fig(),
-                "Wipro has the scale for multi-year run work and a design company in Designit. The commercial question for this role is how often Designit leads the front of a deal so that Wipro is bought as an experience partner.")
-        + block("Competitors", "Selling against each competitor type", comp)
-        + block("Objections", "Wipro's weak points and how I would answer them", f'<div class="grid2">{battle}</div>',
-                "A buyer's procurement team will read the same analyst reports. A seller who raises the weak points first, and answers them with a staffing plan, keeps control of the conversation.")
-    )
+    body += sec(head_block("Analysts", "Where Wipro Stands", "A Leader in Salesforce services. Behind in Adobe and the Gartner DX MQ.") + f'<div class="art rv">{analyst_svg()}</div>'
+                + more("Show the ratings table", heat_tbl() + src([("Gartner MQ text via Spotlight AR", MQ), ("ISG Salesforce Ecosystem US, 27 Apr 2026", ISGS)])), "dark", center=True)
+
+    cards = "".join(
+        f'<div class="tile"><h3 style="font-size:26px">{E(a)}</h3><p><b style="color:var(--ink)">Their edge</b> {E(b2)}</p><p style="margin-top:auto;padding-top:20px;font-size:17px;color:var(--ink)"><b style="color:var(--accent)">How Wipro wins</b> {E(d)}</p></div>'
+        for a, b2, c, d in COMP)
+    body += sec(head_block("Competitors", "Five Rivals, Five Answers", "Swipe for how I would sell against each.") + f'<div class="rail rv">{cards}</div>', "grey")
+
+    obj = "".join(tile(f'<p class="t-k">They say</p><h3>“{E(a)}”</h3><p style="margin-top:auto;padding-top:20px;font-size:17px;color:var(--ink)"><b style="color:var(--accent)">I answer</b> {E(c)}</p>', 6) for a, b2, c in BATTLE)
+    body += sec(head_block("Objections", "Weak Points, Answered", "Procurement reads the same analyst reports. Raise them first.") + f'<div class="bento">{obj}</div>')
     page("market.html", body, "DX services market size, budget shifts, analyst ratings and competitive positioning for Wipro.")

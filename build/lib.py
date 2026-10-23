@@ -58,7 +58,10 @@ def head(title, desc, guard=True, extra=""):
 <meta name="color-scheme" content="light dark">
 <link rel="icon" href="{FAVICON}">
 {HEAD_JS if guard else '<script>try{var s=localStorage.getItem("theme");if(s==="light"||s==="dark")document.documentElement.setAttribute("data-theme",s)}catch(e){}</script>'}
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/apple.css">
 {extra}
 </head>"""
 
@@ -93,9 +96,11 @@ def page(fname, body, desc, scripts=""):
         + f'\n<main id="main" tabindex="-1">\n{body}\n</main>\n'
         + pager(fname)
         + FOOT
+        + REVEAL_JS
         + scripts
         + "\n</body>\n</html>\n"
     )
+    doc = doc.replace('<div class="rail rv">', '<div class="rail rv" tabindex="0" role="region" aria-label="Cards, scroll sideways">')
     with open(os.path.join(ROOT, fname), "w", encoding="utf-8") as fh:
         fh.write(doc)
     print("wrote", fname, len(doc))
@@ -150,3 +155,87 @@ def table(headers, rows, cls="t", caption=""):
 
 def jsdata(name, obj):
     return f"<script>window.{name}={json.dumps(obj, ensure_ascii=False)};</script>"
+
+
+REVEAL_JS = """<script>(function(){var t=new Date();t.setHours(0,0,0,0);document.querySelectorAll('[data-days]').forEach(function(e){var d=new Date(e.dataset.days+'T00:00:00');e.textContent=Math.max(0,Math.round((d-t)/864e5))})})();document.querySelectorAll('[data-scroll-end]').forEach(function(s){var p=s.parentElement;while(p&&!(p.scrollWidth>p.clientWidth))p=p.parentElement;if(p)p.scrollLeft=p.scrollWidth});(function(){var rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function count(el){var to=parseFloat(el.dataset.to),dec=(el.dataset.to.split('.')[1]||'').length,pre=el.dataset.pre||'',suf=el.dataset.suf||'';
+if(rm){el.textContent=pre+to.toFixed(dec)+suf;return}var t0=null;function f(t){if(!t0)t0=t;var k=Math.min(1,(t-t0)/1400),e=1-Math.pow(1-k,3);el.textContent=pre+(to*e).toFixed(dec)+suf;if(k<1)requestAnimationFrame(f)}requestAnimationFrame(f)}
+var els=document.querySelectorAll('.rv,[data-to]');
+if(!('IntersectionObserver' in window)||rm){els.forEach(function(e){e.classList.add('in');if(e.dataset.to)count(e)});return}
+var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');if(x.target.dataset.to)count(x.target);io.unobserve(x.target)}})},{threshold:.18});
+els.forEach(function(e){io.observe(e)})})();
+(function(){document.querySelectorAll('[data-xp]').forEach(function(x){var dEl=x.querySelector('script.xp-data');if(!dEl)return;var D=JSON.parse(dEl.textContent),P=x.querySelector('.xp-panel'),ms=x.querySelectorAll('[data-pick]');
+function show(m){ms.forEach(function(n){n.classList.toggle('on',n===m);n.setAttribute('aria-pressed',String(n===m))});x.classList.add('xp-dim');P.innerHTML=D[m.dataset.pick]||''}
+ms.forEach(function(m){m.setAttribute('tabindex','0');m.setAttribute('role','button');m.addEventListener('click',function(){show(m)});m.addEventListener('mouseenter',function(){show(m)});m.addEventListener('focus',function(){show(m)});
+m.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();show(m)}})});
+var first=x.dataset.first&&x.querySelector('[data-pick="'+x.dataset.first+'"]');if(first)show(first)})})();</script>"""
+
+
+def sec(inner, theme="", narrow=False, center=False, id=""):
+    cls = "sec" + (f" {theme}" if theme else "")
+    idattr = f' id="{id}"' if id else ""
+    return f'<section class="{cls}"{idattr}><div class="sec-in{" narrow" if narrow else ""}{" center" if center else ""}">{inner}</div></section>'
+
+
+def head_block(kicker, title, sub="", size="h-xl", grad=True):
+    k = f'<p class="kicker{" grad" if grad else ""}">{E(kicker)}</p>' if kicker else ""
+    s = f'<p class="sub">{sub}</p>' if sub else ""
+    return f'<div class="rv">{k}<h2 class="{size}">{E(title)}</h2>{s}</div>'
+
+
+def hero(kicker, title, sub, art="", cta="", dark=False):
+    c = f'<div class="cta">{cta}</div>' if cta else ""
+    a = f'<div class="art rv">{art}</div>' if art else ""
+    return (f'<section class="hero-x{" dark sec" if dark else ""}"><div class="sec-in"><p class="kicker grad">{E(kicker)}</p>'
+            f'<h1 class="xl">{E(title)}</h1><p class="sub">{sub}</p>{c}</div>{a}</section>')
+
+
+def tile(inner, span=4, cls="", href=""):
+    if href:
+        return f'<a class="tile s{span} rv link {cls}" href="{href}">{inner}</a>'
+    return f'<div class="tile s{span} rv {cls}">{inner}</div>'
+
+
+def more(label, inner):
+    return f'<details class="more"><summary>{E(label)}</summary><div class="body">{inner}</div></details>'
+
+
+def num(to, pre="", suf="", small=""):
+    sm = f"<small>{small}</small>" if small else ""
+    return f'<div class="num"><span data-to="{to}" data-pre="{E(pre)}" data-suf="{E(suf)}">{E(pre)}{to}{E(suf)}</span>{sm}</div>'
+
+
+ICONS = {
+    "target": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>',
+    "calendar": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>',
+    "ladder": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20V14h5v6M9.5 20V9h5v11M15 20V4h5v16"/></svg>',
+    "people": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3.2"/><path d="M3 19c.8-3.2 3.2-5 6-5s5.2 1.8 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 14.2c2.4.1 4.4 1.7 5 4.3"/></svg>',
+    "spark": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l1.8 5.4L19 10l-5.2 1.6L12 17l-1.8-5.4L5 10l5.2-1.6z"/><path d="M19 16l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"/></svg>',
+    "chart": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4v16h16"/><path d="M7 15l4-4 3 3 5-6"/></svg>',
+    "shield": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l7 3v6c0 4.4-3 7.6-7 9-4-1.4-7-4.6-7-9V6z"/></svg>',
+    "grid": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="7" height="7" rx="1"/><rect x="13" y="4" width="7" height="7" rx="1"/><rect x="4" y="13" width="7" height="7" rx="1"/><rect x="13" y="13" width="7" height="7" rx="1"/></svg>',
+    "door": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 21V4h10v17M3 21h18"/><circle cx="13" cy="12.5" r="1" fill="currentColor"/></svg>',
+    "pen": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20l4-1 11-11-3-3L5 16z"/><path d="M14 6l3 3"/></svg>',
+    "globe": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.8 5.6 3.8 9s-1.2 6.4-3.8 9c-2.6-2.6-3.8-5.6-3.8-9S9.4 5.6 12 3z"/></svg>',
+    "bolt": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13 3L5 13h6l-1 8 8-10h-6z"/></svg>',
+}
+
+
+def icon(name):
+    return f'<div class="ic" aria-hidden="true">{ICONS[name]}</div>'
+
+
+def explorer(art, data, hint="Select any mark to see its detail.", first="", stack=False):
+    """art: svg with [data-pick] groups; data: {key: html}"""
+    import json as _j
+    art = art.replace('role="img"', 'role="group"', 1)
+    data = {k: v.replace("<h3>", '<h2 class="xh">').replace("</h3>", "</h2>") for k, v in data.items()}
+    blob = _j.dumps(data, ensure_ascii=False).replace("</", "<\\/")
+    f = f' data-first="{first}"' if first else ""
+    return (f'<div class="xp{" stack" if stack else ""} rv" data-xp{f}><div class="xp-art">{art}</div>'
+            f'<div class="xp-panel" aria-live="polite"><p class="hint">{E(hint)}</p></div>'
+            f'<script type="application/json" class="xp-data">{blob}</script></div>')
+
+
+def card_html(kicker, title, *paras):
+    return f'<p class="t-k">{E(kicker)}</p><h3>{E(title)}</h3>' + "".join(f"<p>{p}</p>" for p in paras)

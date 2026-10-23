@@ -92,59 +92,89 @@ PEOPLE = [
 ]
 
 
+ORBIT = [("SMU client partner", "Access to the client"), ("DX practice leadership", "Delivery and margin"), ("Enterprise Applications", "Platform pull-through"),
+         ("Designit", "The design front end"), ("Platform alliances", "Co-sell and funding"), ("Consulting and AI advisory", "Larger programmes"), ("Deal desk and delivery", "Price and staffing")]
+
+
+def orbit_svg():
+    import math
+    cx, cy, R = 550, 300, 210
+    o = ['<svg viewBox="0 -30 1100 630" role="img" aria-labelledby="obt obd"><title id="obt">Who the DX practitioner depends on</title><desc id="obd">Seven groups around the practitioner, none of which report to the role.</desc>']
+    o.append(f'<circle cx="{cx}" cy="{cy}" r="{R}" fill="none" stroke="var(--line)" stroke-dasharray="4 6"/>')
+    for k, (n, w) in enumerate(ORBIT):
+        a = -math.pi / 2 + k * 2 * math.pi / len(ORBIT)
+        x, y = cx + R * math.cos(a), cy + R * math.sin(a)
+        o.append(f'<line class="draw" style="--len:240;transition-delay:{k*.1:.1f}s" x1="{cx}" y1="{cy}" x2="{x:.0f}" y2="{y:.0f}" stroke="var(--accent)" stroke-width="1.5" opacity=".6"/>')
+        o.append(f'<g data-pick="o{k}" aria-label="{E(n)}"><circle class="pop" style="transition-delay:{.3+k*.1:.1f}s" cx="{x:.0f}" cy="{y:.0f}" r="18" fill="var(--c{k%6})" stroke="transparent" stroke-width="10"/></g>')
+        anc = "middle" if abs(math.cos(a)) < .3 else ("start" if math.cos(a) > 0 else "end")
+        dx = 0 if anc == "middle" else (26 if anc == "start" else -26)
+        dy = -52 if (anc == "middle" and math.sin(a) < 0) else (40 if anc == "middle" else 0)
+        o.append(f'<text x="{x+dx:.0f}" y="{y+dy-2:.0f}" text-anchor="{anc}" font-size="22" font-weight="700" class="svg-ink">{E(n)}</text>')
+        o.append(f'<text x="{x+dx:.0f}" y="{y+dy+26:.0f}" text-anchor="{anc}" font-size="20" class="svg-muted">{E(w)}</text>')
+    o.append(f'<circle class="pop" cx="{cx}" cy="{cy}" r="86" fill="var(--accent)"/><text x="{cx}" y="{cy-6}" text-anchor="middle" font-size="30" font-weight="700" fill="var(--on-accent)">DX</text><text x="{cx}" y="{cy+24}" text-anchor="middle" font-size="21" font-weight="600" fill="var(--on-accent)">practitioner</text>')
+    o.append("</svg>")
+    return "".join(o)
+
+
+def deals_vis():
+    q = [("Q4 FY26", 1440), ("Q1 FY27", 1626), ("Q2 FY27", 674)]
+    o = ['<svg viewBox="0 0 420 200" aria-hidden="true">']
+    for i, (l, v) in enumerate(q):
+        h = 150 * v / 1700
+        x = 30 + i * 130
+        c = "var(--bad)" if i == 2 else "var(--accent)"
+        o.append(f'<rect class="growy" style="transition-delay:{i*.2}s" x="{x}" y="{165-h:.0f}" width="80" height="{h:.0f}" rx="3" fill="{c}"/>')
+        o.append(f'<text x="{x+40}" y="{158-h:.0f}" text-anchor="middle" font-size="14" font-weight="700" class="svg-ink">${v:,}m</text><text x="{x+40}" y="188" text-anchor="middle" font-size="13" class="svg-muted">{l}</text>')
+    o.append("</svg>")
+    return "".join(o)
+
+
+def growth_vis():
+    d = [("Americas 1", -2.7), ("Americas 2", -4.7), ("Europe", 5.1), ("APMEA", 13.3)]
+    o = ['<svg viewBox="0 0 420 200" aria-hidden="true"><line x1="200" x2="200" y1="10" y2="190" stroke="var(--line)"/>']
+    for i, (l, v) in enumerate(d):
+        y = 20 + i * 44
+        w = abs(v) * 12
+        x = 200 if v > 0 else 200 - w
+        c = "var(--ok)" if v > 0 else "var(--bad)"
+        o.append(f'<text x="0" y="{y+20}" font-size="14" font-weight="600" class="svg-ink">{l}</text>')
+        o.append(f'<rect class="grow" x="{x:.0f}" y="{y+4}" width="{w:.0f}" height="24" rx="3" fill="{c}"/>')
+        tx = 200 + w + 8 if v > 0 else 200 + 8
+        o.append(f'<text x="{tx:.0f}" y="{y+21}" font-size="13" font-weight="600" fill="{c}">{v:+.1f}%</text>')
+    o.append("</svg>")
+    return "".join(o)
+
+
 def build():
-    stats = f"""<div class="stats">
-<div class="stat"><b>$10.48bn</b><span>IT services revenue, FY26, down 1.6% in constant currency</span><small><a href="{Q4}">Q4 FY26 results</a></small></div>
-<div class="stat"><b>60%</b><span>Share of revenue from Americas 1 and Americas 2 in Q2 FY27</span><small><a href="{Q2}">Q2 FY27 results</a></small></div>
-<div class="stat"><b>$7.8bn</b><span>Large-deal bookings in FY26, up 45%. Large deals are $30m TCV or more</span><small><a href="{Q4}">Q4 FY26 results</a></small></div>
-<div class="stat"><b>-58.6%</b><span>Fall in large-deal bookings from Q1 to Q2 FY27, to $674m</span><small><a href="{Q2}">Q2 FY27 results</a></small></div>
-</div>"""
+    body = hero("Operating Matrix", "Many Owners, One Number",
+                "Market units own the client. Business lines own the offer. DX sells through both Americas units.",
+                f'<div class="stage">{matrix_svg()}</div><p class="fine">Q2 FY27 constant-currency figures. The DX reporting line is my reading of public titles.</p>')
 
-    reading = f"""<div class="grid2">
-<div class="panel"><p class="k">What the numbers say</p><p>Both Americas units shrank year on year in Q2 FY27 while Europe and APMEA grew. Large-deal bookings fell sharply in the quarter, and guidance for Q3 is between -1.5% and +0.5%. Wipro needs new Americas pipeline, and it needs it to be large.</p></div>
-<div class="panel"><p class="k">What the CEO says buyers want</p><p>On the Q1 FY27 call Srini Pallia said discretionary spend has been slower, decisions take longer, and clients are reinvesting cost savings in AI. A DX pitch therefore has to pay for itself and lead with AI, with experience design as the way to get the value.</p></div>
-<div class="panel"><p class="k">What the hiring pattern says</p><p>Between July and October 2026 Wipro posted four US DX practitioner roles: this one, energy and manufacturing, retail and life sciences, and an enterprise experience lead. Wipro is building a bench of sector DX sellers across both Americas units at the same time.</p></div>
-<div class="panel"><p class="k">What the leadership changes say</p><p>Technology Services and Enterprise Applications both have new leaders since April and May 2026, both from Accenture. New leaders tend to back a consulting-led, large-deal model and to measure sellers against it early.</p></div>
-</div>
-{src([("Q2 FY27 press release, 15 Oct 2026", Q2), ("Q1 FY27 earnings call transcript, 16 Jul 2026", Q1T), ("SEBI filing on senior management, 1 Apr 2026", SEBI), ("HR Today on Enterprise Applications appointment, 21 May 2026", GOYAL)])}"""
+    b = (tile(f'<p class="t-k">FY26 IT services revenue</p>{num(10.48, pre="$", small="bn")}<p>Down 1.6% in constant currency.</p>', 4)
+         + tile(f'<p class="t-k">Americas share</p>{num(60, suf="%")}<p>Of revenue in Q2 FY27.</p>', 4)
+         + tile(f'<p class="t-k">Q3 FY27 guidance</p><div class="num" style="font-size:clamp(40px,4.4vw,60px)">-1.5% to +0.5%</div><p>Flat at best.</p>', 4)
+         + tile(f'<p class="t-k">Large-deal bookings</p><h3>Down 58.6% in one quarter</h3><div class="vis">{deals_vis()}</div>', 6)
+         + tile(f'<p class="t-k">Growth by market unit</p><h3>Both Americas units are shrinking</h3><div class="vis">{growth_vis()}</div>', 6))
+    body += sec(head_block("Results", "The Numbers It Inherits", "Wipro needs new Americas pipeline, and it needs it large.") + f'<div class="bento">{b}</div>'
+                + src([("Q2 FY27 results, 15 Oct 2026", Q2), ("Q4 FY26 results, 16 Apr 2026", Q4), ("Q1 FY27 call, 16 Jul 2026", Q1T)]), "grey")
 
-    ppl = table(
-        ["Who", "Their role", "What they want", "How I would work with them"],
-        [[E(a), b, E(c), E(d)] for a, b, c, d in PEOPLE],
-        caption="Stakeholders a DX practitioner works through",
-    ) + src([("Designit, Keri Dawson appointment, 4 Nov 2024", DESIGNIT), ("Wipro partner pages for Adobe, Salesforce and Pega", "https://www.wipro.com/partners/adobe/")])
+    ppl = table(["Who", "Their role", "What they want", "How I would work with them"], [[E(a), b2, E(c), E(d)] for a, b2, c, d in PEOPLE], caption="Stakeholders")
+    body += sec(head_block("Stakeholders", "Seven Groups, No Direct Reports", "Each one controls something a large deal needs.") + explorer(orbit_svg(), {f"o{k}": f'<p class="t-k">{E(ORBIT[k][1])}</p><h3>{E(a)}</h3><p>{b2}</p><p><b>They want</b> {E(c)}</p><p><b>How I work with them</b> {E(d)}</p>' for k, (a, b2, c, d) in enumerate(PEOPLE)}, "Select a group.", first="o0") + more("Show the table", ppl), "dark", center=True)
 
     raci = table(
         ["Pursuit step", "DX practitioner", "SMU client partner", "DX practice and delivery", "Designit or consulting", "Alliance partner"],
-        [
-            ["Spot the trigger and size the idea", heat(4, "Leads"), heat(2, "Informs"), heat(1, "Consulted"), heat(1, "Consulted"), heat(2, "Informs")],
-            ["Get access to the buyer", heat(2, "Shares"), heat(4, "Leads"), heat(0, ""), heat(1, "Supports"), heat(2, "Introduces")],
-            ["Diagnostic or point of view", heat(3, "Owns"), heat(1, "Supports"), heat(2, "Supports"), heat(4, "Delivers"), heat(1, "Supports")],
-            ["Solution, staffing and price", heat(3, "Owns"), heat(1, "Approves"), heat(4, "Builds"), heat(2, "Supports"), heat(1, "Funds")],
-            ["Negotiate and sign", heat(4, "Leads"), heat(3, "Co-leads"), heat(1, "Supports"), heat(0, ""), heat(0, "")],
-            ["Hand over and expand", heat(2, "Supports"), heat(3, "Owns"), heat(4, "Delivers"), heat(1, "Supports"), heat(1, "Supports")],
-        ],
-        caption="Roles across a DX pursuit",
-    )
+        [["Spot the trigger and size the idea", heat(4, "Leads"), heat(2, "Informs"), heat(1, "Consulted"), heat(1, "Consulted"), heat(2, "Informs")],
+         ["Get access to the buyer", heat(2, "Shares"), heat(4, "Leads"), heat(0, ""), heat(1, "Supports"), heat(2, "Introduces")],
+         ["Diagnostic or point of view", heat(3, "Owns"), heat(1, "Supports"), heat(2, "Supports"), heat(4, "Delivers"), heat(1, "Supports")],
+         ["Solution, staffing and price", heat(3, "Owns"), heat(1, "Approves"), heat(4, "Builds"), heat(2, "Supports"), heat(1, "Funds")],
+         ["Negotiate and sign", heat(4, "Leads"), heat(3, "Co-leads"), heat(1, "Supports"), heat(0, ""), heat(0, "")],
+         ["Hand over and expand", heat(2, "Supports"), heat(3, "Owns"), heat(4, "Delivers"), heat(1, "Supports"), heat(1, "Supports")]],
+        caption="Roles across a pursuit")
+    body += sec(head_block("Roles", "Who Does What", "Agreed before the pursuit starts.") + f'<div class="rv">{raci}</div>')
 
-    comp = f"""<div class="grid3">
-<div class="panel"><p class="k">Overlay</p><p>Practitioner sellers are specialists who support the account lead. A Wipro cloud and digital practitioner posting asks them to "work collaboratively with Client Partners and Global Account Executives in a matrix model to sell into their accounts" and to act as "the technical deal owner".</p></div>
-<div class="panel"><p class="k">Hunting and farming</p><p>A UK employment tribunal judgment describes Wipro's sales incentive plan as dividing work into hunting (new logos) and farming (expansion), with hunting paid at higher risk and reward. The two need different plans and different pipeline coverage.</p></div>
-<div class="panel"><p class="k">Forecast discipline</p><p>The same cloud and digital posting sets bookings (TCV and ACV), profitable revenue and a monthly forecast within 5% variance as the measures. I would expect DX to be held to the same standard.</p></div>
-</div>
-{src([("Wipro Cloud and Digital Director posting, 2026", CLOUD), ("Chandrashekarappa v Wipro, UK Employment Tribunal, c. 2024", TRIB)])}"""
-
-    body = (
-        phead("Matrix", "Operating Matrix",
-              "Wipro sells through four strategic market units that own clients and four global business lines that own offerings. The DX practice sits inside Enterprise Applications in Technology Services. This page maps where the role sits, who it depends on and what Wipro's current results ask of it.",
-              f'Structure from the <a href="{AR}">FY2025-26 annual report</a> and the <a href="{Q2}">Q2 FY27 results</a> of 15 October 2026.')
-        + block("Structure", "Where the role sits", f'<figure class="fig">{matrix_svg()}<figcaption>Revenue shares and growth rates are constant-currency figures for Q2 FY27 (July to September 2026). The reporting line from the DX practice to Enterprise Applications to Technology Services is my reading of public titles and is not documented by Wipro.</figcaption></figure>',
-                "Revenue is booked to the market unit that owns the client. The DX practitioner carries a number for the practice and gets there through the market units, mostly Americas 1 for consumer and health and Americas 2 for banking and manufacturing.")
-        + block("Context", "The numbers the role inherits", stats + reading)
-        + block("Stakeholders", "Who the role depends on", ppl,
-                "None of these people report to the DX practitioner. Each one controls something a large deal needs.")
-        + block("Roles", "Who does what in a pursuit", raci,
-                "Agreeing these roles before a pursuit starts is the cheapest way to avoid the credit and access disputes that slow matrix selling.")
-        + block("Compensation logic", "How practitioner selling is measured", comp)
-    )
-    page("operating-model.html", body, "Where the Wipro DX practitioner sits in the SMU and business-line matrix, with stakeholders and pursuit roles.")
+    comp = (tile(f'{icon("grid")}<h3 style="margin-top:20px">Overlay</h3><p>Sell into accounts that client partners own, as the technical deal owner.</p>', 4, "short")
+            + tile(f'{icon("target")}<h3 style="margin-top:20px">Hunt and farm</h3><p>New logos pay more and carry more risk than expansion.</p>', 4, "short")
+            + tile(f'{icon("chart")}<h3 style="margin-top:20px">Forecast within 5%</h3><p>Bookings, revenue and a monthly forecast close to plan.</p>', 4, "short"))
+    body += sec(head_block("Measures", "How It Is Measured", "From Wipro practitioner postings and a UK tribunal judgment.") + f'<div class="bento">{comp}</div>'
+                + src([("Wipro Cloud and Digital Director posting", CLOUD), ("Chandrashekarappa v Wipro, UK Employment Tribunal", TRIB)]), "grey")
+    page("operating-model.html", body, "Where the Wipro DX practitioner sits in the matrix, with results, stakeholders and pursuit roles.")

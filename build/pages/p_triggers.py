@@ -40,81 +40,100 @@ PARALLEL = [
 ]
 
 
+SHORT = {
+    "2026-12-31": "Sitecore 10.0 and 10.1 support ends", "2027-02-28": "AEM 6.5 on-premises core support ends",
+    "2027-04-26": "ADA Title II web rule applies", "2027-05-11": "HHS Section 504 web rule applies",
+}
+COUNT = ["2026-12-31", "2027-02-28", "2027-04-26", "2027-05-11"]
+
+
 def lanes_svg():
-    W, H = 1000, 250
-    x0, x1 = 170, 980
+    W, H = 1100, 330
+    x0, x1 = 200, 1080
     d0, d1 = datetime.date(2025, 1, 1), datetime.date(2028, 12, 31)
     span = (d1 - d0).days
     X = lambda d: x0 + (x1 - x0) * (d - d0).days / span
-    o = [f'<svg viewBox="0 0 {W} {H}" role="img" aria-labelledby="lt ld"><title id="lt">Buying triggers 2025 to 2028 by category</title><desc id="ld">{len(T)} dated triggers. The densest period is the second half of 2026 to the first half of 2027.</desc>']
+    o = [f'<svg data-scroll-end viewBox="0 0 {W} {H}" role="img" aria-labelledby="lt ld"><title id="lt">Buying triggers 2025 to 2028 by category</title><desc id="ld">{len(T)} dated triggers. The densest period runs from late 2026 to the end of 2027.</desc>']
+    tx = X(TODAY)
+    o.append(f'<rect x="{tx}" y="20" width="{X(datetime.date(2028,4,23))-tx:.0f}" height="{H-70}" fill="var(--accent)" opacity=".08"/>')
+    o.append(f'<text x="{tx+10}" y="40" font-size="13" font-weight="600" fill="var(--accent)">The first eighteen months of this role</text>')
     for y in range(2025, 2029):
         x = X(datetime.date(y, 1, 1))
-        o.append(f'<line x1="{x}" x2="{x}" y1="20" y2="{H-30}" stroke="var(--line)"/><text x="{x+6}" y="{H-12}" font-size="12" class="svg-muted">{y}</text>')
-    tx = X(TODAY)
-    o.append(f'<line x1="{tx}" x2="{tx}" y1="10" y2="{H-30}" stroke="var(--ink)" stroke-dasharray="3 3"/><text x="{tx+5}" y="16" font-size="11.5" class="svg-ink">Today, 23 Oct 2026</text>')
+        o.append(f'<line x1="{x}" x2="{x}" y1="20" y2="{H-50}" stroke="var(--line)"/><text x="{x+6}" y="{H-24}" font-size="15" font-weight="600" class="svg-muted">{y}</text>')
+    o.append(f'<line x1="{tx}" x2="{tx}" y1="14" y2="{H-50}" stroke="var(--ink)" stroke-width="2"/><text x="{tx-8}" y="14" text-anchor="end" font-size="13" class="svg-ink">Today</text>')
     for k, (key, (lab, c)) in enumerate(CATS.items()):
-        y = 44 + k * 48
-        o.append(f'<text x="0" y="{y+5}" font-size="12.5" class="svg-ink">{lab}</text><line x1="{x0}" x2="{x1}" y1="{y}" y2="{y}" stroke="var(--line)" stroke-width="0.6"/>')
+        y = 80 + k * 58
+        o.append(f'<text x="0" y="{y+6}" font-size="16" font-weight="600" class="svg-ink">{lab}</text><line x1="{x0}" x2="{x1}" y1="{y}" y2="{y}" stroke="var(--line)" stroke-width=".7"/>')
+        n = 0
         for d, cat, title, *_ in T:
             if cat != key:
                 continue
             dd = datetime.date.fromisoformat(d)
             past = dd < TODAY
-            o.append(f'<circle cx="{X(dd):.1f}" cy="{y}" r="8" fill="var(--{c})" opacity="{0.4 if past else 1}" stroke="var(--panel)" stroke-width="2"><title>{E(d)}: {E(title)}</title></circle>')
+            o.append(f'<g data-pick="t{T.index(next(t for t in T if t[0]==d and t[2]==title))}" aria-label="{E(title)}"><circle class="pop" style="transition-delay:{.15+n*.12:.2f}s" cx="{X(dd):.1f}" cy="{y}" r="{9 if past else 12}" fill="var(--{c})" opacity="{0.35 if past else 1}" stroke="transparent" stroke-width="8"/></g>')
+            n += 1
     o.append("</svg>")
     return "".join(o)
 
 
 def build():
+    leg = "".join(f'<span><i style="background:var(--{c})"></i>{E(l)}</span>' for l, c in CATS.values())
+    data = {}
+    for k, (d, cat, title, who, forces, buyer, signal, play, url) in enumerate(T):
+        dd = datetime.date.fromisoformat(d)
+        data[f"t{k}"] = (f'<p class="t-k">{E(dd.strftime("%-d %B %Y"))} · {E(CATS[cat][0])}</p><h3>{E(title)}</h3>'
+                         f'<p><b>Forces</b> {E(forces)}</p><p><b>Buyer</b> {E(buyer)}</p><p><b>Wipro play</b> {E(play)} <a href="{E(url)}">Source</a></p>')
+    first = next(k for k, t in enumerate(T) if datetime.date.fromisoformat(t[0]) >= TODAY)
+    art = explorer(lanes_svg(), data, "Select a dot to see the trigger.", first=f"t{first}", stack=True) + f'<div class="legend" style="justify-content:center">{leg}<span>Faded dots are past.</span></div>'
+    body = hero("Buying Triggers", "Dates That Force Decisions",
+                "Twenty-five dated reasons to buy digital experience work. Most of them land in the next eighteen months.", art, dark=True)
+
+    cnt = ""
+    for i, d in enumerate(COUNT):
+        dd = datetime.date.fromisoformat(d)
+        cnt += (f'<div class="tile rv d{i+1}"><p class="t-k">{E(dd.strftime("%-d %B %Y"))}</p>'
+                f'<div class="days gradtext"><b data-days="{d}">{(dd-TODAY).days}</b><span>days</span></div><h3 style="font-size:20px">{E(SHORT[d])}</h3></div>')
+    body += sec(head_block("Countdown", "Time Left", "Counted from today. Each one is a decision someone has to make.") + f'<div class="count">{cnt}</div>')
+
+    # cards for the triggers still ahead
+    cards = ""
+    for d, cat, title, who, forces, buyer, signal, play, url in T:
+        dd = datetime.date.fromisoformat(d)
+        if dd < TODAY:
+            continue
+        lab, c = CATS[cat]
+        cards += (f'<div class="tile"><p class="t-k" style="color:var(--{c})">{E(lab)}</p><div style="font:700 34px/1.05 var(--display);letter-spacing:-.03em;margin-top:8px">{E(dd.strftime("%b %Y"))}</div>'
+                  f'<h3 style="font-size:20px">{E(title)}</h3><p><b style="color:var(--ink)">Buyer</b> {E(buyer)}</p><p style="margin-top:auto;padding-top:16px"><b style="color:var(--accent)">Wipro play</b> {E(play)}</p></div>')
+    body += sec(head_block("Ahead", "What Comes Next", "Swipe through every trigger still ahead, with its buyer and the Wipro answer.") + f'<div class="rail rv">{cards}</div>', "grey")
+
+    # full list in a drawer
     filt = '<div class="filters" role="group" aria-label="Filter triggers"><button type="button" data-c="all" aria-pressed="true">All</button>' + "".join(
         f'<button type="button" data-c="{k}" aria-pressed="false">{E(v[0])}</button>' for k, v in CATS.items()) + '<button type="button" data-c="future" aria-pressed="false">Still ahead</button></div>'
     items = ""
     for d, cat, title, who, forces, buyer, signal, play, url in T:
         dd = datetime.date.fromisoformat(d)
         past = dd < TODAY
-        items += (
-            f'<div class="tl-item{" past" if past else ""}" data-c="{cat}" data-f="{0 if past else 1}">'
-            f'<p class="d">{dd.strftime("%-d %B %Y")} <span class="chip plain" style="margin-left:6px">{E(CATS[cat][0])}</span></p>'
-            f'<h3>{E(title)}</h3>'
-            f'<p><b>Affects</b> {E(who)}. <b>Forces</b> {E(forces)}. <b>Buyer</b> {E(buyer)}.</p>'
-            f'<p><b>Signal to watch</b> {E(signal)}. <b>Wipro play</b> {E(play)}. <a href="{E(url)}">Source</a></p></div>'
-        )
-    js = """<script>(function(){var bs=document.querySelectorAll('.filters button[data-c]'),it=document.querySelectorAll('.tl-item');
+        items += (f'<div class="tl-item{" past" if past else ""}" data-c="{cat}" data-f="{0 if past else 1}"><p class="d">{dd.strftime("%-d %B %Y")}</p><h3>{E(title)}</h3>'
+                  f'<p><b>Affects</b> {E(who)}. <b>Forces</b> {E(forces)}. <b>Signal</b> {E(signal)}. <a href="{E(url)}">Source</a></p></div>')
+    body += sec(more("Show all 25 triggers with sources", filt + f'<div class="tl">{items}</div>'), "grey").replace('class="sec grey"', 'class="sec grey" style="padding-top:0"', 1)
+
+    # same pattern: net zero against DX
+    rows = ""
+    for i, (a, nz, dx) in enumerate(PARALLEL):
+        rows += (f'<div class="rv d{i%4+1}" style="display:grid;grid-template-columns:1fr 60px 1fr;gap:16px;align-items:center;margin-top:20px">'
+                 f'<div class="tile" style="min-height:0"><p class="t-k">Net zero</p><p style="color:var(--ink)">{E(nz)}</p></div>'
+                 f'<svg viewBox="0 0 60 24" aria-hidden="true"><path d="M4 12h44" stroke="var(--accent)" stroke-width="2.5"/><path d="M44 5l10 7-10 7" fill="none" stroke="var(--accent)" stroke-width="2.5"/></svg>'
+                 f'<div class="tile" style="min-height:0"><p class="t-k" style="color:var(--accent)">Digital experience</p><p style="color:var(--ink)">{E(dx)}</p></div></div>')
+    body += sec(head_block("Pattern", "Same Playbook", "I sold net zero transformation against deadlines. Digital experience is bought the same way.") + f'<div style="margin-top:40px">{rows}</div>', "dark")
+
+    sig = [("grid", "Tech-stack scans", "Platform versions mapped to support dates"), ("people", "Job postings", "Migration and remediation hires"),
+           ("chart", "Filings and calls", "New risk factors, replatform language"), ("spark", "Leadership changes", "A new CMO or CDO sets an agenda in 90 days"),
+           ("door", "Corporate actions", "Spin-off and merger exit dates"), ("bolt", "Partner lists", "Adobe and Salesforce migration lists")]
+    st = "".join(tile(f'{icon(i)}<h3 style="margin-top:20px;font-size:22px">{E(h)}</h3><p>{E(p)}</p>', 4, "short") for i, h, p in sig)
+    body += sec(head_block("Signals", "How I Find Them", "Six signals, checked every week.") + f'<div class="bento">{st}</div>')
+
+    js = """<script>(function(){var t=new Date();t.setHours(0,0,0,0);document.querySelectorAll('[data-days]').forEach(function(e){var d=new Date(e.dataset.days+'T00:00:00');e.textContent=Math.max(0,Math.round((d-t)/864e5))});
+var bs=document.querySelectorAll('.filters button[data-c]'),it=document.querySelectorAll('.tl-item');
 bs.forEach(function(b){b.addEventListener('click',function(){var c=b.dataset.c;bs.forEach(function(x){x.setAttribute('aria-pressed',String(x===b))});
 it.forEach(function(i){i.style.display=(c==='all'||i.dataset.c===c||(c==='future'&&i.dataset.f==='1'))?'':'none'})})})})();</script>"""
-    leg = "".join(f'<span><i style="background:var(--{c})"></i>{E(l)}</span>' for l, c in CATS.values())
-
-    signals = table(
-        ["Signal", "What to look for", "Where", "Lead time"],
-        [
-            ["Tech-stack scans", "AEM 6.5 against AEM cloud hosts, Sitecore version headers, Drupal version, SAP Commerce storefront paths, legacy Salesforce chat scripts.", "BuiltWith, Wappalyzer", "Twelve months or more before the support date"],
-            ["Job postings", "Contract roles for AEM cloud migration, SitecoreAI, composable commerce architects, WCAG remediation, FHIR APIs, Agentforce.", "LinkedIn, Indeed, company career sites", "Three to nine months: a programme is being scoped"],
-            ["Annual and quarterly reports", "New risk factors on accessibility litigation, words such as replatform, one platform, direct to consumer, segment changes after spin-offs.", "SEC EDGAR full-text search", "Year-on-year changes signal next year's budget"],
-            ["Earnings calls", "Mentions of digital experience, AI search traffic, agentic commerce, cost take-out and reinvestment in marketing.", "Investor relations sites, transcript services", "Budget direction for the next two quarters"],
-            ["Leadership changes", "New CMO, CDO, CIO or CEO.", "Press releases, LinkedIn", "First 90 days set the agenda; platform decisions follow within a year"],
-            ["Corporate actions", "Form 10 filings for spin-offs, merger close dates, transition services agreement terms.", "SEC EDGAR 8-K and Form 10", "TSA expiry is a fixed date, usually 12 to 24 months after close"],
-            ["Partner lists", "Adobe and Salesforce account teams' migration and renewal lists.", "Adobe and Salesforce partner portals", "Vendors often fund migration work, so register early"],
-            ["Public procurement", "Website, CMS and WCAG 2.1 AA tenders ahead of the April 2027 ADA Title II date.", "SAM.gov, state portals, CanadaBuys", "RFP published, usually three to six months to award"],
-        ],
-        caption="Lead signals and where to find them",
-    )
-    par = table(
-        ["Pattern", "In net zero consulting, which I sold", "In digital experience"],
-        [[E(a), E(b), E(c)] for a, b, c in PARALLEL],
-        caption="Buying patterns compared",
-    )
-
-    body = (
-        phead("Triggers", "Buying Triggers",
-              "Large digital experience programmes start when something with a date on it forces a decision. Between now and the end of 2028 a cluster of platform support deadlines and accessibility rules lands on Wipro's focus industries. This page lists them, shows what each one forces and names the signal that reveals which clients are affected.",
-              "Dates checked against vendor support pages, the Federal Register and company releases in October 2026. The US accessibility deadlines moved back a year in April and May 2026.")
-        + block("Calendar", "Trigger calendar, 2025 to 2028", f'<figure class="fig">{lanes_svg()}<div class="legend">{leg}<span>Faded dots are past.</span></div><figcaption>Hover a dot for its trigger. The densest window runs from the second half of 2026 to the end of 2027, which is the first eighteen months of this role.</figcaption></figure>')
-        + block("Detail", "What each trigger forces", filt + f'<div class="tl">{items}</div>',
-                "Each entry names who is affected, what the event forces them to do, who buys, how to spot it and the Wipro offer that answers it.")
-        + block("Signals", "How to find the affected clients", signals,
-                "A trigger is only useful when it is matched to a named client before that client goes to market. These are the signals I would monitor every week.")
-        + block("Pattern", "The same buying pattern I sold in net zero", par,
-                "Net zero transformation and digital experience transformation are bought the same way. A deadline creates urgency, a baseline assessment creates the case, and a multi-year programme follows.")
-        + '<section class="wrap notes"><h3>Caveats</h3><ul><li>Adobe Campaign Classic v7 is left out because Adobe\'s support matrix gives 31 December 2030 while some consultancies cite 31 March 2027.</li><li>Salesforce has published no retirement date for SFRA, PWA Kit or Marketing Cloud Engagement, so none is claimed.</li><li>The SAP Commerce 2205 date comes from secondary sources.</li><li>The CMO tenure figure covers the S&amp;P 500 and is not comparable with earlier Fortune 500 studies.</li></ul></section>'
-    )
-    page("triggers.html", body, "Dated platform, regulation, organisational and AI triggers for DX buying, 2025 to 2028, with lead signals.", js)
+    page("triggers.html", body, "Dated platform, regulation, organisational and AI triggers for DX buying, 2025 to 2028.", js)

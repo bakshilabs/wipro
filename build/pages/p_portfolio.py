@@ -65,33 +65,46 @@ ids.forEach(function(i){document.getElementById(i).addEventListener('input',run)
 })();
 </script>"""
 
-    book = """<div class="grid3">
-<div class="panel"><p class="k">Protect</p><h3>Live DX work in the book</h3><p>Renewals and phase extensions on work Wipro already delivers. The aim is zero leakage: every live engagement has a named next phase and a date for proposing it.</p></div>
-<div class="panel"><p class="k">Expand</p><h3>SMU accounts with no DX yet</h3><p>Accounts where Wipro runs infrastructure, applications or operations but the marketing and digital teams buy from an agency. Wipro's existing access to the CIO shortens the route to the CDO.</p></div>
-<div class="panel"><p class="k">New logo</p><h3>Clients with a dated trigger</h3><p>A short list of companies with a forced event, such as a platform end-of-support date, a spin-off or a new CMO. These take longer and need a sharper point of view.</p></div>
-</div>"""
+    funnel = """<svg viewBox="0 0 1000 350" role="img" aria-label="70 first meetings become 18 qualified opportunities and 6 wins worth $25m">
+<path class="rv" d="M60 30H940L760 150H240Z" fill="var(--c1)" opacity=".85"/><text x="500" y="98" text-anchor="middle" font-size="30" font-weight="700" fill="#fff">70 first meetings</text>
+<path class="rv d1" d="M250 160H750L640 230H360Z" fill="var(--c0)"/><text x="500" y="205" text-anchor="middle" font-size="24" font-weight="700" fill="#fff">18 qualified</text>
+<path class="rv d2" d="M370 240H630L580 290H420Z" fill="var(--c3)"/><text x="500" y="273" text-anchor="middle" font-size="19" font-weight="700" fill="#fff">6 wins</text>
+<text x="500" y="338" text-anchor="middle" font-size="26" font-weight="700" class="svg-ink">$25m booked</text></svg>"""
+    parts = [("shield", "Protect", "Live DX work", "Every engagement gets a named next phase and a date."),
+             ("door", "Expand", "SMU accounts without DX", "Wipro already knows the CIO. Reach the CDO."),
+             ("target", "New logo", "Clients with a dated trigger", "Sharper point of view, longer cycle.")]
+    pt = "".join(tile(f'{icon(i)}<p class="t-k" style="margin-top:20px">{E(k)}</p><h3>{E(h)}</h3><p>{E(p)}</p>', 4, "short") for i, k, h, p in parts)
+    cad = [("Weekly", "Pipeline review over $1m", 13, "c0"), ("Fortnightly", "Client partner sessions", 7, "c1"), ("Monthly", "Alliance pipeline review", 3, "c3"), ("Quarterly", "Book review and qualify-outs", 1, "c2")]
+    o = ['<svg viewBox="0 0 1000 300" role="img" aria-label="Meeting cadence across one quarter">']
+    for w in range(13):
+        x = 260 + w * 56
+        o.append(f'<text x="{x}" y="22" text-anchor="middle" font-size="12" class="svg-muted">W{w+1}</text>')
+    for i, (f, d, n, c) in enumerate(cad):
+        y = 60 + i * 60
+        o.append(f'<text x="0" y="{y}" font-size="17" font-weight="700" class="svg-ink">{f}</text><text x="0" y="{y+20}" font-size="13.5" class="svg-muted">{d}</text>')
+        step = 13 / n
+        for k in range(n):
+            wk = int(k * step) if n > 1 else 12
+            o.append(f'<circle class="pop" style="transition-delay:{(i*13+k)*.03:.2f}s" cx="{260+wk*56}" cy="{y+4}" r="12" fill="var(--{c})"/>')
+    o.append("</svg>")
+    rhythm_svg = "".join(o)
 
     rhythm = table(
         ["Cadence", "What happens", "Who"],
         [
             ["Weekly", "Pipeline review of every opportunity above $1m: next step, date, owner, risk.", "Me, practice lead"],
             ["Fortnightly", "Account sessions with each priority SMU client partner on triggers and joint plays.", "Me, client partners"],
-            ["Monthly", "Alliance pipeline review with Adobe, Salesforce, SAP and Pega partner managers, matched against their registered opportunities.", "Me, alliance managers"],
-            ["Quarterly", "Book review: bookings against target, coverage for the next two quarters, and qualify-out decisions.", "Me, DX leadership"],
-            ["Each large pursuit", "Deal reviews at qualification, solution and price, with the leadership sponsor briefed before client meetings.", "Pursuit team, deal desk"],
+            ["Monthly", "Alliance pipeline review with Adobe, Salesforce, SAP and Pega partner managers.", "Me, alliance managers"],
+            ["Quarterly", "Book review: bookings against target, coverage for the next two quarters, qualify-out decisions.", "Me, DX leadership"],
+            ["Each large pursuit", "Deal reviews at qualification, solution and price, with the leadership sponsor briefed.", "Pursuit team, deal desk"],
         ],
         caption="Operating rhythm",
     )
-
     body = (
-        phead("Portfolio", "Portfolio Maths",
-              "A $25m bookings target breaks down into a number of meetings, opportunities and wins. The calculator below works it out from assumptions you can change, so the conversation can be about the inputs.")
-        + block("Calculator", "From target to weekly activity", calc,
-                "The defaults assume 60% of bookings come from accounts where Wipro already sells, at twice the win rate of new logos. Move any input to test a different book.")
-        + block("Book", "Three parts of the book", book,
-                "I would sort every account in the portfolio into one of three groups in the first month, because each group needs a different kind of selling and a different pipeline coverage.")
-        + block("Rhythm", "Operating rhythm", rhythm,
-                "Matrix selling depends on regular meetings with people who do not report to me. This is the cadence I would set up in the first 30 days.")
-        + '<section class="wrap notes"><h3>Assumptions</h3><p>Win rates, deal sizes and meeting ratios are working assumptions drawn from my own pipeline experience in consulting. They are not Wipro data. First-year revenue assumes bookings arrive evenly through the year and bill evenly over the contract.</p></section>'
+        hero("Portfolio Maths", "Seventy Meetings", "That is what a $25m bookings year takes, with the defaults below. Change any input and the plan changes with it.", f'<div class="art m">{funnel}</div>')
+        + sec(head_block("Calculator", "Target to Activity", "Drag the sliders. The funnel and the verdict update live.") + f'<div class="rv">{calc}</div>'
+              + more("Assumptions", '<p class="lead" style="margin-top:0">Win rates, deal sizes and meeting ratios are working assumptions from my own consulting pipeline, not Wipro data. First-year revenue assumes bookings arrive evenly and bill evenly over the contract.</p>'), "grey")
+        + sec(head_block("Book", "Three Parts", "Each needs different selling and different coverage.") + f'<div class="bento">{pt}</div>')
+        + sec(head_block("Rhythm", "One Quarter of Meetings", "Matrix selling runs on a cadence with people who do not report to me.") + f'<div class="art rv">{rhythm_svg}</div>' + more("Show the cadence table", rhythm), "dark")
     )
     page("portfolio.html", body, "Pipeline, coverage and activity maths for a $20m to $25m DX bookings target.", js)

@@ -5,7 +5,7 @@ D = json.load(open(os.path.join(os.path.dirname(os.path.dirname(__file__)), "dat
 
 SHORT = {
     "Roche / Genentech": "Roche and Genentech", "ESPN (The Walt Disney Company)": "ESPN", "Kenvue (to be acquired by Kimberly-Clark)": "Kenvue",
-    "Kellanova (Mars)": "Kellanova and Mars", "Kraft Heinz (Global Taste Elevation Co. / North American Grocery Co.)": "Kraft Heinz",
+    "Kellanova (Mars)": "Kellanova", "Kraft Heinz (Global Taste Elevation Co. / North American Grocery Co.)": "Kraft Heinz",
     "DICK'S Sporting Goods (incl. Foot Locker)": "DICK'S Sporting Goods", "DePuy Synthes (J&J Orthopaedics separation)": "DePuy Synthes",
     "MiniMed (Medtronic Diabetes)": "MiniMed", "BD (Becton, Dickinson)": "BD", "Eli Lilly (LillyDirect)": "Eli Lilly", "Pfizer (PfizerForAll)": "Pfizer",
     "Fifth Third Bancorp (incl. Comerica)": "Fifth Third", "Capital One (incl. Discover)": "Capital One",
@@ -59,7 +59,7 @@ def industry(ind):
     return "Retail and consumer" if ind.startswith("Retail") else ind.replace("&", "and")
 
 
-def build():
+def rows_sorted():
     rows = []
     for a in D:
         a = dict(a, **OVERRIDE.get(a["company"], {}))
@@ -67,72 +67,76 @@ def build():
             continue
         rows.append(a)
     rows.sort(key=lambda a: (-a["fit_score_1to5"], {"existing candidate relationship": 0, "Wipro client": 1, "new logo": 2}[a["relationship"]]))
+    return rows
 
-    # scatter: x = access, y = fit
+
+def panel(a):
+    nm = SHORT.get(a["company"], a["company"])
+    mv, offer = MOVES.get(a["company"], ("", ""))
+    rl, c = REL[a["relationship"]]
+    srcs = " ".join(f'<a href="{E(u)}">Source {i+1}</a>' for i, u in enumerate(a.get("sources", [])[:3]))
+    dots_ = "".join(f'<i style="display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:4px;background:{"var(--accent)" if k < a["fit_score_1to5"] else "var(--line)"}"></i>' for k in range(5))
+    return (f'<p class="t-k">{E(industry(a["industry"]))} · {E(smu(a["industry"]))} · {E(rl)}</p><h3>{E(nm)}</h3><p>{dots_} <b>Fit {a["fit_score_1to5"]} of 5</b></p>'
+            f'<p><b>Trigger</b> {E(a["trigger"])} ({E(a["trigger_date"])})</p><p><b>First move</b> {E(mv)}</p><p><b>Entry offer</b> {E(offer)}</p><p class="src">{srcs}</p>')
+
+
+def map_svg(rows):
     acc = {"existing candidate relationship": 2, "Wipro client": 1, "new logo": 0}
-    W, H, L, B = 1000, 470, 70, 410
-    cols = 3
-    cw = (W - L - 20) / cols
-    o = [f'<svg viewBox="0 0 {W} {H}" role="img" aria-labelledby="at ad"><title id="at">Target accounts by fit and route in</title><desc id="ad">{len(rows)} accounts placed by fit score from one to five and by route in: new logo, Wipro client, or my existing relationship.</desc>']
-    for k, lab in enumerate(["New logo", "Wipro client (expand)", "My existing relationship"]):
+    W, H, L, B = 840, 560, 56, 500
+    cw = (W - L - 6) / 3
+    o = [f'<svg viewBox="0 0 {W} {H}" role="img" aria-labelledby="at ad"><title id="at">Target accounts by fit and route in</title><desc id="ad">{len(rows)} accounts. Select one to see its trigger and my first move.</desc>']
+    for k, lab in enumerate(["New logo", "Wipro client", "My relationship"]):
         x = L + k * cw
-        o.append(f'<rect x="{x+4}" y="10" width="{cw-8}" height="{B-10}" rx="4" fill="var(--surface)"/>')
-        o.append(f'<text x="{x+cw/2}" y="{B+30}" text-anchor="middle" font-size="13" class="svg-ink" font-weight="600">{lab}</text>')
-    for s in range(1, 6):
-        y = B - (s - 0.5) * (B - 10) / 5
-        o.append(f'<text x="{L-14}" y="{y+4}" text-anchor="end" font-size="12" class="svg-muted">Fit {s}</text>')
-    o.append(f'<text x="{W/2}" y="{H-6}" text-anchor="middle" font-size="12" class="svg-muted">Route in</text>')
+        o.append(f'<rect x="{x+4}" y="10" width="{cw-8}" height="{B-10}" rx="6" fill="var(--tile)"/>')
+        o.append(f'<text x="{x+cw/2}" y="{B+34}" text-anchor="middle" font-size="17" class="svg-ink" font-weight="700">{lab}</text>')
+    for s_ in range(1, 6):
+        y = B - (s_ - 0.5) * (B - 10) / 5
+        o.append(f'<text x="{L-14}" y="{y+5}" text-anchor="end" font-size="14" font-weight="600" class="svg-muted">Fit {s_}</text>')
     slots = {}
-    for a in rows:
+    for idx, a in enumerate(rows):
         k = acc[a["relationship"]]
-        s = a["fit_score_1to5"]
-        n = slots.get((k, s), 0)
-        slots[(k, s)] = n + 1
-        x = L + k * cw + 18 + (n % 2) * (cw / 2 - 6)
-        y = B - (s - 0.5) * (B - 10) / 5 - 10 + (n // 2) * 18
+        s_ = a["fit_score_1to5"]
+        n = slots.get((k, s_), 0)
+        slots[(k, s_)] = n + 1
+        x = L + k * cw + 18 + (n % 2) * (cw / 2 - 4)
+        y = B - (s_ - 0.5) * (B - 10) / 5 - 14 + (n // 2) * 24
         c = REL[a["relationship"]][1]
         nm = SHORT.get(a["company"], a["company"])
-        o.append(f'<circle cx="{x}" cy="{y}" r="5.5" fill="var(--{c})"/><text x="{x+10}" y="{y+4}" font-size="12" class="svg-ink">{E(nm)}</text>')
+        o.append(f'<g data-pick="a{idx}" aria-label="{E(nm)}"><circle class="pop" style="transition-delay:{idx*.04:.2f}s" cx="{x:.0f}" cy="{y:.0f}" r="8" fill="var(--{c})" stroke="transparent" stroke-width="10"/><text x="{x+13:.0f}" y="{y+5:.0f}" font-size="14.5" class="svg-ink">{E(nm)}</text></g>')
     o.append("</svg>")
-    fig = f'<figure class="fig">{"".join(o)}<figcaption>Fit scores combine trigger strength, deal size, focus industry and how much the client builds in-house. Accounts in the top right have both a strong trigger and a route in, and come first.</figcaption></figure>'
+    return "".join(o)
+
+
+def build():
+    rows = rows_sorted()
+    data = {f"a{i}": panel(a) for i, a in enumerate(rows)}
+    art = explorer(map_svg(rows), data, "Select an account to see its trigger and my first move.", first="a0")
+    body = hero("Account Map", "Twenty-Four Doors", "Each one with a dated trigger, a route in and the first move I would make.", art, dark=True)
+
+    cnt = {k: sum(1 for a in rows if a["relationship"] == k) for k in REL}
+    rt = (tile(f'{icon("people")}{num(cnt["existing candidate relationship"])}<h3>My relationships</h3><p>Roche, Genentech, Hyundai, JPMorgan Chase, ESPN. Senior contacts in property and workplace teams who can introduce me to digital leaders.</p>', 4)
+          + tile(f'{icon("door")}{num(cnt["Wipro client"])}<h3>Wipro clients</h3><p>Citi, Levi Strauss, HanesBrands, TruStage. Expansion closes faster and carries most of the first-year number.</p>', 4)
+          + tile(f'{icon("calendar")}{num(cnt["new logo"])}<h3>New logos with a deadline</h3><p>Separations and mergers with fixed exit dates: DePuy Synthes, Kenvue, MiniMed, Walgreens units.</p>', 4))
+    body += sec(head_block("Routes", "Three Ways In", "Expansion first, relationships second, new logos with a date third.") + f'<div class="bento">{rt}</div>', "grey")
 
     filt = ('<div class="filters" role="group" aria-label="Filter accounts"><button type="button" data-f="all" aria-pressed="true">All</button>'
             + "".join(f'<button type="button" data-f="{k}" aria-pressed="false">{E(v[0])}</button>' for k, v in REL.items())
             + '<button type="button" data-f="ind:Life" aria-pressed="false">Life sciences and medtech</button><button type="button" data-f="ind:Retail" aria-pressed="false">Retail and consumer</button><button type="button" data-f="ind:Bank" aria-pressed="false">Banking</button></div>')
-    trs = ""
-    for a in rows:
+    cards = ""
+    for idx, a in enumerate(rows):
         nm = SHORT.get(a["company"], a["company"])
         mv, offer = MOVES.get(a["company"], ("", ""))
         rl, c = REL[a["relationship"]]
-        srcs = " ".join(f'<a href="{E(u)}">[{i+1}]</a>' for i, u in enumerate(a.get("sources", [])[:3]))
         ind = industry(a["industry"])
         tag = "Life" if ("Life" in ind or "MedTech" in ind) else ("Retail" if "Retail" in ind else ("Bank" if ind in ("Banking", "Financial Services") else "other"))
-        trs += (f'<tr data-r="{E(a["relationship"])}" data-i="{tag}"><th scope="row">{E(nm)}<span class="sub">{E(ind)}. {E(smu(a["industry"]))}</span></th>'
-                f'<td><span class="chip" style="background:color-mix(in srgb,var(--{c}) 16%,var(--surface));color:var(--ink)">{E(rl)}</span></td>'
-                f'<td>{heat(a["fit_score_1to5"]-1, a["fit_score_1to5"])}</td>'
-                f'<td>{E(a["trigger"])}<span class="sub">{E(a["trigger_date"])} {srcs}</span></td>'
-                f'<td>{E(mv)}<span class="sub">Entry offer: {E(offer)}</span></td></tr>')
-    tbl = ('<div class="tbl-wrap" tabindex="0" role="region" aria-label="Target account list"><table class="t" id="acc"><thead><tr>'
-           '<th scope="col">Account</th><th scope="col">Route in</th><th scope="col">Fit</th><th scope="col">Trigger</th><th scope="col">My first move</th></tr></thead>'
-           f"<tbody>{trs}</tbody></table></div>")
-    js = """<script>(function(){var bs=document.querySelectorAll('.filters button'),rs=document.querySelectorAll('#acc tbody tr');
+        dots_ = "".join(f'<i style="display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:3px;background:{"var(--accent)" if k < a["fit_score_1to5"] else "var(--line)"}"></i>' for k in range(5))
+        cards += (f'<div class="tile s4 acard link" tabindex="0" role="button" data-go="a{idx}" data-r="{E(a["relationship"])}" data-i="{tag}" style="min-height:0"><p class="t-k" style="color:var(--{c})">{E(rl)} · {E(ind)}</p>'
+                  f'<h3 style="font-size:24px">{E(nm)}</h3><p>{dots_}</p><p style="color:var(--ink);font-size:16px">{E(offer)}</p></div>')
+    js = """<script>(function(){var bs=document.querySelectorAll('.filters button'),rs=document.querySelectorAll('.acard');
 bs.forEach(function(b){b.addEventListener('click',function(){var f=b.dataset.f;bs.forEach(function(x){x.setAttribute('aria-pressed',String(x===b))});
-rs.forEach(function(r){var ok=f==='all'||r.dataset.r===f||(f.indexOf('ind:')===0&&r.dataset.i===f.slice(4));r.style.display=ok?'':'none'})})})})();</script>"""
-
-    levers = """<div class="grid3">
-<div class="panel"><p class="k">Relationships I bring</p><p>At Foster + Partners, SOM and WSP I sold to executives at Roche, Genentech, JPMorgan Chase, Citigroup, Hyundai, ESPN, Apple, Oracle and Alibaba. Those relationships sat with real-estate and workplace leaders. In most cases they can introduce me to the digital and marketing leaders, but they do not replace the Wipro client partner.</p></div>
-<div class="panel"><p class="k">Wipro clients to expand</p><p>Wipro already works for Citi, Levi Strauss, HanesBrands, TruStage, Entrust and Integra LifeSciences in the Americas. Expansion inside these accounts closes faster and at a higher win rate, so it carries the larger share of the first-year number.</p></div>
-<div class="panel"><p class="k">New logos with a deadline</p><p>Separations and mergers give fixed dates: transition services agreements expire, brands must launch, sites must move. DePuy Synthes, Kenvue, MiniMed and the Walgreens units each have a digital estate that has to exist by a known date.</p></div>
-</div>"""
-
-    body = (
-        phead("Accounts", "Account Map",
-              "This is the list I would start with on day one. It combines accounts where I have senior relationships, Wipro clients where DX can expand, and new logos with a dated trigger in Wipro's focus industries. Each one has a trigger, a fit score and the first move I would make.",
-              "Triggers verified against company releases and filings between 2025 and October 2026. Fit scores are my judgement. Oracle and Apple are left off the list because they are Wipro partners, not DX buyers.")
-        + block("Map", "Fit against route in", fig)
-        + block("Routes", "Three ways into an account", levers)
-        + block("List", "Target accounts and first moves", filt + tbl,
-                "Sorted by fit, then by route in. The SMU column shows which Wipro market unit owns the client, which tells me whose client partner I need on side.")
-        + '<section class="wrap notes"><h3>Caveats</h3><ul><li>Revenue figures are left out where they could not be checked.</li><li>Wipro supplier status is from public announcements only. A missing contract does not mean Wipro has no work there.</li><li>Kraft Heinz uses the February 2026 decision to pause its split, which is later than the account research.</li><li>My relationships at Roche, Genentech, JPMorgan Chase, Citigroup and Hyundai were with property and workplace teams. Turning them into digital introductions is a first-quarter task, not a given.</li></ul></section>'
-    )
+rs.forEach(function(r){var ok=f==='all'||r.dataset.r===f||(f.indexOf('ind:')===0&&r.dataset.i===f.slice(4));r.style.display=ok?'':'none'})})});
+rs.forEach(function(r){function go(){var m=document.querySelector('[data-pick="'+r.dataset.go+'"]');if(!m)return;m.dispatchEvent(new Event('click'));m.closest('section').scrollIntoView({behavior:'smooth'})}r.addEventListener('click',go);r.addEventListener('keydown',function(e){if(e.key==='Enter'){go()}})})})();</script>"""
+    caveats = ('<ul style="padding-left:18px;color:var(--muted)"><li>Fit scores are my judgement.</li><li>Wipro supplier status is from public announcements only.</li>'
+               '<li>Kraft Heinz uses the February 2026 decision to pause its split.</li><li>My relationships were with property and workplace teams, so digital introductions are a first-quarter task.</li></ul>')
+    body += sec(head_block("Shortlist", "Entry Offers", "Filter by route in or industry. Select a card to open it on the map.") + filt + f'<div class="bento" style="margin-top:28px">{cards}</div>' + more("Caveats", caveats))
     page("accounts.html", body, "Target accounts for Wipro DX in the Americas, with triggers, fit scores and first moves.", js)
