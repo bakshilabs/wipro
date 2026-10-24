@@ -159,21 +159,50 @@ def jsdata(name, obj):
 
 
 STEPPER = """<nav class="stepper" aria-label="Move between sections">
-<button type="button" class="st-up" aria-label="Previous section"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+<button type="button" class="st-up" aria-label="Previous screen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
 <span class="st-n" aria-live="polite"></span>
-<button type="button" class="st-down" aria-label="Next section"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button></nav>
-<script>(function(){var S=[].slice.call(document.querySelectorAll('main>section,.pager')),up=document.querySelector('.st-up'),dn=document.querySelector('.st-down'),n=document.querySelector('.st-n');
+<button type="button" class="st-down" aria-label="Next screen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+<button type="button" class="st-mode" aria-pressed="true" title="Screen by screen is on. Select to scroll freely."><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3.5" width="14" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="2"/><rect x="5" y="13.5" width="14" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="2"/></svg><span class="sr">Screen by screen</span></button></nav>
+<nav class="dots" aria-label="Sections on this page"><ol></ol></nav>
+<script>(function(){
+var S=[].slice.call(document.querySelectorAll('main>section,.pager')),up=document.querySelector('.st-up'),dn=document.querySelector('.st-down'),n=document.querySelector('.st-n'),md=document.querySelector('.st-mode'),ol=document.querySelector('.dots ol');
+var rm=matchMedia('(prefers-reduced-motion: reduce)').matches,snap=true;try{snap=localStorage.getItem('snap')!=='off'}catch(e){}
 function off(){var h=document.querySelector('.sitenav');return h?h.getBoundingClientRect().height:0}
 function tops(){return S.map(function(e){return Math.round(e.getBoundingClientRect().top+scrollY-off())})}
-function cur(){var t=tops(),y=scrollY+2,i=0;for(var k=0;k<t.length;k++){if(t[k]<=y)i=k}return i}
-function go(d){var t=tops(),y=scrollY,i,page=innerHeight-off(),to;if(d>0){for(i=0;i<t.length;i++){if(t[i]>y+4)break}
+function cur(){var t=tops(),y=scrollY+innerHeight*.35,i=0;for(var k=0;k<t.length;k++){if(t[k]<=y)i=k}return i}
+function label(e,i){if(e.dataset.label)return e.dataset.label;if(e.classList.contains('pager'))return 'Next page';var h=e.querySelector('h1,h2');if(h)return h.textContent.trim();var t=e.querySelector('svg title');if(t)return t.textContent.trim();return 'Section '+(i+1)}
+S.forEach(function(e,i){var li=document.createElement('li'),b=document.createElement('button');b.type='button';var l=label(e,i);b.setAttribute('aria-label',l);b.innerHTML='<span class="dl">'+l.replace(/[<&]/g,'')+'</span>';b.addEventListener('click',function(){animTo(tops()[i])});li.appendChild(b);ol.appendChild(li)});
+var busy=false,lastWheel=0,acc=0,raf;
+function animTo(y){y=Math.max(0,Math.min(Math.round(y),document.documentElement.scrollHeight-innerHeight));cancelAnimationFrame(raf);busy=true;
+if(rm){scrollTo(0,y);setTimeout(function(){busy=false},120);return}var y0=scrollY,d=y-y0,t0=null,D=Math.min(900,Math.max(450,Math.abs(d)*.6));
+function f(t){if(!t0)t0=t;var k=Math.min(1,(t-t0)/D),e=k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2;scrollTo(0,y0+d*e);if(k<1)raf=requestAnimationFrame(f);else setTimeout(function(){busy=false},60)}raf=requestAnimationFrame(f)}
+function go(dir){var t=tops(),y=scrollY,i,page=innerHeight-off(),to;if(dir>0){for(i=0;i<t.length;i++){if(t[i]>y+4)break}
 to=i<t.length?t[i]:document.documentElement.scrollHeight;if(to-y>page+4)to=y+page}else{for(i=t.length-1;i>=0;i--){if(t[i]<y-4)break}
-to=i>=0?t[i]:0;if(y-to>page+4)to=y-page}
-var rm=matchMedia('(prefers-reduced-motion: reduce)').matches;scrollTo({top:Math.max(0,Math.round(to)),behavior:rm?'auto':'smooth'})}
+to=i>=0?t[i]:0;if(y-to>page+4)to=y-page}animTo(to)}
 up.addEventListener('click',function(){go(-1)});dn.addEventListener('click',function(){go(1)});
-function upd(){var i=cur(),t=tops(),atEnd=scrollY+innerHeight>=document.documentElement.scrollHeight-4;up.disabled=scrollY<4;dn.disabled=atEnd||i>=S.length-1&&scrollY>=t[t.length-1]-4;n.textContent=(i+1)+' / '+S.length}
+function setMode(v){snap=v;md.setAttribute('aria-pressed',String(v));md.title=v?'Screen by screen is on. Select to scroll freely.':'Free scrolling is on. Select to move screen by screen.';document.documentElement.classList.toggle('deck',v);try{localStorage.setItem('snap',v?'on':'off')}catch(e){}}
+md.addEventListener('click',function(){setMode(!snap)});setMode(snap);
+function upd(){var i=cur(),atEnd=scrollY+innerHeight>=document.documentElement.scrollHeight-4;up.disabled=scrollY<4;dn.disabled=atEnd;n.textContent=(i+1)+' / '+S.length;
+[].forEach.call(ol.children,function(li,k){var b=li.firstChild;if(k===i)b.setAttribute('aria-current','true');else b.removeAttribute('aria-current')});
+var sec=S[i],dark=sec&&(sec.classList.contains('dark')||sec.classList.contains('hero-photo'));document.documentElement.classList.toggle('on-dark',!!dark)}
 addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd);upd();
-addEventListener('keydown',function(e){if(e.target.closest&&e.target.closest('input,textarea,select,[contenteditable]'))return;if(e.key==='PageDown'||(e.key===' '&&!e.shiftKey&&e.target===document.body)){e.preventDefault();go(1)}else if(e.key==='PageUp'||(e.key===' '&&e.shiftKey&&e.target===document.body)){e.preventDefault();go(-1)}})})();</script>"""
+function scroller(el,dy,dx){while(el&&el!==document.body&&el!==document.documentElement){var cs=getComputedStyle(el);
+if(dx&&/(auto|scroll)/.test(cs.overflowX)&&el.scrollWidth>el.clientWidth+2)return true;
+if(dy&&/(auto|scroll)/.test(cs.overflowY)&&el.scrollHeight>el.clientHeight+2){if(dy>0&&el.scrollTop+el.clientHeight<el.scrollHeight-1)return true;if(dy<0&&el.scrollTop>0)return true}el=el.parentElement}return false}
+function skip(t){return t.closest&&t.closest('input,textarea,select,[contenteditable],.xp-panel')}
+addEventListener('wheel',function(e){if(!snap||e.ctrlKey)return;var ax=Math.abs(e.deltaX),ay=Math.abs(e.deltaY);if(ax>ay)return;if(scroller(e.target,e.deltaY,0))return;
+e.preventDefault();var now=Date.now(),gap=now-lastWheel;lastWheel=now;if(busy)return;if(gap>220)acc=0;acc+=e.deltaY;if(Math.abs(acc)>24&&gap>40||Math.abs(acc)>60){go(acc>0?1:-1);acc=0}},{passive:false});
+var ty=null,tx=null,tdir=null;
+addEventListener('touchstart',function(e){if(!snap||e.touches.length>1)return;ty=e.touches[0].clientY;tx=e.touches[0].clientX;tdir=null},{passive:true});
+addEventListener('touchmove',function(e){if(!snap||ty===null)return;var dy=ty-e.touches[0].clientY,dx=tx-e.touches[0].clientX;if(!tdir&&(Math.abs(dy)>6||Math.abs(dx)>6))tdir=Math.abs(dx)>Math.abs(dy)?'x':'y';
+if(tdir==='y'&&!skip(e.target)&&!scroller(e.target,dy,0))e.preventDefault()},{passive:false});
+addEventListener('touchend',function(e){if(!snap||ty===null||tdir!=='y')return;var dy=ty-e.changedTouches[0].clientY;ty=null;if(skip(e.target)||scroller(e.target,dy,0))return;if(!busy&&Math.abs(dy)>40)go(dy>0?1:-1)},{passive:true});
+addEventListener('keydown',function(e){var t=e.target;if(t.closest&&t.closest('input,textarea,select,[contenteditable],[role=slider]'))return;if(e.altKey||e.ctrlKey||e.metaKey)return;
+var k=e.key,d=0;if(k==='PageDown'||k==='ArrowDown'&&snap||(k===' '&&!e.shiftKey&&(t===document.body||t===document.documentElement)))d=1;else if(k==='PageUp'||k==='ArrowUp'&&snap||(k===' '&&e.shiftKey&&(t===document.body||t===document.documentElement)))d=-1;
+else if(k==='Home'&&snap){e.preventDefault();animTo(0);return}else if(k==='End'&&snap){e.preventDefault();animTo(document.documentElement.scrollHeight);return}
+if(d){if(t.closest&&t.closest('[data-pick],.seg-ctl,.filters')&&(k==='ArrowDown'||k==='ArrowUp'))return;e.preventDefault();if(!busy)go(d)}})
+})();</script>"""
+
 
 REVEAL_JS = """<script>(function(){var t=new Date();t.setHours(0,0,0,0);document.querySelectorAll('[data-days]').forEach(function(e){var d=new Date(e.dataset.days+'T00:00:00');e.textContent=Math.max(0,Math.round((d-t)/864e5))})})();document.querySelectorAll('[data-scroll-end]').forEach(function(s){var p=s.parentElement;while(p&&!(p.scrollWidth>p.clientWidth))p=p.parentElement;if(p)p.scrollLeft=p.scrollWidth});(function(){var rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
 function count(el){var to=parseFloat(el.dataset.to),dec=(el.dataset.to.split('.')[1]||'').length,pre=el.dataset.pre||'',suf=el.dataset.suf||'';
@@ -201,6 +230,9 @@ def head_block(kicker, title, sub="", size="h-xl", grad=True):
     return f'<div class="rv">{k}<h2 class="{size}">{E(title)}</h2>{s}</div>'
 
 
+ART_LABEL = {"Wipro · Director, Digital Experience": "The site on screen", "Role Anatomy": "The overlay", "Operating Matrix": "Where the role sits",
+             "Market and Competitors": "Competitive map", "Buying Triggers": "Trigger timeline", "Account Map": "Account map", "Pursuit Model": "Deal ladder",
+             "Portfolio Maths": "The funnel", "First 180 Days": "180-day timeline", "Fit and Evidence": "Requirement ring"}
 HERO_IMG = {
     "Wipro · Director, Digital Experience": ("overview", "An executive reviewing glowing customer journey diagrams on a wall display at dusk"),
     "Role Anatomy": ("role", "Two people sketching a customer journey on a wall of wireframes"),
@@ -225,7 +257,7 @@ def hero(kicker, title, sub, art="", cta="", dark=False):
                f'<h1 class="xl">{E(title)}</h1><p class="sub">{sub}</p>{c}</div></section>')
         if not art:
             return top
-        return top + f'<section class="sec hero-art{" dark" if dark else ""}"><div class="sec-in"><div class="art rv" style="margin-top:0">{art}</div></div></section>'
+        return top + f'<section class="sec hero-art{" dark" if dark else ""}" data-label="{E(ART_LABEL.get(kicker, kicker))}"><div class="sec-in"><div class="art rv" style="margin-top:0">{art}</div></div></section>'
     a = f'<div class="art rv">{art}</div>' if art else ""
     return (f'<section class="hero-x{" dark sec" if dark else ""}"><div class="sec-in"><p class="kicker grad">{E(kicker)}</p>'
             f'<h1 class="xl">{E(title)}</h1><p class="sub">{sub}</p>{c}</div>{a}</section>')

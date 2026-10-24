@@ -216,3 +216,26 @@ main>section,.pager{scroll-margin-top:58px}
 .stepper .st-n{font:600 11.5px/1 var(--sans);color:var(--muted);font-variant-numeric:tabular-nums;padding:2px 0}
 @media print{.stepper{display:none}}
 @media (max-width:680px){.stepper{right:12px;bottom:12px}.stepper button{width:40px;height:40px}.hp-copy{padding-top:9vh!important}}
+
+/* section dots */
+.dots{position:fixed;right:22px;top:50%;transform:translateY(-50%);z-index:140}
+.dots ol{list-style:none;margin:0;padding:8px 6px;display:flex;flex-direction:column;gap:4px;background:color-mix(in srgb,var(--bg) 60%,transparent);-webkit-backdrop-filter:saturate(180%) blur(18px);backdrop-filter:saturate(180%) blur(18px);border:1px solid var(--line);border-radius:980px}
+.dots button{appearance:none;border:0;background:transparent;width:28px;height:24px;display:grid;place-items:center;cursor:pointer;position:relative;padding:0}
+.dots button::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--muted);opacity:.55;transition:all .25s}
+.dots button:hover::before{opacity:1;transform:scale(1.25)}
+.dots button[aria-current="true"]::before{background:var(--accent);opacity:1;height:22px;border-radius:5px}
+.dots .dl{position:absolute;right:36px;top:50%;transform:translateY(-50%);white-space:nowrap;background:var(--ink);color:var(--bg);font:500 13px/1 var(--sans);padding:8px 12px;border-radius:6px;opacity:0;pointer-events:none;transition:opacity .15s}
+.dots button:hover .dl,.dots button:focus-visible .dl{opacity:1}
+.on-dark .dots ol,.on-dark .stepper{background:rgba(28,28,30,.55);border-color:rgba(255,255,255,.18)}
+.on-dark .dots button::before{background:#f5f5f7}
+.on-dark .dots button[aria-current="true"]::before{background:#c7b6ff}
+.on-dark .stepper .st-n{color:#d2d2d7}
+.on-dark .stepper button{background:#f5f5f7;color:#000}
+.stepper .st-mode{width:32px;height:32px;margin-top:4px;background:transparent;color:var(--muted);box-shadow:inset 0 0 0 1px var(--line)}
+.stepper .st-mode svg{width:16px;height:16px}
+.stepper .st-mode[aria-pressed="true"]{background:var(--accent);color:var(--on-accent);box-shadow:none}
+.on-dark .stepper .st-mode{background:transparent;color:#d2d2d7;box-shadow:inset 0 0 0 1px rgba(255,255,255,.3)}
+.on-dark .stepper .st-mode[aria-pressed="true"]{background:#c7b6ff;color:#000;box-shadow:none}
+html.deck{scroll-behavior:auto}
+@media (max-width:900px){.dots{display:none}}
+@media print{.dots{display:none}}
