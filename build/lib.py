@@ -5,8 +5,18 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 E = lambda s: html.escape(str(s), quote=True)
 
 # nav order; file, short label, page title
-PAGES = [
-    ("overview.html", "Overview", "Overview"),
+# the meeting track is what I show in a one-hour interview; the appendix holds the research behind it
+MEETING = [
+    ("overview.html", "Agenda", "Agenda"),
+    ("record.html", "Record", "Track Record"),
+    ("thesis.html", "Thesis", "Thesis"),
+    ("first-year.html", "First Year", "First Year"),
+    ("deal.html", "Deal", "Sample Deal"),
+    ("questions.html", "Questions", "Questions"),
+    ("cv.html", "CV", "CV"),
+]
+APPENDIX = [
+    ("research.html", "Index", "Research Appendix"),
     ("role.html", "Role", "Role Anatomy"),
     ("operating-model.html", "Matrix", "Operating Matrix"),
     ("market.html", "Market", "Market and Competitors"),
@@ -16,25 +26,35 @@ PAGES = [
     ("portfolio.html", "Portfolio", "Portfolio Maths"),
     ("plan.html", "Plan", "First 180 Days"),
     ("fit.html", "Fit", "Fit and Evidence"),
-    ("cv.html", "CV", "CV"),
 ]
+PAGES = MEETING + APPENDIX
 TITLES = {f: t for f, _, t in PAGES}
 GUARD_PAGES = [f for f, _, _ in PAGES]
+IN_APPENDIX = {f for f, _, _ in APPENDIX}
+
+
+def group(cur):
+    return APPENDIX if cur in IN_APPENDIX else MEETING
 
 # password page: only a salted hash is stored
 SALT = "wipro-dx-2026:"
 
 
 def nav(cur):
-    links = "".join(
-        f'<a href="{f}"{" aria-current=\"page\"" if f == cur else ""}>{E(l)}</a>' for f, l, _ in PAGES
-    )
+    cu = lambda f: ' aria-current="page"' if f == cur else ""
+    links = "".join(f'<a href="{f}"{cu(f)}>{E(l)}</a>' for f, l, _ in MEETING)
+    ap = ' aria-current="page"' if cur in IN_APPENDIX else ""
+    links += f'<a class="appx" href="research.html"{ap}>Appendix</a>'
+    sub = ""
+    if cur in IN_APPENDIX:
+        sl = "".join(f'<a href="{f}"{cu(f)}>{E(l)}</a>' for f, l, _ in APPENDIX)
+        sub = f'<nav class="subnav" aria-label="Appendix pages"><div class="in"><span class="lab">Research appendix</span>{sl}</div></nav>'
     return (
         '<header class="sitenav"><div class="in">'
         '<a class="brand" href="overview.html">Arpan Bakshi<span>Wipro Digital Experience</span></a>'
         '<button class="theme" type="button" aria-label="Switch to dark mode">Dark</button>'
         '<button class="menu" type="button" aria-expanded="false" aria-controls="sitelinks">Menu</button>'
-        f'<nav class="links" id="sitelinks" aria-label="Site pages">{links}</nav></div></header>'
+        f'<nav class="links" id="sitelinks" aria-label="Meeting pages">{links}</nav></div>{sub}</header>'
     )
 
 
@@ -67,7 +87,7 @@ def head(title, desc, guard=True, extra=""):
 
 
 def pager(cur):
-    files = [f for f, _, _ in PAGES]
+    files = [f for f, _, _ in group(cur)]
     i = files.index(cur)
     out = ""
     if i > 0:
@@ -90,7 +110,7 @@ def page(fname, body, desc, scripts=""):
     title = TITLES[fname]
     doc = (
         head(f"{title} | Arpan Bakshi", desc)
-        + '\n<body>\n<a class="skip" href="#main">Skip to content</a>\n'
+        + ('\n<body class="appx">' if fname in IN_APPENDIX else '\n<body>') + '\n<a class="skip" href="#main">Skip to content</a>\n'
         + nav(fname)
         + NAV_JS
         + f'\n<main id="main" tabindex="-1">\n{body}\n</main>\n'
@@ -230,7 +250,7 @@ def head_block(kicker, title, sub="", size="h-xl", grad=True):
     return f'<div class="rv">{k}<h2 class="{size}">{E(title)}</h2>{s}</div>'
 
 
-ART_LABEL = {"Wipro · Director, Digital Experience": "The site on screen", "Role Anatomy": "The overlay", "Operating Matrix": "Where the role sits",
+ART_LABEL = {"Wipro · Director, Digital Experience": "Run of show", "Role Anatomy": "The overlay", "Operating Matrix": "Where the role sits",
              "Market and Competitors": "Competitive map", "Buying Triggers": "Trigger timeline", "Account Map": "Account map", "Pursuit Model": "Deal ladder",
              "Portfolio Maths": "The funnel", "First 180 Days": "180-day timeline", "Fit and Evidence": "Requirement ring"}
 HERO_IMG = {

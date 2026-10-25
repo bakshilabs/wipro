@@ -22,3 +22,10 @@ The site password is shared separately; only its salted hash is stored in `build
 - Cover letter not yet drafted.
 - Names of Wipro leaders (Rajesh Damodaran, Ashish Kumar Goyal, Kanwar Singh, Keri Dawson, Malay Joshi) come from LinkedIn and filings. Recheck before interview.
 - Americas 2 CEO after 3 May 2026 not found.
+
+## 25 October 2026
+Regrouped the site for a one-hour interview. Six new pages form the meeting track (Agenda, Track Record, Thesis, First Year, Sample Deal, Questions), with the CV as the leave-behind. The nine earlier analysis pages are unchanged and now sit in a research appendix with its own index (`research.html`) and sub-navigation. The old overview became the Agenda page; its four framing charts moved to the Thesis page.
+
+- The Sample Deal uses DePuy Synthes because it is a fit-5 account whose separation date forces a full new digital estate, and the deal ladder reaches $21m at the Pursuit Model defaults. Wipro's J&J relationship is unconfirmed, and the page says so.
+- First Year numbers are computed from the Portfolio Maths defaults, and the Sample Deal ladder and score from the Pursuit Model, so the pages stay consistent if those defaults change.
+- `interview-prep.md` holds the talk track and answers to likely questions. Keep it out of anything shared.
