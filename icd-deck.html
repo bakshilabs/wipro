@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Industry Cloud Deck</title>
+<meta name="description" content="Eight slides for Arpan Bakshi's meeting with Vikas Srivastava about Wipro's Industry Cloud & Digital Sales Director role.">
+<script>try{if(sessionStorage.getItem("pw")!=="ok"){document.documentElement.style.visibility="hidden";location.replace("index.html?next=icd-deck.html")}}catch(e){location.replace("index.html")}</script>
+<style>
+:root{
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --bg:#e8e8ed;--slide:#ffffff;--panel:#f5f5f7;--ink:#1d1d1f;--muted:#636366;--line:#d2d2d7;
+  --accent:#4a1fb8;--accent-soft:#efeafb;--on-accent:#ffffff;
+  --ok:#1f7a35;--ok-soft:#e6f6ea;--warn:#a34a00;--warn-soft:#fff0dc;
+  --c0:#4a1fb8;--c1:#0070a8;--c3:#007a6a;
+  --cover:#120a2e;--cover-ink:#f5f5f7;--cover-muted:#b9b3cc;}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#000000;--slide:#1c1c1e;--panel:#2c2c2e;--ink:#f5f5f7;--muted:#a1a1a6;--line:#38383a;
+  --accent:#ad93ff;--accent-soft:#251b45;--on-accent:#000000;
+  --ok:#30d158;--ok-soft:#0e2a17;--warn:#ff9f0a;--warn-soft:#33220a;
+  --c0:#ad93ff;--c1:#64d2ff;--c3:#2ec4b6;--cover:#0c0720;}}
+:root[data-theme="dark"]{
+  --bg:#000000;--slide:#1c1c1e;--panel:#2c2c2e;--ink:#f5f5f7;--muted:#a1a1a6;--line:#38383a;
+  --accent:#ad93ff;--accent-soft:#251b45;--on-accent:#000000;
+  --ok:#30d158;--ok-soft:#0e2a17;--warn:#ff9f0a;--warn-soft:#33220a;
+  --c0:#ad93ff;--c1:#64d2ff;--c3:#2ec4b6;--cover:#0c0720;}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:var(--bg);color:var(--ink);font:400 18px/1.45 var(--sans);-webkit-font-smoothing:antialiased;overflow:hidden}
+h1,h2,h3,p{margin:0}
+.stage{position:fixed;inset:0 0 48px 0;display:grid;place-items:center}
+.deck{width:1280px;height:720px;position:relative;transform-origin:center center}
+.slide{position:absolute;inset:0;background:var(--slide);border-radius:6px;box-shadow:0 10px 40px rgba(0,0,0,.12);padding:48px 64px 32px;display:none;flex-direction:column;overflow:hidden}
+.slide.on{display:flex}
+.eyebrow{font:600 13px/1 var(--sans);letter-spacing:.07em;text-transform:uppercase;color:var(--accent)}
+.slide h2{font:700 42px/1.05 var(--sans);letter-spacing:-.025em;margin-top:14px}
+.lede{font-size:19px;color:var(--muted);margin-top:10px;max-width:62ch}
+.body{flex:1;display:flex;flex-direction:column;justify-content:center;margin-top:20px;min-height:0}
+.foot{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:10px;margin-top:14px}
+.grid{display:grid;gap:18px}
+.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}.g2{grid-template-columns:1.1fr .9fr}
+.card{background:var(--panel);border-radius:6px;padding:24px 26px}
+.card .k{font:600 12px/1 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.card h3{font:650 22px/1.2 var(--sans);letter-spacing:-.01em;margin-top:10px}
+.card p{font-size:16px;color:var(--muted);margin-top:10px}
+.card p b{color:var(--ink);font-weight:600}
+.big{font:700 54px/1 var(--sans);letter-spacing:-.03em;color:var(--accent)}
+.big small{font-size:28px}
+.note{font-size:14px;color:var(--muted);margin-top:18px}
+/* cover */
+.slide.cover{background:var(--cover);color:var(--cover-ink);justify-content:space-between}
+.cover .eyebrow{color:#c9b8ff}
+.cover h1{font:700 84px/1 var(--sans);letter-spacing:-.035em;margin-top:22px}
+.cover .lede{color:var(--cover-muted);font-size:24px;max-width:40ch}
+.cover .meta{display:grid;grid-template-columns:repeat(3,auto);justify-content:start;gap:56px;font-size:16px;color:var(--cover-muted)}
+.cover .meta b{display:block;color:var(--cover-ink);font-weight:600;font-size:18px;margin-top:6px}
+.cover .bar{height:6px;width:120px;background:#ad93ff;border-radius:3px}
+/* stories */
+.story{display:grid;grid-template-columns:240px 1fr 1fr;gap:24px;padding:11px 0;border-top:1px solid var(--line);align-items:start}
+.story h3{font:650 19px/1.25 var(--sans)}
+.story .firm{font-size:13px;color:var(--muted);margin-top:4px}
+.story p{font-size:14.5px;line-height:1.4;color:var(--muted)}
+.story p b{display:block;font:600 11px/1 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.nums{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:12px}
+.nums .card{padding:14px 20px}
+.nums .big{font-size:36px}
+.nums p{font-size:14px;margin-top:6px}
+/* fit table */
+table{width:100%;border-collapse:collapse;font-size:15px;line-height:1.35}
+th{text-align:left;font:600 12px/1 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:0 12px 10px 0;border-bottom:1px solid var(--line)}
+td{padding:7px 12px 7px 0;border-bottom:1px solid var(--line);vertical-align:top;color:var(--muted)}
+td:first-child{color:var(--ink);font-weight:600;width:28%}
+td:nth-child(2){width:110px}
+.tag{display:inline-block;border-radius:3px;padding:3px 10px;font:600 12px/1.4 var(--sans)}
+.tag.ok{background:var(--ok-soft);color:var(--ok)}.tag.warn{background:var(--warn-soft);color:var(--warn)}
+/* ladder */
+.ladder{display:flex;gap:4px;height:60px;margin-top:6px}
+.ladder div{border-radius:4px;color:#fff;font:700 20px/60px var(--sans);padding:0 14px;white-space:nowrap;overflow:visible}
+.lad-lab{display:flex;justify-content:space-between;font-size:14px;color:var(--muted);margin-top:8px}
+.dark-ink{color:var(--ink)!important}
+/* plan */
+.phase .k{color:var(--accent)}
+.targets td,.targets th{padding:8px 10px 8px 0;font-size:15px}
+.targets td:first-child{width:auto}
+.targets td:nth-child(2){width:auto}
+.targets td:not(:first-child),.targets th:not(:first-child){text-align:right;font-variant-numeric:tabular-nums}
+/* questions */
+ol.q{margin:0;padding:0;list-style:none;counter-reset:q;display:grid;grid-template-columns:1fr 1fr;gap:14px 40px}
+ol.q li{counter-increment:q;display:grid;grid-template-columns:40px 1fr;font-size:19px;line-height:1.35;padding:14px 0;border-top:1px solid var(--line)}
+ol.q li::before{content:counter(q);font-weight:700;color:var(--accent)}
+.close{margin-top:26px;background:var(--accent-soft);border-radius:6px;padding:20px 26px;font-size:18px}
+.close b{color:var(--accent)}
+/* controls */
+.ctl{position:fixed;right:18px;bottom:14px;display:flex;gap:8px;align-items:center;font:500 13px/1 var(--sans);color:var(--muted)}
+.ctl button{background:var(--slide);color:var(--ink);border:1px solid var(--line);border-radius:3px;min-width:36px;height:32px;padding:0 10px;cursor:pointer;font:inherit}
+.ctl button:hover{color:var(--accent);border-color:var(--accent)}
+@media print{
+  @page{size:1280px 720px;margin:0}
+  html,body{overflow:visible;height:auto;background:#fff}
+  .stage{position:static;display:block}
+  .deck{transform:none!important;width:auto;height:auto}
+  .slide{display:flex!important;position:relative;width:1280px;height:720px;border-radius:0;box-shadow:none;page-break-after:always;break-after:page}
+  .ctl{display:none}}
+</style>
+</head>
+<body>
+<div class="stage"><div class="deck" id="deck">
+
+<!-- 1 -->
+<section class="slide cover" aria-label="Slide 1, Cover">
+  <div>
+    <div class="bar"></div>
+    <p class="eyebrow" style="margin-top:28px">Wipro · Industry Cloud &amp; Digital Sales Director</p>
+    <h1>Arpan Bakshi</h1>
+    <p class="lede" style="margin-top:22px">Eight slides on how I read the role, what I bring to it and how I would run the first year.</p>
+  </div>
+  <div class="meta">
+    <div>Meeting with<b>Vikas Srivastava, Wipro</b></div>
+    <div>Date<b>27 October 2026</b></div>
+    <div>Based in<b>London, US citizen</b></div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="slide" aria-label="Slide 2, The Role">
+  <p class="eyebrow">How I read it</p>
+  <h2>The Role</h2>
+  <p class="lede">A practitioner seller who owns Industry Cloud &amp; Digital deals inside accounts that client partners and global account executives already hold.</p>
+  <div class="body">
+    <div class="grid g3">
+      <div class="card"><p class="k">What I would sell</p><h3>Modernization, cloud and AI</h3><p>Application modernization and cloud migration across AWS, Azure, Google Cloud and private cloud. API and integration, quality engineering and managed services sold on total cost of ownership. AI use cases built into each of these.</p></div>
+      <div class="card"><p class="k">How I would work</p><h3>Technical deal owner in a matrix</h3><p>I would take an opportunity from the first lead to signature alongside the account owner. Pre-sales, delivery, finance, legal and the hyperscaler alliances would build the proposal with me, and integrated deals would bring in other service lines.</p></div>
+      <div class="card"><p class="k">How I would be measured</p><h3>Bookings, revenue and forecast</h3><p>New bookings in TCV and ACV for the portfolio, bookings that turn into profitable revenue, and a monthly forecast that lands within 5% of actuals.</p></div>
+    </div>
+    <p class="note">I built this from Wipro's related Industry Cloud &amp; Digital practitioner postings, because I have not yet seen the full description for this title. Please correct anything I have wrong.</p>
+  </div>
+  <div class="foot"><span>Arpan Bakshi · Industry Cloud &amp; Digital Sales Director</span><span>2 / 8</span></div>
+</section>
+
+<!-- 3 -->
+<section class="slide" aria-label="Slide 3, Track Record">
+  <p class="eyebrow">Sixteen years selling consulting to executives</p>
+  <h2>Track Record</h2>
+  <div class="body">
+    <div class="nums">
+      <div class="card"><div class="big">16</div><p>years selling consulting to executives</p></div>
+      <div class="card"><div class="big"><small>£</small>10<small>m+</small></div><p>a year in fees won as Associate Partner</p></div>
+      <div class="card"><div class="big">250</div><p>senior professionals trained on AI tools</p></div>
+      <div class="card"><div class="big">4</div><p>regions of project work, and a US citizen</p></div>
+    </div>
+    <div class="story">
+      <div><h3>A new service line inside a matrix</h3><p class="firm">Foster + Partners, 2020 to 2026</p></div>
+      <p><b>What I did</b>I co-created an advisory service line covering digital transformation and spatial consulting, and sold it into clients the design studios owned. Every opportunity began by giving a studio partner a reason to bring me in.</p>
+      <p><b>At Wipro</b>This is how a practitioner works with client partners. They own the account, I carry the number, and I earn access by growing their business.</p>
+    </div>
+    <div class="story">
+      <div><h3>Land and expand in life sciences</h3><p class="firm">Foster + Partners</p></div>
+      <p><b>What I did</b>I pitched, negotiated and won a multi-year contract with a global pharmaceutical company, starting from an assessment of the client's own data across its whole portfolio.</p>
+      <p><b>At Wipro</b>A paid assessment that opens a multi-year programme is the same path from a modernization diagnostic to migration and managed run.</p>
+    </div>
+    <div class="story">
+      <div><h3>The specialist in the room</h3><p class="firm">Foster + Partners and SOM New York</p></div>
+      <p><b>What I did</b>I presented to Fortune 500 chief executives and Wall Street bank executives, helping win contracts worth more than £10m and more than $3m a year in fees at SOM.</p>
+      <p><b>At Wipro</b>I can make the technical and commercial case to a CIO or CDO while the client partner holds the relationship.</p>
+    </div>
+  </div>
+  <div class="foot"><span>Arpan Bakshi · Industry Cloud &amp; Digital Sales Director</span><span>3 / 8</span></div>
+</section>
+
+<!-- 4 -->
+<section class="slide" aria-label="Slide 4, Fit">
+  <p class="eyebrow">Requirements and evidence</p>
+  <h2>Fit</h2>
+  <p class="lede">Five requirements are strong. Three are partial, and each one has a plan for the first ninety days.</p>
+  <div class="body">
+    <table>
+      <thead><tr><th>Requirement</th><th>Rating</th><th>Evidence or plan</th></tr></thead>
+      <tbody>
+        <tr><td>Consultative selling to executives</td><td><span class="tag ok">Strong</span></td><td>Sixteen years of pitches, bids and executive presentations in London and New York.</td></tr>
+        <tr><td>Selling inside a matrix</td><td><span class="tag ok">Strong</span></td><td>I sold an advisory line into accounts owned by design studio partners, with no accounts of my own.</td></tr>
+        <tr><td>AI use cases and points of view</td><td><span class="tag ok">Strong</span></td><td>I co-founded Atlas Learn, which trains boards and senior teams on Claude Code, Copilot Studio and Gemini.</td></tr>
+        <tr><td>Technical fluency</td><td><span class="tag ok">Strong</span></td><td>I write Python and C#, and built simulation tools and digital models used across a 2,500-person firm.</td></tr>
+        <tr><td>Clients in Wipro's sectors</td><td><span class="tag ok">Strong</span></td><td>Roche, Genentech, Apple, Oracle, Hyundai, JPMorgan Chase and Citigroup.</td></tr>
+        <tr><td>Cloud and modernization selling</td><td><span class="tag warn">Partial</span></td><td>I have sold digital transformation and not hyperscaler migration. I would pair with an ICD architect on early pursuits and complete AWS, Azure and Google Cloud sales accreditations by day 90.</td></tr>
+        <tr><td>A single deal of $20m or more</td><td><span class="tag warn">Partial</span></td><td>My largest wins were multi-year contracts. The sample deal on slide 6 shows how I would build a $20m pursuit with the deal desk.</td></tr>
+        <tr><td>A $15m to $20m portfolio</td><td><span class="tag warn">Partial</span></td><td>I have carried fee targets of more than £10m a year across several clients and studios.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="foot"><span>Arpan Bakshi · Industry Cloud &amp; Digital Sales Director</span><span>4 / 8</span></div>
+</section>
+
+<!-- 5 -->
+<section class="slide" aria-label="Slide 5, Why Now">
+  <p class="eyebrow">Market context</p>
+  <h2>Why Now</h2>
+  <p class="lede">The Americas need new bookings, and clients are paying for AI out of the savings that modernization produces.</p>
+  <div class="body">
+    <div class="grid g3">
+      <div class="card"><p class="k">Americas</p><div class="big" style="margin-top:14px">60%</div><h3>of Wipro's revenue</h3><p>Americas 1 fell 2.7% and Americas 2 fell 4.7% year on year in constant currency in Q2 FY27. The growth has to come from here.</p></div>
+      <div class="card"><p class="k">Large deals</p><div class="big" style="margin-top:14px">&minus;59%</div><h3>large-deal TCV, quarter on quarter</h3><p>Large-deal bookings dropped 58.6% in Q2 FY27. Proactive pursuits shaped before an RFP rebuild that pipeline faster than waiting for tenders.</p></div>
+      <div class="card"><p class="k">Funding</p><div class="big" style="margin-top:14px">AI</div><h3>funded from cost take-out</h3><p>Management says clients reinvest savings in AI. A modernization case that pays for its own AI phase is easier to approve than new discretionary spend.</p></div>
+    </div>
+    <p class="note">Sources: Wipro Q2 FY27 results and datasheet, 15 October 2026. Wipro and Google Cloud expanded partnership, 27 August 2026, with 10,000 AI-certified specialists and 200 agents on Marketplace.</p>
+  </div>
+  <div class="foot"><span>Arpan Bakshi · Industry Cloud &amp; Digital Sales Director</span><span>5 / 8</span></div>
+</section>
+
+<!-- 6 -->
+<section class="slide" aria-label="Slide 6, Sample Deal">
+  <p class="eyebrow">From a dated trigger to a $21m pursuit</p>
+  <h2>Sample Deal</h2>
+  <p class="lede">DePuy Synthes must leave Johnson &amp; Johnson's shared IT before its transition agreements end, which means a whole cloud estate of its own.</p>
+  <div class="body">
+    <div class="grid g2" style="align-items:start">
+      <div>
+        <div class="ladder" role="img" aria-label="Deal ladder: diagnostic $0.7m, migration and modernization $7.9m, managed run $12.7m, total $21.3m">
+          <div style="flex:0 0 72px;background:var(--c1)"></div>
+          <div style="flex:7.9;background:var(--c0)">$7.9m</div>
+          <div style="flex:12.7;background:var(--c3)">$12.7m</div>
+        </div>
+        <div class="lad-lab"><span><b class="dark-ink">$0.7m</b> Diagnostic</span><span>Migration and modernization</span><span>Managed run</span></div>
+        <p style="font:700 21px/1.2 var(--sans);margin-top:12px">$21.3m TCV over about four years</p>
+        <div class="grid g3" style="margin-top:12px;gap:12px">
+          <div class="card" style="padding:16px 18px"><p class="k">12 weeks</p><p style="margin-top:6px;font-size:14.5px;line-height:1.4">Application inventory, target cloud estate, landing zone design and a cutover plan set against the separation dates.</p></div>
+          <div class="card" style="padding:16px 18px"><p class="k">12 months</p><p style="margin-top:6px;font-size:14.5px;line-height:1.4">Migrate and modernize ERP-adjacent apps, HCP portals, ordering and data off J&amp;J shared services.</p></div>
+          <div class="card" style="padding:16px 18px"><p class="k">3 years</p><p style="margin-top:6px;font-size:14.5px;line-height:1.4">Managed cloud and applications with AI service agents, priced on total cost of ownership.</p></div>
+        </div>
+      </div>
+      <div class="card">
+        <p class="k">Trigger</p><h3>Separation announced 14 October 2025</h3><p>J&amp;J plans to separate its orthopaedics business, about $9bn of revenue, within 18 to 24 months. Completion falls between April and October 2027.</p>
+        <p class="k" style="margin-top:22px">Why Wipro</p><p>A new company carries its own run costs from day one. Offshore managed run is where Wipro is cheaper than the consulting-led rivals.</p>
+        <p class="k" style="margin-top:22px">Open point</p><p>Wipro's current J&amp;J relationship is unconfirmed, and the pursuit depends on it.</p>
+      </div>
+    </div>
+    <p class="note">Rates of $170 an hour onshore and $35 offshore, team sizes and onshore mix are my assumptions. Source: J&amp;J press release, 14 October 2025.</p>
+  </div>
+  <div class="foot"><span>Arpan Bakshi · Industry Cloud &amp; Digital Sales Director</span><span>6 / 8</span></div>
+</section>
+
+<!-- 7 -->
+<section class="slide" aria-label="Slide 7, First 180 Days">
+  <p class="eyebrow">Plan and targets</p>
+  <h2>First 180 Days</h2>
+  <div class="body">
+    <div class="grid g2">
+      <div class="grid" style="gap:12px">
+        <div class="card phase" style="padding:18px 22px"><p class="k">Days 1 to 30 · Map the matrix</p><p style="margin-top:8px">Meet the client partners and global account executives in my portfolio and agree three to five joint accounts with each. Learn the offers, rate cards and deal desk rules, meet the AWS, Azure and Google Cloud partner teams, and clean the inherited pipeline.</p></div>
+        <div class="card phase" style="padding:18px 22px"><p class="k">Days 31 to 90 · Open conversations</p><p style="margin-top:8px">Publish three points of view tied to dated triggers, such as separations, data centre exits and end of support. Hold twenty first meetings with CIOs and CDOs, half through client partners and half through my own network.</p></div>
+        <div class="card phase" style="padding:18px 22px"><p class="k">Days 91 to 180 · Shape large pursuits</p><p style="margin-top:8px">Turn two paid diagnostics into modernization proposals, shape the first $20m pursuit with the deal desk, and reach three times pipeline coverage.</p></div>
+      </div>
+      <div class="card">
+        <p class="k">Targets I would ask you to hold me to</p>
+        <table class="targets" style="margin-top:14px">
+          <thead><tr><th>Measure</th><th>Day 90</th><th>Day 180</th><th>Day 365</th></tr></thead>
+          <tbody>
+            <tr><td>Qualified pipeline (TCV)</td><td>$30m</td><td>$55m</td><td>$70m</td></tr>
+            <tr><td>Bookings (TCV)</td><td>$2m</td><td>$7m</td><td>$18m</td></tr>
+            <tr><td>First buyer meetings</td><td>20</td><td>40</td><td>70</td></tr>
+            <tr><td>Client partners co-selling</td><td>6</td><td>10</td><td>15</td></tr>
+            <tr><td>Pursuits of $20m or more</td><td>0</td><td>2</td><td>3</td></tr>
+            <tr><td>Forecast variance</td><td>Under 10%</td><td>Under 5%</td><td>Under 5%</td></tr>
+          </tbody>
+        </table>
+        <p class="note">These assume a $15m to $20m book and are my estimates. I would reset them with your numbers in the first month.</p>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>Arpan Bakshi · Industry Cloud &amp; Digital Sales Director</span><span>7 / 8</span></div>
+</section>
+
+<!-- 8 -->
+<section class="slide" aria-label="Slide 8, Questions">
+  <p class="eyebrow">For Vikas</p>
+  <h2>Questions</h2>
+  <div class="body">
+    <ol class="q">
+      <li>Which industries and accounts would this role cover, and is there a book I would inherit?</li>
+      <li>How are bookings credited between ICD and the client partner on a shared deal?</li>
+      <li>Which ICD offers are winning in the Americas today, and which are hardest to sell?</li>
+      <li>Who would I pair with in pre-sales and the hyperscaler alliances on the first pursuits?</li>
+      <li>What would a strong first year look like to you in bookings and pipeline?</li>
+      <li>What are the next steps in the process, and what is the timing?</li>
+    </ol>
+    <div class="close">Within a week of this meeting I can send <b>a draft account plan for five named accounts</b>, each with a dated trigger, a buyer and a sized first offer.</div>
+  </div>
+  <div class="foot"><span>Arpan Bakshi · Industry Cloud &amp; Digital Sales Director</span><span>8 / 8</span></div>
+</section>
+
+</div></div>
+<div class="ctl" aria-label="Slide controls"><button id="prev" aria-label="Previous slide">&larr;</button><span id="count">1 / 8</span><button id="next" aria-label="Next slide">&rarr;</button><button id="theme" aria-label="Switch light and dark">Theme</button></div>
+<script>
+(function(){
+  var slides=[].slice.call(document.querySelectorAll('.slide')),deck=document.getElementById('deck'),i=0;
+  function fit(){var s=Math.min(innerWidth/1320,(innerHeight-56)/730);deck.style.transform='scale('+s+')'}
+  function go(n){i=Math.max(0,Math.min(slides.length-1,n));slides.forEach(function(s,k){s.classList.toggle('on',k===i)});document.getElementById('count').textContent=(i+1)+' / '+slides.length;try{history.replaceState(null,'','#'+(i+1))}catch(e){}}
+  addEventListener('resize',fit);fit();
+  addEventListener('keydown',function(e){
+    if(['ArrowRight','PageDown',' ','Enter'].indexOf(e.key)>-1){e.preventDefault();go(i+1)}
+    else if(['ArrowLeft','PageUp','Backspace'].indexOf(e.key)>-1){e.preventDefault();go(i-1)}
+    else if(e.key==='Home')go(0);else if(e.key==='End')go(slides.length-1);
+  });
+  document.getElementById('next').onclick=function(){go(i+1)};
+  document.getElementById('prev').onclick=function(){go(i-1)};
+  document.getElementById('theme').onclick=function(){var r=document.documentElement,d=r.getAttribute('data-theme')==='dark'||(!r.getAttribute('data-theme')&&matchMedia('(prefers-color-scheme:dark)').matches);r.setAttribute('data-theme',d?'light':'dark')};
+  var x0=null;addEventListener('touchstart',function(e){x0=e.touches[0].clientX},{passive:true});
+  addEventListener('touchend',function(e){if(x0===null)return;var dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>40)go(i+(dx<0?1:-1));x0=null});
+  go((parseInt(location.hash.slice(1),10)||1)-1);
+})();
+</script>
+</body>
+</html>

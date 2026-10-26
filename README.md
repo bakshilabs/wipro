@@ -16,6 +16,9 @@ The site has two tracks. The meeting track is what I show in a one-hour intervie
 
 The research appendix holds the working analysis, behind `research.html` and its own sub-navigation: `role.html`, `operating-model.html`, `market.html`, `triggers.html`, `accounts.html`, `pursuit.html`, `portfolio.html`, `plan.html` and `fit.html`.
 
+## Industry Cloud & Digital deck
+`icd-deck.html` is an eight-slide deck for the meeting with Vikas Srivastava on 27 October 2026 about the Industry Cloud & Digital Sales Director role. Use the arrow keys or the buttons to move between slides. `icd-deck.pdf` is the same deck as a PDF, one slide per page. `build/pwrun/icd.mjs` checks every slide for overflow and writes screenshots and the PDF.
+
 ## Other files
 - `job-description.txt`: the posting text and the related postings
 - `build/`: generators (`python3 build/build.py`), page modules in `build/pages/`, account data in `build/data/`, research notes with sources in `build/research/`, Playwright checks in `build/pwrun/` (`npm i playwright axe-core`, then `node axe.mjs`, `node shots.mjs`, `node pdf.mjs`)
