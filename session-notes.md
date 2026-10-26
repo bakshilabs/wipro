@@ -35,5 +35,5 @@ The role is now called Industry Cloud & Digital Sales. Its level is not known, s
 
 - `icd-deck.html` has eight slides: Cover, The Role, Track Record, Fit, Why Now, Sample Deal, First 180 Days and Questions.
 - The Sample Deal keeps DePuy Synthes and the Pursuit Model default arithmetic ($0.7m, $7.9m, $12.7m, $21.3m total), with the phases relabelled for cloud migration and managed run.
-- The Fit slide rates cloud and modernization selling as partial, alongside the single $20m deal and the book size.
+- The Fit slide shows strengths only: eight requirements, each with evidence. The partial ratings were removed on request, since the deck is for putting the best case forward.
 - Vikas Srivastava's title was not found publicly. Several LinkedIn profiles share the name. Check his role before the meeting.
