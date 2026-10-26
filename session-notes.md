@@ -31,7 +31,7 @@ Regrouped the site for a one-hour interview. Six new pages form the meeting trac
 - `interview-prep.md` holds the talk track and answers to likely questions. Keep it out of anything shared.
 
 ## 26 October 2026
-The role is now called Industry Cloud & Digital Sales Director, for a meeting with Vikas Srivastava on 27 October 2026. No posting with this exact title was found, so the deck reads the role from Wipro's related ICD practitioner postings (183342 Automotive, the Digital & Cloud NJ/NY and Hi-Tech ICD listings): application modernization, cloud migration across AWS, Azure and Google Cloud, API and quality engineering, managed services, a matrix with client partners and global account executives, and KPIs of TCV and ACV bookings, profitable revenue and a forecast within 5%.
+The role is now called Industry Cloud & Digital Sales. Its level is not known, so the deck does not call it a director role. This is for a meeting with Vikas Srivastava on 27 October 2026. No posting with this exact title was found, so the deck reads the role from Wipro's related ICD practitioner postings (183342 Automotive, the Digital & Cloud NJ/NY and Hi-Tech ICD listings): application modernization, cloud migration across AWS, Azure and Google Cloud, API and quality engineering, managed services, a matrix with client partners and global account executives, and KPIs of TCV and ACV bookings, profitable revenue and a forecast within 5%.
 
 - `icd-deck.html` has eight slides: Cover, The Role, Track Record, Fit, Why Now, Sample Deal, First 180 Days and Questions.
 - The Sample Deal keeps DePuy Synthes and the Pursuit Model default arithmetic ($0.7m, $7.9m, $12.7m, $21.3m total), with the phases relabelled for cloud migration and managed run.
